@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tractions-app",
-    "slug": "tractions-app",
+    "name": "Essentiel",
+    "slug": "essentiel-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
