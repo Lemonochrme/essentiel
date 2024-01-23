@@ -2,13 +2,26 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput } from 'react-native-paper';
 
-const WorkoutTimeScreen = ({ navigation }) => {
+const WorkoutTimeScreen = ({ navigation, route }) => {
   const [workoutTime, setWorkoutTime] = useState('');
 
   const handleSaveWorkoutTime = () => {
-    // Handle workout time input (you can save it to your data or perform any other logic)
-    
-    // Navigate back to the WorkoutScreen by changing the tab index to 0 (WorkoutScreen)
+    const durationMinutes = parseInt(workoutTime);
+    if (isNaN(durationMinutes) || durationMinutes <= 0) {
+      alert('Enter a valid workout duration.');
+      return;
+    }
+
+    // JSON object built from the user's input
+    const workoutData = {
+      type: route.params.workoutType, // Retrieve the workout type from the previous screen's parameter
+      intensity: route.params.workoutIntensity, // Retrieve the workout intensity from the previous screen's parameter
+      duration_minutes: durationMinutes,
+      date: new Date().toISOString(), // Today's date in YYYY-MM-DD format
+    };
+
+    console.log(workoutData);
+
     navigation.navigate('Home', { screen: 'workout', params: { tabIndex: 0 } });
   };
 
@@ -27,10 +40,7 @@ const WorkoutTimeScreen = ({ navigation }) => {
       <View style={styles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => {
-            // Handle workout type selection and navigate to the Intensity screen
-            navigation.navigate('Home');
-          }}
+          onPress={handleSaveWorkoutTime}
         >
           Save
         </Button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Pressable, FlatList } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Text, Title, Button } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const WorkoutTypeScreen = ({ navigation }) => {
@@ -44,7 +44,7 @@ const WorkoutTypeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text>Select Workout Type</Text>
+        <Title>Select Workout Type</Title>
       </View>
       <View style={styles.cardsContainer}>
         <FlatList
