@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Pressable, FlatList } from 'react-native';
 import { Text, Button } from 'react-native-paper';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const WorkoutTypeScreen = ({ navigation }) => {
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
@@ -16,12 +17,27 @@ const WorkoutTypeScreen = ({ navigation }) => {
       style={({ pressed }) => [
         styles.card,
         {
-          borderColor: selectedCardIndex === index ? 'white' : 'grey', // Border color based on selection
+          borderColor: selectedCardIndex === index ? 'white' : 'grey',
         },
       ]}
       onPress={() => handleCardPress(index)}
     >
-      <Text>{item}</Text>
+      <Text style={styles.cardText}>{item}</Text>
+      {selectedCardIndex === index ? (
+        <FontAwesome5Icon
+          name="check-circle"
+          size={20}
+          color="white"
+          style={styles.checkIcon}
+        />
+      ) : (
+        <FontAwesome5Icon
+          name="check-circle"
+          size={20}
+          color="grey" // Grey when not selected
+          style={styles.checkIcon}
+        />
+      )}
     </Pressable>
   );
 
@@ -69,16 +85,23 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   cardsContainer: {
-    flex: 2, // Adjust the flex value to vertically center the cards
+    flex: 2,
     paddingHorizontal: 16,
-    justifyContent: 'center', // Center the cards vertically
+    justifyContent: 'center',
   },
   card: {
+    flexDirection: 'row',
     borderWidth: 2,
     padding: 16,
     borderRadius: 8,
-    marginBottom: 16, // Add margin between cards
+    marginBottom: 16,
     alignItems: 'center',
+  },
+  cardText: {
+    flex: 1,
+  },
+  checkIcon: {
+    marginLeft: 10,
   },
   buttonContainer: {
     padding: 16,
