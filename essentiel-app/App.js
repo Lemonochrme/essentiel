@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
 import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
-import IntensityScreen from './src/screens/IntensityScreen';
+import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar } from 'react-native-paper';
 
@@ -34,8 +34,8 @@ const App = () => {
           />
 
           <Stack.Screen
-            name="Intensity"
-            component={IntensityScreen}
+            name="WorkoutIntensity"
+            component={WorkoutIntensityScreen}
             options={({ route, navigation }) => ({
               headerShown: true,
               title: '',

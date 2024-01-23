@@ -29,7 +29,7 @@ const WorkoutTimeScreen = ({ navigation }) => {
           mode="contained"
           onPress={() => {
             // Handle workout type selection and navigate to the Intensity screen
-            navigation.navigate('Intensity');
+            navigation.navigate('Home');
           }}
         >
           Save

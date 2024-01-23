@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 
-const IntensityScreen = ({ navigation }) => {
+const WorkoutIntensityScreen = ({ navigation }) => {
  return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default IntensityScreen;
+export default WorkoutIntensityScreen;
