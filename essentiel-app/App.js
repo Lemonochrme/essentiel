@@ -27,7 +27,7 @@ const App = () => {
                 <ProgressBar
                   progress={0.10}
                   color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35 }}
+                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
                 />
               ),
             })}
@@ -45,7 +45,7 @@ const App = () => {
                 <ProgressBar
                   progress={0.50}
                   color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35 }}
+                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
                 />
               ),
             })}
@@ -63,7 +63,7 @@ const App = () => {
                 <ProgressBar
                   progress={0.90}
                   color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35 }}
+                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
                 />
               ),
             })}
