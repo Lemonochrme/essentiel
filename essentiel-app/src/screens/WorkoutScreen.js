@@ -30,11 +30,12 @@ const WorkoutScreen = ({ navigation }) => {
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Button
           icon={({ color, size }) => (
-            <FontAwesome5Icon name="plus" color={color} size={size} />
+            <FontAwesome5Icon name="plus-circle" color={'black'} size={size} />
           )}
           mode="contained"
           onPress={handleAddWorkoutPress}
-          style={styles.addButton}
+          style={{ width: 180, alignSelf: 'center', backgroundColor: 'white' }}
+          labelStyle={{fontWeight: '600', color: 'black' }}
         >
           Add Workout
         </Button>
@@ -47,9 +48,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-  },
-  addButton: {
-    marginTop: 16,
   },
 });
 

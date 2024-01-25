@@ -6,6 +6,7 @@ import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
 import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar } from 'react-native-paper';
+import { View } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -13,8 +14,25 @@ const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" headerMode="none">
-          <Stack.Screen name="Home" component={HomePage} />
+        <Stack.Navigator initialRouteName="Home" headerShown="false">
+        <Stack.Screen 
+          name="Home"
+          component={HomePage}
+          options={({ route, navigation }) => ({
+            headerShown: true,
+            title: 'Essentiel',
+            headerStyle: {
+              backgroundColor: '#28242c',
+            },
+            headerTitleStyle: {
+              fontWeight: '600',
+              color: 'white',
+            },
+            headerShadowVisible: false,
+          })}
+        />
+          
+          
           <Stack.Screen
             name="WorkoutType"
             component={WorkoutTypeScreen}
@@ -24,11 +42,13 @@ const App = () => {
               headerTintColor: 'white',
               headerTransparent: true,
               headerRight: () => (
+              <View style={{width: '60%', alignSelf: 'center', left: -40}}>
                 <ProgressBar
                   progress={0.10}
                   color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
+                  style={{borderRadius: 10}}
                 />
+              </View>
               ),
             })}
           />
@@ -42,11 +62,13 @@ const App = () => {
               headerTintColor: 'white',
               headerTransparent: true,
               headerRight: () => (
-                <ProgressBar
-                  progress={0.50}
-                  color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
-                />
+                <View style={{width: '60%', alignSelf: 'center', left: -40}}>
+                  <ProgressBar
+                    progress={0.50}
+                    color="white"
+                    style={{borderRadius: 10}}
+                  />
+                </View>
               ),
             })}
           />
@@ -60,11 +82,13 @@ const App = () => {
               headerTintColor: 'white',
               headerTransparent: true,
               headerRight: () => (
-                <ProgressBar
-                  progress={0.90}
-                  color="white"
-                  style={{ alignSelf: 'center', top: 30, left: -35, borderRadius: 10 }}
-                />
+                <View style={{width: '60%', alignSelf: 'center', left: -40}}>
+                  <ProgressBar
+                    progress={0.90}
+                    color="white"
+                    style={{borderRadius: 10}}
+                  />
+                </View>
               ),
             })}
           />
