@@ -1,64 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { Card, Text } from 'react-native-paper';
-import { BarChart } from 'react-native-chart-kit';
+import { View, StyleSheet, Dimensions, FlatList } from 'react-native';
+import { Card, Text, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const ProgressionScreen = () => {
-  const [workoutData, setWorkoutData] = useState({});
+  const [workouts, setWorkouts] = useState([]);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
         const storedData = await AsyncStorage.getItem('workouts');
-        const workouts = storedData ? JSON.parse(storedData) : [];
-        processWorkoutData(workouts);
+        const parsedWorkouts = storedData ? JSON.parse(storedData) : [];
+        setWorkouts(parsedWorkouts);
       } catch (e) {
         console.log(e);
       }
     };
 
-    fetchWorkouts();
+    fetchWorkouts(); // Initial data fetch
+
+    // Fetch data every 10 seconds
+    const intervalId = setInterval(fetchWorkouts, 10000);
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(intervalId);
   }, []);
-
-  const processWorkoutData = (workouts) => {
-    const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-    const workoutDurationByDay = daysOfWeek.map(() => 0);
-
-    workouts.forEach(workout => {
-      const dayIndex = new Date(workout.date).getDay();
-      workoutDurationByDay[dayIndex] += workout.duration_minutes;
-    });
-
-    setWorkoutData({
-      labels: daysOfWeek,
-      datasets: [
-        {
-          data: workoutDurationByDay
-        }
-      ]
-    });
-  };
 
   return (
     <View style={styles.container}>
-      {workoutData.labels && (
-        <BarChart
-          data={workoutData}
-          width={Dimensions.get('window').width - 32} // from react-native
-          height={220}
-          yAxisLabel=""
-          chartConfig={{
-            backgroundColor: '#28242c',
-            backgroundGradientFrom: '#28242c',
-            backgroundGradientTo: '#28242c',
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          }}
-          style={{ marginVertical: 8, borderRadius: 16 }}
+      <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10, alignSelf: 'flex-start' }}>Statistics</Title>
+      {/* Your LineChart code here */}
+
+
+      <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10, alignSelf: 'flex-start' }}>Workout List</Title>
+      <View style={{ flex: 1, width: '100%' }}>
+        <FlatList
+          data={workouts}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Card style={styles.card}>
+              <Card.Content>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Text style={{ marginRight: 10 }}>{item.type}</Text>
+                  <Text style={{ marginRight: 10 }}>{item.duration_minutes} minutes</Text>
+                  <Icon name={getIntensityIcon(item.intensity)} size={24} color="grey" />
+                </View>
+              </Card.Content>
+            </Card>
+          )}
+          showsVerticalScrollIndicator={false}
         />
-      )}
+      </View>
     </View>
   );
 };
@@ -72,6 +66,22 @@ const styles = StyleSheet.create({
     marginRight: 16,
     marginTop: 40,
   },
+  card: {
+    marginVertical: 10,
+  },
 });
+
+const getIntensityIcon = (intensity) => {
+  switch (intensity) {
+    case 'Light':
+      return 'signal-cellular-1';
+    case 'Moderate':
+      return 'signal-cellular-2';
+    case 'Heavy':
+      return 'signal-cellular-3';
+    default:
+      return 'signal-cellular-outline';
+  }
+};
 
 export default ProgressionScreen;

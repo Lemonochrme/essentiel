@@ -11,19 +11,14 @@ const WorkoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 3 }}>
-        <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10}}>Welcome back.</Title>
-        <FontAwesome5Icon name="user-circle" size={30} color="grey"/>
-      </View>      
+      <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10}}>Welcome back.</Title>
       <Card>
         <Card.Content>
           <Title style={{ color: 'white', fontWeight: '600'}}>2h30min</Title>
           <Text style={{ color: 'white' }}>of exercise this week</Text>
-            <View style={{ flex: 1, marginVertical: 16 }}>
               <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>50%</Text>
               <ProgressBar progress={0.5} color={'white'} style={{borderRadius: 10}} />
-              <Text style={{ marginTop: -10, textAlign: 'left', fontSize: 12, color: 'grey' }}>Almost there. Keep going!</Text>
-            </View>
+              <Text style={{ marginTop: 5, textAlign: 'left', fontSize: 12, color: 'grey' }}>Almost there. Keep going!</Text>
         </Card.Content>
       </Card>
 
