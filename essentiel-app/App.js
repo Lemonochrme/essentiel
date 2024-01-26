@@ -16,7 +16,13 @@ const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" headerShown="false">
+        <Stack.Navigator
+            initialRouteName="Home"
+            headerShown={false}
+            screenOptions={{
+              animationEnabled: false, // Disable screen transitions
+            }}
+        >
         <Stack.Screen 
           name="Home"
           component={HomePage}
