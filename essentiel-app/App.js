@@ -6,9 +6,11 @@ import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
 import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 
 const Stack = createStackNavigator();
+
+StatusBar.setBarStyle('light-content');
 
 const App = () => {
   return (

@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
+
 const ProgressionScreen = () => {
   const [workouts, setWorkouts] = useState([]);
 
