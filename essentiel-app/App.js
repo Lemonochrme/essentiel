@@ -141,7 +141,7 @@ const App = () => {
             component={AddWorkoutScreen}
             options={({ route, navigation }) => ({
               headerShown: true,
-              title: 'Options',
+              title: 'Add Workout',
               headerTintColor: 'white',
               headerShadowVisible: false,
               headerStyle: {
