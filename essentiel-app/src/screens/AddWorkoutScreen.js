@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Button, Chip } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const workoutTypes = ['Cardio', 'Strength Training', 'Yoga', 'HIIT'];
 const workoutIntensityLevels = [
@@ -45,12 +46,25 @@ const workoutTypeOptions = {
   'HIIT': ['Tabata', 'Circuit', 'Interval'],
 };
 
+const STORAGE_KEY = 'workoutData';
+
 const AddWorkoutScreen = ({ navigation, route }) => {
   const [selectedType, setSelectedType] = useState('');
   const [selectedIntensity, setSelectedIntensity] = useState('');
   const [selectedDuration, setSelectedDuration] = useState('');
   const [selectedSpecifics, setSelectedSpecifics] = useState([]);
   const [intensityDescription, setIntensityDescription] = useState('');
+  const [workoutData, setWorkoutData] = useState([]);
+
+  useEffect(() => {
+    // Load stored workout data from AsyncStorage when the component mounts
+    loadWorkoutData();
+  }, []);
+
+  useEffect(() => {
+    // Save workoutData to AsyncStorage whenever it changes
+    saveWorkoutData();
+  }, [workoutData]);
 
   const isSaveButtonDisabled = !(
     selectedType &&
@@ -88,9 +102,45 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     }
   };
 
-  const saveWorkout = async () => {
-    // Implement your code to save the workout details to AsyncStorage or your preferred storage method.
-    // You can use selectedType, selectedIntensity, selectedDuration, and selectedSpecifics for this.
+  const saveWorkoutData = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(workoutData));
+    } catch (error) {
+      console.error('Error saving workout data:', error);
+    }
+  };
+
+  const loadWorkoutData = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem(STORAGE_KEY);
+      if (storedData) {
+        setWorkoutData(JSON.parse(storedData));
+      }
+    } catch (error) {
+      console.error('Error loading workout data:', error);
+    }
+  };
+
+  const saveWorkout = () => {
+    // Create a new workout object
+    const newWorkout = {
+      id: Date.now().toString(), // Generate a unique ID (you can use a more robust method)
+      type: selectedType,
+      intensity: selectedIntensity,
+      duration: selectedDuration,
+      specifics: selectedSpecifics,
+      date: new Date().toISOString(), // Store the current date and time
+    };
+
+    // Add the new workout to the workoutData array
+    setWorkoutData([...workoutData, newWorkout]);
+
+    // Clear selections after saving
+    setSelectedType('');
+    setSelectedIntensity('');
+    setSelectedDuration('');
+    setSelectedSpecifics([]);
+    setIntensityDescription('');
   };
 
   return (
@@ -202,6 +252,11 @@ const styles = StyleSheet.create({
   },
   chip: {
     margin: 4,
+  },
+  saveButton: {
+    marginTop: 20,
+    alignSelf: 'center',
+    backgroundColor: '#2B6CB0',
   },
 });
 
