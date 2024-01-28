@@ -10,6 +10,8 @@ import { View, StatusBar } from 'react-native';
 
 const Stack = createStackNavigator();
 
+// Status bar color white
+StatusBar.setBarStyle('light-content', true);
 
 const App = () => {
   return (
