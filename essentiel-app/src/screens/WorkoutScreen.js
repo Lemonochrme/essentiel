@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { Card, Text, Button, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -21,6 +21,14 @@ const WorkoutScreen = ({ navigation }) => {
               <Text style={{ marginTop: 5, textAlign: 'left', fontSize: 12, color: 'grey' }}>Almost there. Keep going!</Text>
         </Card.Content>
       </Card>
+
+      <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={require('../../assets/illustration.png')}
+          style={{width: 250, height: 350, transform: [{rotate: '90deg'}]}}
+          opacity={0.8}
+        />
+      </View>
 
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <Button

@@ -5,6 +5,7 @@ import HomePage from './src/screens/HomePage';
 import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
 import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
+import AppOptionsScreen from './src/screens/AppOptionsScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 
@@ -14,8 +15,9 @@ StatusBar.setBarStyle('light-content', true);
 
 const Stack = createStackNavigator();
 
-const openAppOptions = () => {
+const openAppOptions = ({ navigation }) => {
   console.log('Open app options');
+  navigation.navigate('AppOptions');
 };
 
 const App = () => {
@@ -48,7 +50,7 @@ const App = () => {
               <IconButton
                 icon="dots-vertical"
                 color="white"
-                onPress={openAppOptions}
+                onPress={() => openAppOptions({ navigation })}
               />
             ),
           })}
@@ -112,6 +114,24 @@ const App = () => {
                   />
                 </View>
               ),
+            })}
+          />
+
+          <Stack.Screen
+            name="AppOptions"
+            component={AppOptionsScreen}
+            options={({ route, navigation }) => ({
+              headerShown: true,
+              title: 'Options',
+              headerTintColor: 'white',
+              headerShadowVisible: false,
+              headerStyle: {
+                backgroundColor: '#28242c',
+              },
+              headerTitleStyle: {
+                fontWeight: '600',
+                color: 'white',
+              },
             })}
           />
 
