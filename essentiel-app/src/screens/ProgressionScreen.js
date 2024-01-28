@@ -3,11 +3,12 @@ import { View, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { Card, Text, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { LineChart } from "react-native-chart-kit";
 
 
 const ProgressionScreen = () => {
   const [workouts, setWorkouts] = useState([]);
+  const [workoutData, setWorkoutData] = useState([]); // State to hold the data for LineChart
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -15,6 +16,41 @@ const ProgressionScreen = () => {
         const storedData = await AsyncStorage.getItem('workouts');
         const parsedWorkouts = storedData ? JSON.parse(storedData) : [];
         setWorkouts(parsedWorkouts);
+        
+        // Filter workouts for the current week
+        const currentDate = new Date();
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setHours(0, 0, 0, 0);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Start of the week (Sunday)
+        
+        const workoutsThisWeek = parsedWorkouts.filter(workout => {
+          const workoutDate = new Date(workout.date);
+          return workoutDate >= startOfWeek;
+        });
+        
+        // Calculate total duration for each day of the week
+        const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const totalDurationPerDay = new Array(7).fill(0);
+        
+        workoutsThisWeek.forEach(workout => {
+          const workoutDate = new Date(workout.date);
+          const dayIndex = workoutDate.getDay();
+          totalDurationPerDay[dayIndex] += workout.duration_minutes;
+        });
+        
+        // Create data for LineChart
+        const chartData = {
+          labels: dayOfWeek,
+          datasets: [
+            {
+              data: totalDurationPerDay,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              strokeWidth: 2,
+            },
+          ],
+        };
+        
+        setWorkoutData(chartData);
       } catch (e) {
         console.log(e);
       }
@@ -32,7 +68,60 @@ const ProgressionScreen = () => {
   return (
     <View style={styles.container}>
       <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10, alignSelf: 'flex-start' }}>Statistics</Title>
-      {/* Your LineChart code here */}
+
+      <View>
+        {workoutData && workoutData.length > 0 ? (
+          <LineChart
+            data={workoutData}
+            width={Dimensions.get("window").width} // from react-native
+            withHorizontalLabels={false}
+            height={220}
+            yAxisSuffix=" min"
+            yAxisInterval={1}
+            chartConfig={{
+              backgroundColor: "#28242c",
+              backgroundGradientFrom: "#28242c",
+              backgroundGradientTo: "#28242c",
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              propsForDots: {
+                r: "3",
+                strokeWidth: "2",
+                stroke: "white"
+              },
+              propsForBackgroundLines: {
+                stroke: 'white',
+                strokeWidth: 0.1,
+                strokeDasharray: '0'
+              }
+            }}
+            bezier
+            style={{
+              margin: 16,
+              borderRadius: 16,
+              paddingRight: 0,
+            }}
+            renderDotContent={({ x, y, indexData }) => (
+              indexData !== 0 && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: y - 8,
+                    left: x + 10,
+                  }}>
+                  <Text style={{ fontSize: 8 }}>
+                    {indexData} min
+                  </Text>
+                </View>
+              )
+            )}
+          />
+        ) : (
+          <Text>Error when attempting to display data.</Text>
+        )}
+      </View>
+
 
 
       <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10, alignSelf: 'flex-start' }}>Workout List</Title>

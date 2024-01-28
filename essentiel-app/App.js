@@ -10,7 +10,6 @@ import { View, StatusBar } from 'react-native';
 
 const Stack = createStackNavigator();
 
-StatusBar.setBarStyle('light-content');
 
 const App = () => {
   return (
@@ -20,8 +19,9 @@ const App = () => {
             initialRouteName="Home"
             headerShown={false}
             screenOptions={{
-              animationEnabled: false, // Disable screen transitions
+              animationEnabled: true,
             }}
+            mode="modal" // To avoid white flickering while switching screens
         >
         <Stack.Screen 
           name="Home"
