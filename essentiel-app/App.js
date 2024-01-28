@@ -5,13 +5,18 @@ import HomePage from './src/screens/HomePage';
 import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
 import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
-import { Provider as PaperProvider, MD3DarkTheme, ProgressBar } from 'react-native-paper';
+import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 
-const Stack = createStackNavigator();
 
 // Status bar color white
 StatusBar.setBarStyle('light-content', true);
+
+const Stack = createStackNavigator();
+
+const openAppOptions = () => {
+  console.log('Open app options');
+};
 
 const App = () => {
   return (
@@ -21,11 +26,11 @@ const App = () => {
             initialRouteName="Home"
             headerShown={false}
             screenOptions={{
-              animationEnabled: true,
+              animationEnabled: false,
             }}
-            mode="modal" // To avoid white flickering while switching screens
+            presentation="modal" // To avoid white flickering while switching screens
         >
-        <Stack.Screen 
+        <Stack.Screen
           name="Home"
           component={HomePage}
           options={({ route, navigation }) => ({
@@ -39,6 +44,13 @@ const App = () => {
               color: 'white',
             },
             headerShadowVisible: false,
+            headerRight: () => (
+              <IconButton
+                icon="dots-vertical"
+                color="white"
+                onPress={openAppOptions}
+              />
+            ),
           })}
         />
           
