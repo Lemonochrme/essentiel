@@ -6,6 +6,7 @@ import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
 import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
 import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
 import AppOptionsScreen from './src/screens/AppOptionsScreen';
+import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 
@@ -120,6 +121,24 @@ const App = () => {
           <Stack.Screen
             name="AppOptions"
             component={AppOptionsScreen}
+            options={({ route, navigation }) => ({
+              headerShown: true,
+              title: 'Options',
+              headerTintColor: 'white',
+              headerShadowVisible: false,
+              headerStyle: {
+                backgroundColor: '#28242c',
+              },
+              headerTitleStyle: {
+                fontWeight: '600',
+                color: 'white',
+              },
+            })}
+          />
+
+          <Stack.Screen
+            name="AddWorkout"
+            component={AddWorkoutScreen}
             options={({ route, navigation }) => ({
               headerShown: true,
               title: 'Options',

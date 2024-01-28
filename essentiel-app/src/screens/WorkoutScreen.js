@@ -6,7 +6,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 const WorkoutScreen = ({ navigation }) => {
   const handleAddWorkoutPress = () => {
     // Navigate to the Workout Type screen when the button is pressed
-    navigation.navigate('WorkoutType');
+    navigation.navigate('AddWorkout');
   };
 
   return (

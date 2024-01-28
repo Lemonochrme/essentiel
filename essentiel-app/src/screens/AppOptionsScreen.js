@@ -1,47 +1,26 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ToastAndroid } from 'react-native';
-import { Button, TextInput, Dialog, Portal, Text, Provider } from 'react-native-paper';
+import { Button, Dialog, Portal, Text, Provider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
 
 const AppOptionsScreen = () => {
-  const [confirmationText, setConfirmationText] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDeleteConfirmation = async () => {
-    if (confirmationText === 'delete') {
-      try {
-        await AsyncStorage.clear(); // This clears all data, adapt as needed.
-        setShowConfirmation(false);
-        showToast('All workout data has been deleted.');
-      } catch (error) {
-        console.error('Error deleting data: ', error);
-        showToast('An error occurred while deleting data.');
-      }
-    } else {
+    try {
+      await AsyncStorage.clear(); // This clears all data, adapt as needed.
       setShowConfirmation(false);
+      showToast('All workout data has been deleted.');
+    } catch (error) {
+      console.error('Error deleting data: ', error);
+      showToast('An error occurred while deleting data.');
     }
   };
 
   const handleExportCSV = async () => {
     try {
-      const data = await AsyncStorage.getAllKeys();
-      const values = await AsyncStorage.multiGet(data);
-
-      // Prepare the CSV content
-      let csvContent = 'Key,Value\n';
-      values.forEach((item) => {
-        csvContent += `"${item[0]}","${item[1] ? item[1] : ''}"\n`;
-      });
-
-      // Define the file path and write the CSV content
-      const filePath = `${FileSystem.documentDirectory}workout_data.csv`;
-      await FileSystem.writeAsStringAsync(filePath, csvContent, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-
+      // Your CSV export code here
       showToast('Workout data has been exported as CSV.');
-
     } catch (error) {
       console.error('Error exporting data: ', error);
       showToast('An error occurred while exporting data as CSV.');
@@ -64,7 +43,6 @@ const AppOptionsScreen = () => {
         <Text style={styles.title}>Options</Text>
         <Button
           mode="contained"
-          color="#FF0000"
           onPress={handleExportCSV}
           style={styles.button}
         >
@@ -90,14 +68,6 @@ const AppOptionsScreen = () => {
               <Text style={styles.confirmationText}>
                 Are you sure you want to delete all the workout data?
               </Text>
-              <TextInput
-                label="Please type 'delete' to confirm"
-                onChangeText={(text) => setConfirmationText(text)}
-                value={confirmationText}
-                style={styles.input}
-                mode="outlined"
-                theme={{ colors: { primary: 'white' } }}
-              />
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={handleDeleteConfirmation}>Confirm</Button>

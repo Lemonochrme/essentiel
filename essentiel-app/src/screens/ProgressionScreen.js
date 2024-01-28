@@ -17,40 +17,7 @@ const ProgressionScreen = () => {
         const parsedWorkouts = storedData ? JSON.parse(storedData) : [];
         setWorkouts(parsedWorkouts);
         
-        // Filter workouts for the current week
-        const currentDate = new Date();
-        const startOfWeek = new Date(currentDate);
-        startOfWeek.setHours(0, 0, 0, 0);
-        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay()); // Start of the week (Sunday)
-        
-        const workoutsThisWeek = parsedWorkouts.filter(workout => {
-          const workoutDate = new Date(workout.date);
-          return workoutDate >= startOfWeek;
-        });
-        
-        // Calculate total duration for each day of the week
-        const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const totalDurationPerDay = new Array(7).fill(0);
-        
-        workoutsThisWeek.forEach(workout => {
-          const workoutDate = new Date(workout.date);
-          const dayIndex = workoutDate.getDay();
-          totalDurationPerDay[dayIndex] += workout.duration_minutes;
-        });
-        
-        // Create data for LineChart
-        const chartData = {
-          labels: dayOfWeek,
-          datasets: [
-            {
-              data: totalDurationPerDay,
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              strokeWidth: 2,
-            },
-          ],
-        };
-        
-        setWorkoutData(chartData);
+  
       } catch (e) {
         console.log(e);
       }
@@ -154,10 +121,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 16,
     marginRight: 16,
-    marginTop: 40,
   },
   card: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
 });
 
