@@ -146,7 +146,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.heading}>Add a Workout</Text>
 
         <Text style={styles.label}>Select Workout Type</Text>
         <View style={styles.chipContainer}>

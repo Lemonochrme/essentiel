@@ -1,27 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ToastAndroid } from 'react-native';
-import { Button, TextInput, Dialog, Portal, Text, Provider } from 'react-native-paper';
+import { Button, Dialog, Portal, Text, Provider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 
 const AppOptionsScreen = () => {
-  const [confirmationText, setConfirmationText] = useState('');
-  const [showConfirmation, setShowConfirmation] = useState(false);
-
-  const handleDeleteConfirmation = async () => {
-    if (confirmationText === 'delete') {
-      try {
-        await AsyncStorage.clear(); // This clears all data, adapt as needed.
-        setShowConfirmation(false);
-        showToast('All workout data has been deleted.');
-      } catch (error) {
-        console.error('Error deleting data: ', error);
-        showToast('An error occurred while deleting data.');
-      }
-    } else {
-      setShowConfirmation(false);
-    }
-  };
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const handleExportCSV = async () => {
     try {
@@ -58,6 +42,17 @@ const AppOptionsScreen = () => {
     );
   };
 
+  const deleteWorkout = async () => {
+    try {
+      await AsyncStorage.clear(); // This clears all data, adapt as needed.
+      setIsDeleteModalVisible(false);
+      showToast('All workout data has been deleted.');
+    } catch (error) {
+      console.error('Error deleting data: ', error);
+      showToast('An error occurred while deleting data.');
+    }
+  };
+
   return (
     <Provider>
       <View style={styles.container}>
@@ -74,15 +69,15 @@ const AppOptionsScreen = () => {
         <Button
           mode="contained"
           buttonColor="red"
-          onPress={() => setShowConfirmation(true)}
+          onPress={() => setIsDeleteModalVisible(true)}
           style={styles.button}
         >
           Delete All Workout Data
         </Button>
         <Portal>
           <Dialog
-            visible={showConfirmation}
-            onDismiss={() => setShowConfirmation(false)}
+            visible={isDeleteModalVisible}
+            onDismiss={() => setIsDeleteModalVisible(false)}
             style={styles.dialog}
           >
             <Dialog.Title style={{ color: 'white' }}>Delete Confirmation</Dialog.Title>
@@ -90,18 +85,10 @@ const AppOptionsScreen = () => {
               <Text style={styles.confirmationText}>
                 Are you sure you want to delete all the workout data?
               </Text>
-              <TextInput
-                label="Please type 'delete' to confirm"
-                onChangeText={(text) => setConfirmationText(text)}
-                value={confirmationText}
-                style={styles.input}
-                mode="outlined"
-                theme={{ colors: { primary: 'white' } }}
-              />
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={handleDeleteConfirmation}>Confirm</Button>
-              <Button onPress={() => setShowConfirmation(false)}>Cancel</Button>
+              <Button onPress={deleteWorkout}>Confirm</Button>
+              <Button onPress={() => setIsDeleteModalVisible(false)}>Cancel</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -134,10 +121,6 @@ const styles = StyleSheet.create({
   confirmationText: {
     color: 'white',
     marginBottom: 10,
-  },
-  input: {
-    backgroundColor: '#201c1c',
-    color: 'white',
   },
   dialog: {
     backgroundColor: '#201c1c',

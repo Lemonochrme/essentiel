@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Card, Text, Button, ProgressBar, Title } from 'react-native-paper';
+import { Card, Text, FAB, ProgressBar, Title } from 'react-native-paper'; // Import FAB
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,7 +20,7 @@ const WorkoutScreen = ({ navigation }) => {
   };
 
   const handleAddWorkoutPress = () => {
-    // Navigate to the Workout Type screen when the button is pressed
+    // Navigate to the Workout Type screen when the FAB is pressed
     navigation.navigate('AddWorkout');
   };
 
@@ -60,7 +60,7 @@ const WorkoutScreen = ({ navigation }) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const percentage = Math.min((totalWeekExerciseTime / 120) * 100, 100).toFixed(0);
+  const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
   const message = getMessage(percentage);
 
   return (
@@ -78,26 +78,21 @@ const WorkoutScreen = ({ navigation }) => {
             <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>{percentage}%</Text>
           </View>
           <ProgressBar
-            progress={Math.min(totalWeekExerciseTime / 120, 1)} // Assuming 120 minutes is the target
+            progress={Math.min(totalWeekExerciseTime / 150, 1)} // 150 minutes for now
             color={'white'}
             style={{ borderRadius: 10 }}
           />
         </Card.Content>
       </Card>
 
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Button
-          icon={({ color, size }) => (
-            <FontAwesome5Icon name="plus-circle" color={'black'} size={size} />
-          )}
-          mode="contained"
-          onPress={handleAddWorkoutPress}
-          style={{ width: 180, alignSelf: 'center', backgroundColor: 'white' }}
-          labelStyle={{ fontWeight: '600', color: 'black' }}
-        >
-          Add Workout
-        </Button>
-      </View>
+      {/* Replace the Button with FAB */}
+      <FAB
+        icon={({ color, size }) => (
+          <FontAwesome5Icon name="plus-circle" color={'black'} size={size} />
+        )}
+        style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
+        onPress={handleAddWorkoutPress}
+      />
     </View>
   );
 };
