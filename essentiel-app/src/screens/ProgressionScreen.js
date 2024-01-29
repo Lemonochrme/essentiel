@@ -99,10 +99,12 @@ const ProgressionScreen = () => {
           contentContainerStyle={styles.deleteModal}
         >
           <Text style={styles.modalText}>Are you sure you want to delete this workout?</Text>
-          <Button mode="contained" onPress={deleteWorkout} color="#FF0000">
-            Confirm Delete
-          </Button>
-          <Button onPress={hideDeleteConfirmation}>Cancel</Button>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Button onPress={hideDeleteConfirmation}>Cancel</Button>
+            <Button onPress={deleteWorkout}>
+              Confirm Delete
+            </Button>
+          </View>
         </Modal>
       </Portal>
     </View>
@@ -131,7 +133,8 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   deleteModal: {
-    backgroundColor: 'white',
+    backgroundColor: '#1C1B1F',
+    borderRadius: 16,
     margin: 16,
     padding: 16,
   },

@@ -18,7 +18,7 @@ const workoutIntensityLevels = [
     description: 'High intensity workouts are intense and may require more energy and effort.',
   },
 ];
-const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '60 minutes'];
+const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '60 minutes', '90 minutes', '120 minutes'];
 
 // Configuration object for additional options per workout type
 const workoutTypeOptions = {
@@ -144,89 +144,95 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.heading}>Add a Workout</Text>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.heading}>Add a Workout</Text>
 
-      <Text style={styles.label}>Select Workout Type</Text>
-      <View style={styles.chipContainer}>
-        {workoutTypes.map((type) => (
-          <Chip
-            key={type}
-            selected={selectedType === type}
-            onPress={() => handleTypeSelection(type)}
-            style={styles.chip}
-          >
-            {type}
-          </Chip>
-        ))}
-      </View>
+        <Text style={styles.label}>Select Workout Type</Text>
+        <View style={styles.chipContainer}>
+          {workoutTypes.map((type) => (
+            <Chip
+              key={type}
+              selected={selectedType === type}
+              onPress={() => handleTypeSelection(type)}
+              style={styles.chip}
+            >
+              {type}
+            </Chip>
+          ))}
+        </View>
 
-      <Text style={styles.label}>Select Intensity</Text>
-      <View style={styles.chipContainer}>
-        {workoutIntensityLevels.map((intensity) => (
-          <Chip
-            key={intensity.level}
-            selected={selectedIntensity === intensity.level}
-            onPress={() => handleIntensitySelection(intensity.level)}
-            style={styles.chip}
-          >
-            {intensity.level}
-          </Chip>
-        ))}
-      </View>
+        {selectedType && workoutTypeOptions[selectedType] && (
+          <>
+            <Text style={styles.label}>Select Specifics</Text>
+            <View style={styles.chipContainer}>
+              {workoutTypeOptions[selectedType].map((specific) => (
+                <Chip
+                  key={specific}
+                  selected={selectedSpecifics.includes(specific)}
+                  onPress={() => handleSpecificsSelection(specific)}
+                  style={styles.chip}
+                >
+                  {specific}
+                </Chip>
+              ))}
+            </View>
+          </>
+        )}      
 
-      {intensityDescription !== '' && (
-        <Text style={styles.intensityDescription}>{intensityDescription}</Text>
-      )}
+        <Text style={styles.label}>Select Intensity</Text>
+        <View style={styles.chipContainer}>
+          {workoutIntensityLevels.map((intensity) => (
+            <Chip
+              key={intensity.level}
+              selected={selectedIntensity === intensity.level}
+              onPress={() => handleIntensitySelection(intensity.level)}
+              style={styles.chip}
+            >
+              {intensity.level}
+            </Chip>
+          ))}
+        </View>
 
-      <Text style={styles.label}>Select Duration</Text>
-      <View style={styles.chipContainer}>
-        {workoutDurations.map((duration) => (
-          <Chip
-            key={duration}
-            selected={selectedDuration === duration}
-            onPress={() => handleDurationSelection(duration)}
-            style={styles.chip}
-          >
-            {duration}
-          </Chip>
-        ))}
-      </View>
+        {intensityDescription !== '' && (
+          <Text style={styles.intensityDescription}>{intensityDescription}</Text>
+        )}
 
-      {selectedType && workoutTypeOptions[selectedType] && (
-        <>
-          <Text style={styles.label}>Select Specifics</Text>
-          <View style={styles.chipContainer}>
-            {workoutTypeOptions[selectedType].map((specific) => (
-              <Chip
-                key={specific}
-                selected={selectedSpecifics.includes(specific)}
-                onPress={() => handleSpecificsSelection(specific)}
-                style={styles.chip}
-              >
-                {specific}
-              </Chip>
-            ))}
-          </View>
-        </>
-      )}
+        <Text style={styles.label}>Select Duration</Text>
+        <View style={styles.chipContainer}>
+          {workoutDurations.map((duration) => (
+            <Chip
+              key={duration}
+              selected={selectedDuration === duration}
+              onPress={() => handleDurationSelection(duration)}
+              style={styles.chip}
+            >
+              {duration}
+            </Chip>
+          ))}
+        </View>
+      </ScrollView>
 
       <Button
         mode="contained"
         onPress={saveWorkout}
         disabled={isSaveButtonDisabled}
+        style={styles.saveButton}
       >
         Save Workout
       </Button>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#1C1B1F',
+  },
+  scrollView: {
+    flex: 1,
+    padding: 16,
   },
   heading: {
     fontSize: 24,
@@ -254,9 +260,7 @@ const styles = StyleSheet.create({
     margin: 4,
   },
   saveButton: {
-    marginTop: 20,
-    alignSelf: 'center',
-    backgroundColor: '#2B6CB0',
+    margin: 16,
   },
 });
 
