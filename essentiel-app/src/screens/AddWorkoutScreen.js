@@ -124,7 +124,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   const saveWorkout = () => {
     // Create a new workout object
     const newWorkout = {
-      id: Date.now().toString(), // Generate a unique ID (you can use a more robust method)
+      id: Date.now().toString(), // Generate a unique ID
       type: selectedType,
       intensity: selectedIntensity,
       duration: selectedDuration,
@@ -141,6 +141,11 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     setSelectedDuration('');
     setSelectedSpecifics([]);
     setIntensityDescription('');
+
+    // Wait for 1 second before navigating back to the Home screen to let the time for saving the data
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 1000);
   };
 
   return (
