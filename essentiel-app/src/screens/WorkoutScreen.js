@@ -3,12 +3,13 @@ import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BarChart } from 'react-native-chart-kit';
+import WorkoutBarChart from './WorkoutBarChart';
 
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [workoutDays, setWorkoutDays] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [totalTimeByDay, setTotalTimeByDay] = useState([0, 0, 0, 0, 0, 0, 0]); // Initialize with zeros for each day of the week (Sun - Sat)
 
   const getMessage = (percentage) => {
     if (percentage >= 100) {
@@ -45,23 +46,18 @@ const WorkoutScreen = ({ navigation }) => {
         setWorkoutDays(workoutDates);
 
         // Calculate total time by day for the current week
-        const totalTimeByDay = [0, 0, 0, 0, 0, 0, 0]; // Initialize with zeros for each day of the week (Sun - Sat)
+        const updatedTotalTimeByDay = [...totalTimeByDay]; // Create a copy of the current state
         parsedData.forEach((workout) => {
           const workoutDate = new Date(workout.date);
           if (workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd) {
             const dayIndex = workoutDate.getDay();
-            totalTimeByDay[dayIndex] += parseInt(workout.duration.split(' ')[0]);
+            updatedTotalTimeByDay[dayIndex] += parseInt(workout.duration.split(' ')[0]);
           }
         });
+        setTotalTimeByDay(updatedTotalTimeByDay); // Update the state with the new values
 
         // Set the chart data
-        setChartData(totalTimeByDay);
-
-        // Log total time by day for the current week
-        totalTimeByDay.forEach((totalTime, dayIndex) => {
-          const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex];
-          console.log(`${dayName}: ${totalTime} minutes`);
-        });
+        setChartData(updatedTotalTimeByDay);
       }
     } catch (error) {
       console.error('Error calculating workout days:', error);
@@ -127,10 +123,6 @@ const WorkoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10 }}>Hello, Welcome back!</Title>
-        <FontAwesome5Icon name="user-circle" size={30} color="white" />
-      </View>
       <Card>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -162,7 +154,7 @@ const WorkoutScreen = ({ navigation }) => {
 
       <Text style={styles.label}>Weekly statistics</Text>
       <ScrollView>
-
+        <WorkoutBarChart data={totalTimeByDay} />
       </ScrollView>
 
       <FAB
@@ -179,7 +171,7 @@ const WorkoutScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    padding: 16,
   },
   label: {
     fontSize: 18,
