@@ -153,8 +153,10 @@ const WorkoutScreen = ({ navigation }) => {
       <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
 
       <Text style={styles.label}>Weekly statistics</Text>
-      <ScrollView>
-        <WorkoutBarChart data={[33, 44, 20, 80, 70, 20, 30]} />
+      <ScrollView style={{ paddingTop: 16 }}>
+        <Card>
+          <WorkoutBarChart data={totalTimeByDay} />
+        </Card>
       </ScrollView>
 
       <FAB
@@ -171,7 +173,8 @@ const WorkoutScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   label: {
     fontSize: 18,

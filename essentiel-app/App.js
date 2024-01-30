@@ -17,7 +17,6 @@ StatusBar.setBarStyle('light-content', true);
 const Stack = createStackNavigator();
 
 const openAppOptions = ({ navigation }) => {
-  console.log('Open app options');
   navigation.navigate('AppOptions');
 };
 
