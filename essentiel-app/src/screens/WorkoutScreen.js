@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { Card, Text, FAB, ProgressBar, Title } from 'react-native-paper'; // Import FAB
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Card, Text, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
+  const [workoutDays, setWorkoutDays] = useState([]);
 
   const getMessage = (percentage) => {
     if (percentage >= 100) {
@@ -22,6 +23,28 @@ const WorkoutScreen = ({ navigation }) => {
   const handleAddWorkoutPress = () => {
     // Navigate to the Workout Type screen when the FAB is pressed
     navigation.navigate('AddWorkout');
+  };
+
+  const calculateWorkoutDays = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('workoutData');
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        const today = new Date();
+        const currentWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // Start of current week (Monday)
+        const currentWeekEnd = new Date(currentWeekStart);
+        currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // End of current week (Sunday)
+        const workoutDates = parsedData
+          .filter((workout) => {
+            const workoutDate = new Date(workout.date);
+            return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
+          })
+          .map((workout) => new Date(workout.date).getDay());
+        setWorkoutDays(workoutDates);
+      }
+    } catch (error) {
+      console.error('Error calculating workout days:', error);
+    }
   };
 
   useEffect(() => {
@@ -50,10 +73,12 @@ const WorkoutScreen = ({ navigation }) => {
 
     // Initial calculation
     calculateTotalWeekExerciseTime();
+    calculateWorkoutDays();
 
     // Periodically fetch new data every second (adjust the interval as needed)
     const intervalId = setInterval(() => {
       calculateTotalWeekExerciseTime();
+      calculateWorkoutDays();
     }, 1000);
 
     // Clean up the interval when the component unmounts
@@ -63,20 +88,40 @@ const WorkoutScreen = ({ navigation }) => {
   const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
   const message = getMessage(percentage);
 
+  const renderWeekdays = () => {
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const today = new Date().getDay(); // Get the current day (0 for Sunday, 1 for Monday, etc.)
+    
+    return weekdays.map((day, index) => (
+      <View key={day} style={{ alignItems: 'center' }}>
+        <FontAwesome5Icon
+          name={workoutDays.includes(index) ? 'check-square' : 'square'}
+          color={index === today ? 'white' : workoutDays.includes(index) ? 'white' : 'grey'}
+          size={20}
+        />
+        <Text style={{ color: 'grey' }}>{day}</Text>
+      </View>
+    ));
+  };
+  
+
   return (
     <View style={styles.container}>
-      <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10 }}>
-        Hello, Welcome back!
-      </Title>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Title style={{ color: 'white', fontWeight: '600', fontSize: 25, paddingVertical: 10 }}>Hello, Welcome back!</Title>
+        <FontAwesome5Icon name="user-circle" size={30} color="white" />
+      </View>
       <Card>
         <Card.Content>
-          <Title style={{ color: 'white', fontWeight: '600' }}>
-            {totalWeekExerciseTime} minutes of exercise this week
-          </Title>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 4 }}>
-            <Text style={{ textAlign: 'left', fontSize: 12, color: 'grey' }}>{message}</Text>
-            <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>{percentage}%</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <FontAwesome5Icon name="fire" size={50} color="grey" />
+            
+            <View>
+              <Title style={{ color: 'white', fontWeight: '600' }}>{totalWeekExerciseTime} minutes of exercise this week</Title>
+              <Text style={{ fontSize: 16 }}>{message}</Text>
+            </View>
           </View>
+          <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>{percentage}%</Text>
           <ProgressBar
             progress={Math.min(totalWeekExerciseTime / 150, 1)} // 150 minutes for now
             color={'white'}
@@ -85,7 +130,13 @@ const WorkoutScreen = ({ navigation }) => {
         </Card.Content>
       </Card>
 
-      {/* Replace the Button with FAB */}
+      <Text style={styles.label}>Progress</Text>
+      <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
+      
+      <ScrollView>
+        <Text style={styles.label}>Weekly statistics</Text>
+      </ScrollView>
+
       <FAB
         icon={({ color, size }) => (
           <FontAwesome5Icon name="plus-circle" color={'black'} size={size} />
@@ -100,7 +151,18 @@ const WorkoutScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    marginTop: 16,
+  },
+  weekdaysContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 16,
   },
 });
 

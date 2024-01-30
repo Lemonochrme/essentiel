@@ -145,7 +145,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     // Wait for 1 second before navigating back to the Home screen to let the time for saving the data
     setTimeout(() => {
       navigation.navigate('Home');
-    }, 1000);
+    }, 200);
   };
 
   return (

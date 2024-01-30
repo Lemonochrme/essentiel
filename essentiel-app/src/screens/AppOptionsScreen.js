@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ToastAndroid } from 'react-native';
-import { Button, Dialog, Portal, Text, Provider } from 'react-native-paper';
+import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 
@@ -56,7 +56,13 @@ const AppOptionsScreen = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Text style={styles.title}>Options</Text>
+        <Card>
+          <Card.Content>
+            <Title style={{ color: 'white', fontWeight: '600' }}>Tests</Title>
+          </Card.Content>
+        </Card>
+
+
         <Button
           mode="contained"
           color="#FF0000"

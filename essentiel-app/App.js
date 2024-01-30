@@ -123,7 +123,7 @@ const App = () => {
             component={AppOptionsScreen}
             options={({ route, navigation }) => ({
               headerShown: true,
-              title: 'Options',
+              title: 'Settings',
               headerTintColor: 'white',
               headerShadowVisible: false,
               headerStyle: {
