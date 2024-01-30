@@ -154,7 +154,7 @@ const WorkoutScreen = ({ navigation }) => {
 
       <Text style={styles.label}>Weekly statistics</Text>
       <ScrollView>
-        <WorkoutBarChart data={totalTimeByDay} />
+        <WorkoutBarChart data={[33, 44, 20, 80, 70, 20, 30]} />
       </ScrollView>
 
       <FAB
