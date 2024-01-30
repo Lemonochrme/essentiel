@@ -96,7 +96,7 @@ const WorkoutScreen = ({ navigation }) => {
       <View key={day} style={{ alignItems: 'center' }}>
         <FontAwesome5Icon
           name={workoutDays.includes(index) ? 'check-square' : 'square'}
-          color={index === today ? 'white' : workoutDays.includes(index) ? 'white' : 'grey'}
+          color={index === today ? 'lightgrey' : workoutDays.includes(index) ? 'white' : 'grey'}
           size={20}
         />
         <Text style={{ color: 'grey' }}>{day}</Text>
@@ -114,9 +114,10 @@ const WorkoutScreen = ({ navigation }) => {
       <Card>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FontAwesome5Icon name="fire" size={50} color="grey" />
-            
-            <View>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <FontAwesome5Icon name="fire" size={60} color="grey" />
+            </View>
+            <View style={{ flex: 4 }}>
               <Title style={{ color: 'white', fontWeight: '600' }}>{totalWeekExerciseTime} minutes of exercise this week</Title>
               <Text style={{ fontSize: 16 }}>{message}</Text>
             </View>

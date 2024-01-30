@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ToastAndroid } from 'react-native';
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 
@@ -56,12 +57,20 @@ const AppOptionsScreen = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Card>
+        <Card style={{ backgroundColor: '#28242c' }}>
           <Card.Content>
-            <Title style={{ color: 'white', fontWeight: '600' }}>Tests</Title>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome5Icon name="user-circle" size={34} color="white" style={{ marginRight: 16 }} />
+                <View>
+                  <Title style={{ color: 'white', fontWeight: '600' }}>Profile</Title>
+                  <Text style={{ color: 'grey' }}>View and edit your profile</Text>
+                </View>
+              </View>
+              <FontAwesome5Icon name="chevron-right" size={24} color="white" />
+            </View>
           </Card.Content>
         </Card>
-
 
         <Button
           mode="contained"
@@ -73,8 +82,8 @@ const AppOptionsScreen = () => {
         </Button>
         <Text style={styles.dangerText}>Danger Zone</Text>
         <Button
-          mode="contained"
-          buttonColor="red"
+          mode="outlined"
+          labelStyle={{ color: 'white' }}
           onPress={() => setIsDeleteModalVisible(true)}
           style={styles.button}
         >
