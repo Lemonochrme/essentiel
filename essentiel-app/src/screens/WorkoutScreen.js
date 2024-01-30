@@ -148,15 +148,14 @@ const WorkoutScreen = ({ navigation }) => {
           />
         </Card.Content>
       </Card>
+      <ScrollView>
+        <Text style={styles.label}>Progress</Text>
+        <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
 
-      <Text style={styles.label}>Progress</Text>
-      <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
-
-      <Text style={styles.label}>Weekly statistics</Text>
-      <ScrollView style={{ paddingTop: 16 }}>
-        <Card>
-          <WorkoutBarChart data={totalTimeByDay} />
-        </Card>
+        <Text style={styles.label}>Weekly statistics</Text>
+        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
+        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
+        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
       </ScrollView>
 
       <FAB

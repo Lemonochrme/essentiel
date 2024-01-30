@@ -1,53 +1,93 @@
-import React from 'react';
-import { View } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { Card } from 'react-native-paper';
 
 const WorkoutBarChart = ({ data }) => {
-    const chartData = {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        datasets: [
-            {
-                data: data,
-            },
-        ],
+    const maxValue = Math.max(...data); // Find the maximum value in the data array
+    const [selectedBarIndex, setSelectedBarIndex] = useState(null);
+
+    const handleBarPress = (index) => {
+        if (selectedBarIndex === index) {
+            // Deselect the bar if it's already selected
+            setSelectedBarIndex(null);
+        } else {
+            setSelectedBarIndex(index);
+        }
     };
 
     return (
-        <View>
-            <BarChart
-                data={chartData}
-                width={350}
-                height={200}
-                yAxisSuffix=""
-                fromZero={true}
-                showValuesOnTopOfBars={true}
-                withHorizontalLabels={false}
-                showBarTops={false}
-                chartConfig={{
-                    fillShadowGradientFrom: 'white',
-                    fillShadowGradientTo: 'white',
-                    fillShadowGradientFromOpacity: 1,
-                    fillShadowGradientToOpacity: 1,
-                    backgroundGradientFrom: '#242329',
-                    backgroundGradientTo: '#242329',
-                    decimalPlaces: 0,
-                    color: () => 'white',
-                    barRadius: 8,
-                    barPercentage: 0.4, // Adjust this value to make bars thinner
-                    propsForBackgroundLines: {
-                        strokeWidth: 1,
-                        strokeDasharray: null,
-                        stroke: '#242329',
-                    },
-                }}
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                    paddingRight: 20,
-                }}
-            />
-        </View>
+        <Card style={styles.card}>
+            <View style={styles.container}>
+                {data.map((value, index) => (
+                    <Pressable
+                        key={index}
+                        onPress={() => handleBarPress(index)}
+                        style={({ pressed }) => [
+                            styles.barContainer,
+                            {
+                                opacity: pressed ? 0.5 : 1,
+                            },
+                        ]}
+                    >
+                        <View
+                            style={[
+                                styles.bar,
+                                { height: `${(value / maxValue) * 80}%` },
+                                selectedBarIndex === index ? styles.selectedBar : null,
+                            ]}
+                        />
+                        {selectedBarIndex === index && (
+                            <Text style={styles.value}>{value}</Text>
+                        )}
+                        <Text style={styles.label}>
+                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
+                        </Text>
+                    </Pressable>
+                ))}
+            </View>
+        </Card>
     );
 };
+
+const styles = StyleSheet.create({
+    card: {
+        padding: 10,
+        margin: 10,
+    },
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'flex-end',
+        height: 150,
+    },
+    barContainer: {
+        alignItems: 'center',
+        position: 'relative',
+    },
+    bar: {
+        width: 10,
+        borderRadius: 5,
+        backgroundColor: 'white',
+        marginBottom: 5,
+    },
+    selectedBar: {
+        backgroundColor: 'lightgrey', // Change the color of the selected bar
+    },
+    label: {
+        fontSize: 10,
+        color: 'grey',
+    },
+    value: {
+        fontSize: 9,
+        fontWeight: 'bold',
+        marginTop: 5,
+        position: 'absolute',
+        top: -25, // To adjust the position of the value text
+        color: 'grey',
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+    },
+});
 
 export default WorkoutBarChart;
