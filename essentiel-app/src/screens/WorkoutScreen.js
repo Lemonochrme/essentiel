@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
-import { Card, Text, FAB, ProgressBar, Title } from 'react-native-paper';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BarChart } from 'react-native-chart-kit';
 
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [workoutDays, setWorkoutDays] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
   const getMessage = (percentage) => {
     if (percentage >= 100) {
@@ -41,6 +43,25 @@ const WorkoutScreen = ({ navigation }) => {
           })
           .map((workout) => new Date(workout.date).getDay());
         setWorkoutDays(workoutDates);
+
+        // Calculate total time by day for the current week
+        const totalTimeByDay = [0, 0, 0, 0, 0, 0, 0]; // Initialize with zeros for each day of the week (Sun - Sat)
+        parsedData.forEach((workout) => {
+          const workoutDate = new Date(workout.date);
+          if (workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd) {
+            const dayIndex = workoutDate.getDay();
+            totalTimeByDay[dayIndex] += parseInt(workout.duration.split(' ')[0]);
+          }
+        });
+
+        // Set the chart data
+        setChartData(totalTimeByDay);
+
+        // Log total time by day for the current week
+        totalTimeByDay.forEach((totalTime, dayIndex) => {
+          const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex];
+          console.log(`${dayName}: ${totalTime} minutes`);
+        });
       }
     } catch (error) {
       console.error('Error calculating workout days:', error);
@@ -79,7 +100,7 @@ const WorkoutScreen = ({ navigation }) => {
     const intervalId = setInterval(() => {
       calculateTotalWeekExerciseTime();
       calculateWorkoutDays();
-    }, 1000);
+    }, 4000);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
@@ -91,7 +112,7 @@ const WorkoutScreen = ({ navigation }) => {
   const renderWeekdays = () => {
     const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const today = new Date().getDay(); // Get the current day (0 for Sunday, 1 for Monday, etc.)
-    
+
     return weekdays.map((day, index) => (
       <View key={day} style={{ alignItems: 'center' }}>
         <FontAwesome5Icon
@@ -103,7 +124,6 @@ const WorkoutScreen = ({ navigation }) => {
       </View>
     ));
   };
-  
 
   return (
     <View style={styles.container}>
@@ -114,12 +134,18 @@ const WorkoutScreen = ({ navigation }) => {
       <Card>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <FontAwesome5Icon name="fire" size={60} color="grey" />
+            <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
+              <FontAwesome5Icon name="fire-alt" size={50} color="grey" />
             </View>
             <View style={{ flex: 4 }}>
-              <Title style={{ color: 'white', fontWeight: '600' }}>{totalWeekExerciseTime} minutes of exercise this week</Title>
-              <Text style={{ fontSize: 16 }}>{message}</Text>
+              {totalWeekExerciseTime === 0 ? (
+                <Title style={{ color: 'white', fontWeight: '600' }}>No exercise this week</Title>
+              ) : (
+                <Title style={{ color: 'white', fontWeight: '600' }}>{totalWeekExerciseTime} minutes of exercise this week</Title>
+              )}
+              <Text style={{ fontSize: 16, color: 'grey' }}>
+                {totalWeekExerciseTime === 0 ? 'Start by adding a workout' : message}
+              </Text>
             </View>
           </View>
           <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>{percentage}%</Text>
@@ -133,9 +159,10 @@ const WorkoutScreen = ({ navigation }) => {
 
       <Text style={styles.label}>Progress</Text>
       <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
-      
+
+      <Text style={styles.label}>Weekly statistics</Text>
       <ScrollView>
-        <Text style={styles.label}>Weekly statistics</Text>
+
       </ScrollView>
 
       <FAB
