@@ -20,6 +20,9 @@ const WorkoutBarChart = ({ data }) => {
 
     return (
         <Card style={styles.card}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Daily Workout Duration</Text>
+            </View>
             {isNoData ? (
                 <Text style={styles.noDataText}>No Data Available</Text>
             ) : (
@@ -60,6 +63,14 @@ const styles = StyleSheet.create({
     card: {
         padding: 10,
         margin: 10,
+    },
+    titleContainer: {
+        marginLeft: 10, // Adjust the margin as needed
+    },
+    title: {
+        fontSize: 14,
+        color: 'grey',
+        fontWeight: 'bold',
     },
     container: {
         flexDirection: 'row',
