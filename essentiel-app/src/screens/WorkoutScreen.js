@@ -106,20 +106,27 @@ const WorkoutScreen = ({ navigation }) => {
   const message = getMessage(percentage);
 
   const renderWeekdays = () => {
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; // Need to change the start day of the week
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const today = new Date().getDay(); // Get the current day (0 for Sunday, 1 for Monday, etc.)
-
-    return weekdays.map((day, index) => (
-      <View key={day} style={{ alignItems: 'center' }}>
-        <FontAwesome5Icon
-          name={workoutDays.includes(index) ? 'check-square' : 'square'}
-          color={index === today ? 'lightgrey' : workoutDays.includes(index) ? 'white' : 'grey'}
-          size={20}
-        />
-        <Text style={{ color: 'grey' }}>{day}</Text>
-      </View>
-    ));
+    const adjustedToday = today === 0 ? 6 : today - 1; // Adjust the index to match the array
+  
+    return weekdays.map((day, index) => {
+      const workoutIndex = (index + 1) % 7; // Adjust the workoutDays index
+      return (
+        <View key={day} style={{ alignItems: 'center' }}>
+          <FontAwesome5Icon
+            name={workoutDays.includes(workoutIndex) ? 'check-square' : 'square'} // Check if the adjusted workoutDays index is in workoutDays
+            color={index === adjustedToday ? 'lightgrey' : workoutDays.includes(workoutIndex) ? 'white' : 'grey'}
+            size={20}
+          />
+          <Text style={{ color: 'grey' }}>{day}</Text>
+        </View>
+      );
+    });
   };
+  
+  
+  
 
   return (
     <View style={styles.container}>
