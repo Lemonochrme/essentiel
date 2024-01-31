@@ -81,11 +81,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey', // Change the color of the selected bar
     },
     label: {
-        fontSize: 10,
         color: 'grey',
     },
     value: {
-        fontSize: 9,
         fontWeight: 'bold',
         marginTop: 5,
         position: 'absolute',
