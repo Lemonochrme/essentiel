@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BottomNavigation } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Vibration } from 'react-native';
 
 import WorkoutScreen from './WorkoutScreen'; 
 import ProgressionScreen from './../screens/ProgressionScreen'; 
@@ -13,6 +14,11 @@ const HomePage = ({ navigation }) => {
     { key: 'progression', title: 'Progression', icon: 'stats-chart' },
   ]);
 
+  const handleIndexChange = (index) => {
+    Vibration.vibrate(70);
+    setIndex(index);
+  };
+
   const renderScene = BottomNavigation.SceneMap({
     workout: () => <WorkoutScreen navigation={navigation} />, // Pass navigation prop to WorkoutScreen
     progression: ProgressionScreen,
@@ -22,7 +28,7 @@ const HomePage = ({ navigation }) => {
     <>
       <BottomNavigation
         navigationState={{ index, routes }}
-        onIndexChange={setIndex}
+        onIndexChange={handleIndexChange}
         renderScene={renderScene}
         renderIcon={({ route, color }) => {
           switch (route.key) {
