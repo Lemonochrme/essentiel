@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-end',
-        height: 150,
+        height: 200,
     },
     barContainer: {
         alignItems: 'center',

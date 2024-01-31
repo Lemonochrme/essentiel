@@ -106,7 +106,7 @@ const WorkoutScreen = ({ navigation }) => {
   const message = getMessage(percentage);
 
   const renderWeekdays = () => {
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; // Need to change the start day of the week
     const today = new Date().getDay(); // Get the current day (0 for Sunday, 1 for Monday, etc.)
 
     return weekdays.map((day, index) => (
@@ -153,9 +153,7 @@ const WorkoutScreen = ({ navigation }) => {
         <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
 
         <Text style={styles.label}>Weekly statistics</Text>
-        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
-        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
-        <WorkoutBarChart data={[40, 20, 100, 40, 60, 70, 60]} />
+        <WorkoutBarChart data={totalTimeByDay} />
       </ScrollView>
 
       <FAB

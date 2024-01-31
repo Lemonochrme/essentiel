@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ToastAndroid } from 'react-native';
+import { View, StyleSheet } from 'react-native'; // Remove ToastAndroid import
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,32 +25,22 @@ const AppOptionsScreen = () => {
         encoding: FileSystem.EncodingType.UTF8,
       });
 
-      showToast('Workout data has been exported as CSV.');
+      // Removed showToast call
 
     } catch (error) {
       console.error('Error exporting data: ', error);
-      showToast('An error occurred while exporting data as CSV.');
+      // Removed showToast call
     }
-  };
-
-  const showToast = (message) => {
-    ToastAndroid.showWithGravityAndOffset(
-      message,
-      ToastAndroid.LONG,
-      ToastAndroid.BOTTOM,
-      25,
-      50
-    );
   };
 
   const deleteWorkout = async () => {
     try {
       await AsyncStorage.clear(); // This clears all data, adapt as needed.
       setIsDeleteModalVisible(false);
-      showToast('All workout data has been deleted.');
+      // Removed showToast call
     } catch (error) {
       console.error('Error deleting data: ', error);
-      showToast('An error occurred while deleting data.');
+      // Removed showToast call
     }
   };
 
@@ -61,8 +51,8 @@ const AppOptionsScreen = () => {
           <Card.Content>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <FontAwesome5Icon name="user-circle" size={34} color="white" style={{ marginRight: 16 }} />
-                <View>
+                <FontAwesome5Icon name="user-circle" size={50} color="white" style={{ marginRight: 16 }} />
+                <View style={{ top: -3 }}>
                   <Title style={{ color: 'white', fontWeight: '600' }}>Profile</Title>
                   <Text style={{ color: 'grey' }}>View and edit your profile</Text>
                 </View>
@@ -80,10 +70,9 @@ const AppOptionsScreen = () => {
         >
           Export Workout Data as CSV
         </Button>
-        <Text style={styles.dangerText}>Danger Zone</Text>
         <Button
           mode="outlined"
-          labelStyle={{ color: 'white' }}
+          labelStyle={{ color: 'red' }}
           onPress={() => setIsDeleteModalVisible(true)}
           style={styles.button}
         >

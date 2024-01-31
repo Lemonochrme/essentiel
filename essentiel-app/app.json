@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "260f54d9-71fe-4716-8035-9431e2f57fba"
+      }
+    },
+    "android": {
+      "package": "com.lemonochrome.essentielapp"
+    }
   }
 }
