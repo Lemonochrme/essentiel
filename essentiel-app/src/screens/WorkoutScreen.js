@@ -153,7 +153,7 @@ const WorkoutScreen = ({ navigation }) => {
         <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
 
         <Text style={styles.label}>Weekly statistics</Text>
-        <WorkoutBarChart data={totalTimeByDay} />
+        <WorkoutBarChart data={[4, 1, 4, 2, 6, 8, 4]} />
       </ScrollView>
 
       <FAB

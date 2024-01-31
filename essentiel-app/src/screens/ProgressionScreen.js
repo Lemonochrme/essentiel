@@ -1,113 +1,217 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { Card, Text, Title, Button, Portal, Modal } from 'react-native-paper';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Text, Button, Chip } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProgressionScreen = () => {
+const workoutTypes = ['Cardio', 'Strength Training', 'Yoga', 'HIIT'];
+const workoutIntensityLevels = ['Low', 'Moderate', 'High']; // Removed descriptions
+const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '60 minutes', '90 minutes', '120 minutes'];
+
+// Configuration object for additional options per workout type
+const workoutTypeOptions = {
+  'Cardio': [
+    'Running',
+    'Cycling',
+    'Swimming',
+    'Jump Rope',
+    'Elliptical',
+    'Stair Climbing',
+    'Dance',
+    'Boxing',
+  ],
+  'Strength Training': [
+    'Upper Body',
+    'Lower Body',
+    'Full Body',
+    'Chest',
+    'Back',
+    'Legs',
+    'Arms',
+    'Shoulders',
+  ],
+  'Yoga': ['Hatha Yoga', 'Vinyasa Yoga', 'Power Yoga'],
+  'HIIT': ['Tabata', 'Circuit', 'Interval'],
+};
+
+const STORAGE_KEY = 'workoutData';
+
+const AddWorkoutScreen = ({ navigation, route }) => {
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedIntensity, setSelectedIntensity] = useState('');
+  const [selectedDuration, setSelectedDuration] = useState('');
+  const [selectedSpecifics, setSelectedSpecifics] = useState([]);
+  const [intensityDescription, setIntensityDescription] = useState('');
   const [workoutData, setWorkoutData] = useState([]);
-  const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [noData, setNoData] = useState(true);
+
+  useEffect(() => {
+    // Load stored workout data from AsyncStorage when the component mounts
+    loadWorkoutData();
+  }, []);
+
+  useEffect(() => {
+    // Save workoutData to AsyncStorage whenever it changes
+    saveWorkoutData();
+  }, [workoutData]);
+
+  const isSaveButtonDisabled = !(
+    selectedType &&
+    selectedIntensity &&
+    selectedDuration &&
+    (selectedType !== 'Strength Training' || selectedSpecifics.length > 0)
+  );
+
+  const handleTypeSelection = (type) => {
+    setSelectedType(type);
+  };
+
+  const handleIntensitySelection = (intensity) => {
+    setSelectedIntensity(intensity);
+    // Set the intensity description based on the selected intensity
+    const selectedIntensityObj = workoutIntensityLevels.find((item) => item === intensity);
+    if (selectedIntensityObj) {
+      setIntensityDescription(selectedIntensityObj.description);
+    } else {
+      setIntensityDescription('');
+    }
+  };
+
+  const handleDurationSelection = (duration) => {
+    setSelectedDuration(duration);
+  };
+
+  const handleSpecificsSelection = (specific) => {
+    if (selectedSpecifics.includes(specific)) {
+      // Deselect if already selected
+      setSelectedSpecifics(selectedSpecifics.filter((item) => item !== specific));
+    } else {
+      // Select if not already selected
+      setSelectedSpecifics([...selectedSpecifics, specific]);
+    }
+  };
+
+  const saveWorkoutData = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(workoutData));
+    } catch (error) {
+      console.error('Error saving workout data:', error);
+    }
+  };
 
   const loadWorkoutData = async () => {
     try {
-      const storedData = await AsyncStorage.getItem('workoutData');
+      const storedData = await AsyncStorage.getItem(STORAGE_KEY);
       if (storedData) {
-        const parsedData = JSON.parse(storedData).reverse();
-        setWorkoutData(parsedData);
-        setNoData(parsedData.length === 0);
-      } else {
-        setWorkoutData([]);
-        setNoData(true);
+        setWorkoutData(JSON.parse(storedData));
       }
     } catch (error) {
       console.error('Error loading workout data:', error);
     }
   };
 
-  useEffect(() => {
-    loadWorkoutData();
+  const saveWorkout = () => {
+    // Create a new workout object
+    const newWorkout = {
+      id: Date.now().toString(), // Generate a unique ID
+      type: selectedType,
+      intensity: selectedIntensity,
+      duration: selectedDuration,
+      specifics: selectedSpecifics,
+      date: new Date().toISOString(), // Store the current date and time
+    };
 
-    const refreshInterval = setInterval(() => {
-      loadWorkoutData();
-    }, 1000);
+    // Add the new workout to the workoutData array
+    setWorkoutData([...workoutData, newWorkout]);
 
-    return () => clearInterval(refreshInterval);
-  }, []);
+    // Clear selections after saving
+    setSelectedType('');
+    setSelectedIntensity('');
+    setSelectedDuration('');
+    setSelectedSpecifics([]);
+    setIntensityDescription('');
 
-  const showDeleteConfirmation = (workout) => {
-    setSelectedWorkout(workout);
-    setDeleteModalVisible(true);
-  };
-
-  const hideDeleteConfirmation = () => {
-    setSelectedWorkout(null);
-    setDeleteModalVisible(false);
-  };
-
-  const deleteWorkout = () => {
-    if (selectedWorkout) {
-      const updatedWorkoutData = workoutData.filter((workout) => workout.id !== selectedWorkout.id);
-      setWorkoutData(updatedWorkoutData);
-      setSelectedWorkout(null);
-      setDeleteModalVisible(false);
-      AsyncStorage.setItem('workoutData', JSON.stringify(updatedWorkoutData));
-      setNoData(updatedWorkoutData.length === 0);
-    }
-  };
-
-  const renderWorkoutItem = ({ item }) => {
-    return (
-      <Card style={styles.card}>
-        <Card.Content>
-          <Title style={styles.title}>{item.type}</Title>
-          <Text style={styles.text}>Intensity: {item.intensity}</Text>
-          <Text style={styles.text}>Duration: {item.duration}</Text>
-          <Text style={styles.text}>Specifics: {item.specifics.join(', ')}</Text>
-          <Text style={styles.text}>Date: {new Date(item.date).toLocaleString()}</Text>
-        </Card.Content>
-        <Card.Actions style={styles.cardActions}>
-          <Button
-            icon={({ size, color }) => (
-              <Icon name="delete" size={size} color="white" />
-            )}
-            onPress={() => showDeleteConfirmation(item)}
-          >
-            Delete
-          </Button>
-        </Card.Actions>
-      </Card>
-    );
+    // Wait for 1 second before navigating back to the Home screen to let the time for saving the data
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 200);
   };
 
   return (
     <View style={styles.container}>
-      {noData ? (
-        <Text style={styles.noDataText}>No workout data available.</Text>
-      ) : (
-        <FlatList
-          data={workoutData}
-          renderItem={renderWorkoutItem}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.flatListContainer}
-          style={styles.flatList}
-        />
-      )}
+      <ScrollView style={styles.scrollView}>
 
-      <Portal>
-        <Modal
-          visible={isDeleteModalVisible}
-          onDismiss={hideDeleteConfirmation}
-          contentContainerStyle={styles.deleteModal}
-        >
-          <Text style={styles.modalText}>Are you sure you want to delete this workout?</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <Button onPress={hideDeleteConfirmation}>Cancel</Button>
-            <Button onPress={deleteWorkout}>Confirm Delete</Button>
-          </View>
-        </Modal>
-      </Portal>
+        <Text style={styles.label}>Select Workout Type</Text>
+        <View style={styles.chipContainer}>
+          {workoutTypes.map((type) => (
+            <Chip
+              key={type}
+              selected={selectedType === type}
+              onPress={() => handleTypeSelection(type)}
+              style={styles.chip}
+            >
+              {type}
+            </Chip>
+          ))}
+        </View>
+
+        {selectedType && workoutTypeOptions[selectedType] && (
+          <>
+            <Text style={styles.label}>Select Specifics</Text>
+            <View style={styles.chipContainer}>
+              {workoutTypeOptions[selectedType].map((specific) => (
+                <Chip
+                  key={specific}
+                  selected={selectedSpecifics.includes(specific)}
+                  onPress={() => handleSpecificsSelection(specific)}
+                  style={styles.chip}
+                >
+                  {specific}
+                </Chip>
+              ))}
+            </View>
+          </>
+        )}      
+
+        <Text style={styles.label}>Select Intensity</Text>
+        <View style={styles.chipContainer}>
+          {workoutIntensityLevels.map((intensity) => (
+            <Chip
+              key={intensity}
+              selected={selectedIntensity === intensity}
+              onPress={() => handleIntensitySelection(intensity)}
+              style={styles.chip}
+            >
+              {intensity}
+            </Chip>
+          ))}
+        </View>
+
+        {intensityDescription !== '' && (
+          <Text style={styles.intensityDescription}>{intensityDescription}</Text>
+        )}
+
+        <Text style={styles.label}>Select Duration</Text>
+        <View style={styles.chipContainer}>
+          {workoutDurations.map((duration) => (
+            <Chip
+              key={duration}
+              selected={selectedDuration === duration}
+              onPress={() => handleDurationSelection(duration)}
+              style={styles.chip}
+            >
+              {duration}
+            </Chip>
+          ))}
+        </View>
+      </ScrollView>
+
+      <Button
+        mode="contained"
+        onPress={saveWorkout}
+        disabled={isSaveButtonDisabled}
+        style={styles.saveButton}
+      >
+        Save Workout
+      </Button>
     </View>
   );
 };
@@ -116,43 +220,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1C1B1F',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  noDataText: {
-    color: 'white',
-    fontSize: 18,
-  },
-  flatListContainer: {
-    flexGrow: 1,
-  },
-  flatList: {
-    width: '100%',
+  scrollView: {
+    flex: 1,
     padding: 16,
   },
-  card: {
-    marginBottom: 16,
-    backgroundColor: '#25232A',
-  },
-  cardActions: {
-    justifyContent: 'flex-end',
-  },
-  title: {
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: 'white',
+    marginBottom: 16,
   },
-  text: {
-    color: 'grey',
+  label: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    marginTop: 16,
   },
-  deleteModal: {
-    backgroundColor: '#1C1B1F',
-    borderRadius: 16,
+  intensityDescription: {
+    fontSize: 16,
+    color: 'white',
+    marginTop: 8,
+  },
+  chipContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+  },
+  chip: {
+    margin: 4,
+  },
+  saveButton: {
     margin: 16,
-    padding: 16,
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 16,
   },
 });
 
-export default ProgressionScreen;
+export default AddWorkoutScreen;

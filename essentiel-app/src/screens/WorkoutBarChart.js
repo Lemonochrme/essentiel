@@ -38,7 +38,7 @@ const WorkoutBarChart = ({ data }) => {
                             <View
                                 style={[
                                     styles.bar,
-                                    { height: `${(value / maxValue) * 80}%` },
+                                    { height: `${(value / maxValue) * 70}%` },
                                     selectedBarIndex === index ? styles.selectedBar : null,
                                 ]}
                             />
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-end',
-        height: 200,
+        height: 120,
     },
     barContainer: {
         alignItems: 'center',
