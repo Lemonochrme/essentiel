@@ -4,20 +4,6 @@ import { Text, Button, Chip } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const workoutTypes = ['Cardio', 'Strength Training', 'Yoga', 'HIIT'];
-const workoutIntensityLevels = [
-  {
-    level: 'Low',
-    description: 'Low intensity workouts are less strenuous and suitable for beginners or recovery days.',
-  },
-  {
-    level: 'Moderate',
-    description: 'Moderate intensity workouts provide a good balance of challenge and endurance.',
-  },
-  {
-    level: 'High',
-    description: 'High intensity workouts are intense and may require more energy and effort.',
-  },
-];
 const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '60 minutes', '90 minutes', '120 minutes'];
 
 // Configuration object for additional options per workout type
@@ -50,10 +36,8 @@ const STORAGE_KEY = 'workoutData';
 
 const AddWorkoutScreen = ({ navigation, route }) => {
   const [selectedType, setSelectedType] = useState('');
-  const [selectedIntensity, setSelectedIntensity] = useState('');
   const [selectedDuration, setSelectedDuration] = useState('');
   const [selectedSpecifics, setSelectedSpecifics] = useState([]);
-  const [intensityDescription, setIntensityDescription] = useState('');
   const [workoutData, setWorkoutData] = useState([]);
 
   useEffect(() => {
@@ -68,24 +52,12 @@ const AddWorkoutScreen = ({ navigation, route }) => {
 
   const isSaveButtonDisabled = !(
     selectedType &&
-    selectedIntensity &&
     selectedDuration &&
     (selectedType !== 'Strength Training' || selectedSpecifics.length > 0)
   );
 
   const handleTypeSelection = (type) => {
     setSelectedType(type);
-  };
-
-  const handleIntensitySelection = (intensity) => {
-    setSelectedIntensity(intensity);
-    // Set the intensity description based on the selected intensity
-    const selectedIntensityObj = workoutIntensityLevels.find((item) => item.level === intensity);
-    if (selectedIntensityObj) {
-      setIntensityDescription(selectedIntensityObj.description);
-    } else {
-      setIntensityDescription('');
-    }
   };
 
   const handleDurationSelection = (duration) => {
@@ -126,7 +98,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     const newWorkout = {
       id: Date.now().toString(), // Generate a unique ID
       type: selectedType,
-      intensity: selectedIntensity,
       duration: selectedDuration,
       specifics: selectedSpecifics,
       date: new Date().toISOString(), // Store the current date and time
@@ -137,10 +108,8 @@ const AddWorkoutScreen = ({ navigation, route }) => {
 
     // Clear selections after saving
     setSelectedType('');
-    setSelectedIntensity('');
     setSelectedDuration('');
     setSelectedSpecifics([]);
-    setIntensityDescription('');
 
     // Wait for 1 second before navigating back to the Home screen to let the time for saving the data
     setTimeout(() => {
@@ -182,24 +151,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
               ))}
             </View>
           </>
-        )}      
-
-        <Text style={styles.label}>Select Intensity</Text>
-        <View style={styles.chipContainer}>
-          {workoutIntensityLevels.map((intensity) => (
-            <Chip
-              key={intensity.level}
-              selected={selectedIntensity === intensity.level}
-              onPress={() => handleIntensitySelection(intensity.level)}
-              style={styles.chip}
-            >
-              {intensity.level}
-            </Chip>
-          ))}
-        </View>
-
-        {intensityDescription !== '' && (
-          <Text style={styles.intensityDescription}>{intensityDescription}</Text>
         )}
 
         <Text style={styles.label}>Select Duration</Text>
@@ -249,11 +200,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     marginTop: 16,
-  },
-  intensityDescription: {
-    fontSize: 16,
-    color: 'white',
-    marginTop: 8,
   },
   chipContainer: {
     flexDirection: 'row',

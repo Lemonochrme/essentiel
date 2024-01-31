@@ -15,36 +15,43 @@ const WorkoutBarChart = ({ data }) => {
         }
     };
 
+    // Check if all data values are zero
+    const isNoData = data.every((value) => value === 0);
+
     return (
         <Card style={styles.card}>
-            <View style={styles.container}>
-                {data.map((value, index) => (
-                    <Pressable
-                        key={index}
-                        onPress={() => handleBarPress(index)}
-                        style={({ pressed }) => [
-                            styles.barContainer,
-                            {
-                                opacity: pressed ? 0.5 : 1,
-                            },
-                        ]}
-                    >
-                        <View
-                            style={[
-                                styles.bar,
-                                { height: `${(value / maxValue) * 80}%` },
-                                selectedBarIndex === index ? styles.selectedBar : null,
+            {isNoData ? (
+                <Text style={styles.noDataText}>No Data Available</Text>
+            ) : (
+                <View style={styles.container}>
+                    {data.map((value, index) => (
+                        <Pressable
+                            key={index}
+                            onPress={() => handleBarPress(index)}
+                            style={({ pressed }) => [
+                                styles.barContainer,
+                                {
+                                    opacity: pressed ? 0.5 : 1,
+                                },
                             ]}
-                        />
-                        {selectedBarIndex === index && (
-                            <Text style={styles.value}>{value}</Text>
-                        )}
-                        <Text style={styles.label}>
-                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
-                        </Text>
-                    </Pressable>
-                ))}
-            </View>
+                        >
+                            <View
+                                style={[
+                                    styles.bar,
+                                    { height: `${(value / maxValue) * 80}%` },
+                                    selectedBarIndex === index ? styles.selectedBar : null,
+                                ]}
+                            />
+                            {selectedBarIndex === index && (
+                                <Text style={styles.value}>{value}</Text>
+                            )}
+                            <Text style={styles.label}>
+                                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
+                            </Text>
+                        </Pressable>
+                    ))}
+                </View>
+            )}
         </Card>
     );
 };
@@ -87,6 +94,12 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         textAlign: 'center',
+    },
+    noDataText: {
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 10,
+        color: 'lightgrey',
     },
 });
 
