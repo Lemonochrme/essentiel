@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Vibration } from 'react-native';
 import { Text, Button, Chip, IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -124,6 +124,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   };
 
   const saveWorkout = () => {
+    Vibration.vibrate(70);
     // Create a new workout object
     const newWorkout = {
       id: Date.now().toString(), // Generate a unique ID

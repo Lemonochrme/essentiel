@@ -2,9 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
-import WorkoutTypeScreen from './src/screens/WorkoutTypeScreen';
-import WorkoutIntensityScreen from './src/screens/WorkoutIntensityScreen';
-import WorkoutTimeScreen from './src/screens/WorkoutTimeScreen';
 import AppOptionsScreen from './src/screens/AppOptionsScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
@@ -56,66 +53,6 @@ const App = () => {
           })}
         />
           
-          
-          <Stack.Screen
-            name="WorkoutType"
-            component={WorkoutTypeScreen}
-            options={({ route, navigation }) => ({
-              headerShown: true,
-              title: '',
-              headerTintColor: 'white',
-              headerTransparent: true,
-              headerRight: () => (
-              <View style={{width: '60%', alignSelf: 'center', left: -40}}>
-                <ProgressBar
-                  progress={0.10}
-                  color="white"
-                  style={{borderRadius: 10}}
-                />
-              </View>
-              ),
-            })}
-          />
-
-          <Stack.Screen
-            name="WorkoutIntensity"
-            component={WorkoutIntensityScreen}
-            options={({ route, navigation }) => ({
-              headerShown: true,
-              title: '',
-              headerTintColor: 'white',
-              headerTransparent: true,
-              headerRight: () => (
-                <View style={{width: '60%', alignSelf: 'center', left: -40}}>
-                  <ProgressBar
-                    progress={0.50}
-                    color="white"
-                    style={{borderRadius: 10}}
-                  />
-                </View>
-              ),
-            })}
-          />
-
-          <Stack.Screen
-            name="WorkoutTime"
-            component={WorkoutTimeScreen}
-            options={({ route, navigation }) => ({
-              headerShown: true,
-              title: '',
-              headerTintColor: 'white',
-              headerTransparent: true,
-              headerRight: () => (
-                <View style={{width: '60%', alignSelf: 'center', left: -40}}>
-                  <ProgressBar
-                    progress={0.90}
-                    color="white"
-                    style={{borderRadius: 10}}
-                  />
-                </View>
-              ),
-            })}
-          />
 
           <Stack.Screen
             name="AppOptions"

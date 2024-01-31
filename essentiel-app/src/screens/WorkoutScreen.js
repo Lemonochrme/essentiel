@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Vibration } from 'react-native';
 import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutBarChart from './WorkoutBarChart';
+
 
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
@@ -26,6 +27,7 @@ const WorkoutScreen = ({ navigation }) => {
   const handleAddWorkoutPress = () => {
     // Navigate to the Workout Type screen when the FAB is pressed
     navigation.navigate('AddWorkout');
+    Vibration.vibrate(70);
   };
 
   const calculateWorkoutDays = async () => {
