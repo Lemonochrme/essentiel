@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Text, Button, Chip } from 'react-native-paper';
+import { Text, Button, Chip, IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const workoutTypes = ['Cardio', 'Strength Training', 'Yoga', 'HIIT'];

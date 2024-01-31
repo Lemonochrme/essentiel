@@ -150,6 +150,12 @@ const App = () => {
                 fontWeight: '600',
                 color: 'white',
               },
+              headerRight: () => (
+                <IconButton
+                  icon="calendar"
+                  color="white"
+                />
+              ),
             })}
           />
 
