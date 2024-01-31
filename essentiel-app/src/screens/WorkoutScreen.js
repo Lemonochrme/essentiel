@@ -149,11 +149,10 @@ const WorkoutScreen = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <Text style={{ textAlign: 'right', fontSize: 12, color: 'grey' }}>{percentage}%</Text>
           <ProgressBar
             progress={Math.min(totalWeekExerciseTime / 150, 1)} // 150 minutes for now
             color={'white'}
-            style={{ borderRadius: 10 }}
+            style={{ borderRadius: 10, height: 10}}
           />
         </Card.Content>
       </Card>
