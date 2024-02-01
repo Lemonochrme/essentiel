@@ -36,7 +36,7 @@ const App = () => {
             headerShown: true,
             title: 'Essentiel',
             headerStyle: {
-              backgroundColor: '#28242c',
+              backgroundColor: '#282828',
             },
             headerTitleStyle: {
               fontWeight: '600',

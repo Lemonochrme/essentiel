@@ -4,6 +4,7 @@ import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutBarChart from './WorkoutBarChart';
+import FiveDaysCalendar from './SimpleCalendar';
 
 
 const WorkoutScreen = ({ navigation }) => {
@@ -133,11 +134,12 @@ const WorkoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Card style={{ backgroundColor: '#282828' }}>
+      <FiveDaysCalendar />
+      <Card style={{ backgroundColor: '#282828', marginTop: 16 }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
-              <FontAwesome5Icon name="fire-alt" size={50} color="grey" />
+              <FontAwesome5Icon name="fire-alt" size={50} color="white" />
             </View>
             <View style={{ flex: 4 }}>
               {totalWeekExerciseTime === 0 ? (
@@ -157,9 +159,10 @@ const WorkoutScreen = ({ navigation }) => {
           />
         </Card.Content>
       </Card>
+
+      <Text style={styles.label}>Overview</Text>
+      <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
       <ScrollView>
-        <Text style={styles.label}>Overview</Text>
-        <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
         <Text style={styles.label}>Workout Time</Text>
         <WorkoutBarChart data={[40, 15, 40, 20, 60, 80, 40]} />
         <Text style={styles.label}>Tracking Progress</Text>
