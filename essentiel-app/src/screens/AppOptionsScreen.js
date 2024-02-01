@@ -4,6 +4,7 @@ import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-nativ
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
+import SettingsMenu from './SettingsMenu';
 
 const AppOptionsScreen = () => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
@@ -47,20 +48,22 @@ const AppOptionsScreen = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Card style={{ backgroundColor: '#28242c' }}>
+        <Card style={{ backgroundColor: '#161616', borderColor: '#282828', borderWidth: 1 }}>
           <Card.Content>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <FontAwesome5Icon name="user-circle" size={50} color="white" style={{ marginRight: 16 }} />
                 <View style={{ top: -3 }}>
-                  <Title style={{ color: 'white', fontWeight: '600' }}>Profile</Title>
-                  <Text style={{ color: 'grey' }}>View and edit your profile</Text>
+                  <Title style={{ color: 'white' }}>Profile</Title>
+                  <Text style={{ color: 'white' }}>Edit Profile</Text>
                 </View>
               </View>
               <FontAwesome5Icon name="chevron-right" size={24} color="white" />
             </View>
           </Card.Content>
         </Card>
+
+        <SettingsMenu />
 
         <Button
           mode="contained"
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#1C1B1F',
+    backgroundColor: '#161616',
   },
   title: {
     color: 'white',
