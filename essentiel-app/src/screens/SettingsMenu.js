@@ -41,7 +41,7 @@ const MenuScreen = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#161616',
-    borderRadius: 16,
+    borderRadius: 14,
     borderColor: '#282828',
     borderWidth: 1,
   },

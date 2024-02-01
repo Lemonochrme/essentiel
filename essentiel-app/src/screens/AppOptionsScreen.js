@@ -63,16 +63,10 @@ const AppOptionsScreen = () => {
           </Card.Content>
         </Card>
 
-        <SettingsMenu />
+        <View style={{ paddingTop: 16 }}>
+          <SettingsMenu />
+        </View>
 
-        <Button
-          mode="contained"
-          color="#FF0000"
-          onPress={handleExportCSV}
-          style={styles.button}
-        >
-          Export Workout Data as CSV
-        </Button>
         <Button
           mode="outlined"
           labelStyle={{ color: 'red' }}

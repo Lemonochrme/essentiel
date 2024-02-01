@@ -6,12 +6,14 @@ import { Vibration } from 'react-native';
 
 import WorkoutScreen from './WorkoutScreen'; 
 import ProgressionScreen from './../screens/ProgressionScreen'; 
+import ProfileScreen from './ProfileScreen';
 
 const HomePage = ({ navigation }) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'workout', title: 'Workout', icon: 'dumbbell' },
     { key: 'progression', title: 'Progression', icon: 'stats-chart' },
+    { key: 'profile', title: 'Profile', icon: 'user' }, // Add Profile route
   ]);
 
   const handleIndexChange = (index) => {
@@ -20,8 +22,9 @@ const HomePage = ({ navigation }) => {
   };
 
   const renderScene = BottomNavigation.SceneMap({
-    workout: () => <WorkoutScreen navigation={navigation} />, // Pass navigation prop to WorkoutScreen
-    progression: () => <ProgressionScreen navigation={navigation} />, // Pass navigation prop to ProgressionScreen
+    workout: () => <WorkoutScreen navigation={navigation} />,
+    progression: () => <ProgressionScreen navigation={navigation} />,
+    profile: () => <ProfileScreen />, // Add ProfileScreen
   });
 
   return (
@@ -36,6 +39,8 @@ const HomePage = ({ navigation }) => {
               return <FontAwesome5 name="dumbbell" size={24} color={color} />;
             case 'progression':
               return <Ionicons name="stats-chart" size={24} color={color} />;
+            case 'profile':
+              return <Ionicons name="person" size={24} color={color} />; // Add Profile icon
             default:
               return null;
           }
