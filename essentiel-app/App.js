@@ -17,6 +17,13 @@ const openAppOptions = ({ navigation }) => {
   navigation.navigate('AppOptions');
 };
 
+const CustomTheme = {
+  ...MD3DarkTheme,
+  colors: {
+    ...MD3DarkTheme.colors,
+  },
+};
+
 const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
@@ -63,7 +70,7 @@ const App = () => {
               headerTintColor: 'white',
               headerShadowVisible: false,
               headerStyle: {
-                backgroundColor: '#28242c',
+                backgroundColor: '#282828',
               },
               headerTitleStyle: {
                 fontWeight: '600',
@@ -81,7 +88,7 @@ const App = () => {
               headerTintColor: 'white',
               headerShadowVisible: false,
               headerStyle: {
-                backgroundColor: '#28242c',
+                backgroundColor: '#282828',
               },
               headerTitleStyle: {
                 fontWeight: '600',

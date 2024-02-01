@@ -235,7 +235,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1B1F',
+    backgroundColor: '#161616',
   },
   scrollView: {
     flex: 1,
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
     marginTop: 16,
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     margin: 4,
+    backgroundColor: '#282828',
   },
   saveButton: {
     margin: 16,

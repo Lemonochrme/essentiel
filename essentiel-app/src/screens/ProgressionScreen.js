@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Vibration } from 'react-native';
 import { Card, Text, Title, Button, Portal, Modal } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -58,25 +58,25 @@ const ProgressionScreen = () => {
   };
 
   const renderWorkoutItem = ({ item }) => {
+    const handleDeleteConfirmation = () => {
+      showDeleteConfirmation(item);
+      Vibration.vibrate(30);
+    };
+  
     return (
       <Card style={styles.card}>
-        <Card.Content>
-          <Title style={styles.title}>{item.type}</Title>
-          <Text style={styles.text}>Intensity: {item.intensity}</Text>
-          <Text style={styles.text}>Duration: {item.duration}</Text>
-          <Text style={styles.text}>Specifics: {item.specifics.join(', ')}</Text>
-          <Text style={styles.text}>Date: {new Date(item.date).toLocaleString()}</Text>
-        </Card.Content>
-        <Card.Actions style={styles.cardActions}>
-          <Button
-            icon={({ size, color }) => (
-              <Icon name="delete" size={size} color="white" />
-            )}
-            onPress={() => showDeleteConfirmation(item)}
-          >
-            Delete
-          </Button>
-        </Card.Actions>
+        <View style={{ flexDirection: 'row', position: 'relative' }}>
+          <Card.Content style={{ flex: 1 }}>
+            <Title style={styles.title}>{item.type}</Title>
+            <Text style={styles.text}>Intensity: {item.intensity}</Text>
+            <Text style={styles.text}>Duration: {item.duration}</Text>
+            <Text style={styles.text}>Specifics: {item.specifics.join(', ')}</Text>
+            <Text style={styles.text}>Date: {new Date(item.date).toLocaleString()}</Text>
+          </Card.Content>
+          <Card.Actions style={styles.cardActions}>
+            <Icon name="pen" size={24} color="white" onPress={handleDeleteConfirmation} style={{ position: 'absolute', top: 10, right: 10 }} />
+          </Card.Actions>
+        </View>
       </Card>
     );
   };
@@ -115,7 +115,7 @@ const ProgressionScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1B1F',
+    backgroundColor: '#161616',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -131,8 +131,10 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    marginBottom: 16,
-    backgroundColor: '#25232A',
+    marginBottom: 20,
+    backgroundColor: '#161616',
+    borderColor: '#282828',
+    borderWidth: 1,
   },
   cardActions: {
     justifyContent: 'flex-end',

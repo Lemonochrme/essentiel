@@ -171,7 +171,7 @@ const WorkoutScreen = ({ navigation }) => {
 
       <FAB
         icon={({ color, size }) => (
-          <FontAwesome5Icon name="plus-circle" color={'black'} size={size} />
+          <FontAwesome5Icon name="plus" color={'black'} size={size} />
         )}
         style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
         onPress={handleAddWorkoutPress}
