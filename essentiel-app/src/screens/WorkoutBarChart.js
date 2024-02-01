@@ -62,7 +62,10 @@ const WorkoutBarChart = ({ data }) => {
 const styles = StyleSheet.create({
     card: {
         padding: 10,
-        margin: 10,
+        marginTop: 16,
+        backgroundColor: '#161616',
+        borderColor: '#282828',
+        borderWidth: 1,
     },
     titleContainer: {
         marginLeft: 10, // Adjust the margin as needed
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     bar: {
         width: 10,
         borderRadius: 5,
-        backgroundColor: 'white',
+        backgroundColor: '#282828',
         marginBottom: 5,
     },
     selectedBar: {

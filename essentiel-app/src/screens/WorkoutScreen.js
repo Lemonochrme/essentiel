@@ -118,10 +118,11 @@ const WorkoutScreen = ({ navigation }) => {
         <View key={day} style={{ alignItems: 'center' }}>
           <FontAwesome5Icon
             name={workoutDays.includes(workoutIndex) ? 'check-square' : 'square'} // Check if the adjusted workoutDays index is in workoutDays
-            color={index === adjustedToday ? 'lightgrey' : workoutDays.includes(workoutIndex) ? 'white' : 'grey'}
-            size={20}
+            color={index === adjustedToday ? 'white' : workoutDays.includes(workoutIndex) ? 'white' : 'white'}
+            size={26}
+            solid={workoutDays.includes(workoutIndex)} // Add solid prop to fill the check-square icon
           />
-          <Text style={{ color: 'grey' }}>{day}</Text>
+          <Text style={{ color: 'white', fontSize: 18 }}>{day}</Text>
         </View>
       );
     });
@@ -132,7 +133,7 @@ const WorkoutScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Card>
+      <Card style={{ backgroundColor: '#282828' }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
@@ -140,11 +141,11 @@ const WorkoutScreen = ({ navigation }) => {
             </View>
             <View style={{ flex: 4 }}>
               {totalWeekExerciseTime === 0 ? (
-                <Title style={{ color: 'white', fontWeight: '600' }}>No exercise this week</Title>
+                <Title style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>No exercise this week</Title>
               ) : (
-                <Title style={{ color: 'white', fontWeight: '600' }}>{totalWeekExerciseTime} minutes of exercise this week</Title>
+                <Title style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>You're on fire!</Title>
               )}
-              <Text style={{ fontSize: 16, color: 'grey' }}>
+              <Text style={{ fontSize: 22, color: 'white' }}>
                 {totalWeekExerciseTime === 0 ? 'Start by adding a workout' : message}
               </Text>
             </View>
@@ -152,12 +153,12 @@ const WorkoutScreen = ({ navigation }) => {
           <ProgressBar
             progress={Math.min(totalWeekExerciseTime / 150, 1)} // 150 minutes for now
             color={'white'}
-            style={{ borderRadius: 10, height: 10}}
+            style={{ borderRadius: 10, height: 10, marginTop: 16, backgroundColor: '#161616'}}
           />
         </Card.Content>
       </Card>
       <ScrollView>
-        <Text style={styles.label}>Progress</Text>
+        <Text style={styles.label}>Overview</Text>
         <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
 
         <Text style={styles.label}>Weekly statistics</Text>
@@ -180,9 +181,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+    backgroundColor: '#161616',
   },
   label: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
     marginTop: 16,
