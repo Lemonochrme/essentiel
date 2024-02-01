@@ -20,9 +20,6 @@ const WorkoutBarChart = ({ data }) => {
 
     return (
         <Card style={styles.card}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Daily Workout Duration</Text>
-            </View>
             {isNoData ? (
                 <Text style={styles.noDataText}>No Data Available</Text>
             ) : (
@@ -46,7 +43,7 @@ const WorkoutBarChart = ({ data }) => {
                                 ]}
                             />
                             {selectedBarIndex === index && (
-                                <Text style={styles.value}>{value}</Text>
+                                <Text style={styles.value}>{value} min</Text>
                             )}
                             <Text style={styles.label}>
                                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     selectedBar: {
-        backgroundColor: 'lightgrey', // Change the color of the selected bar
+        backgroundColor: 'white', // Change the color of the selected bar
     },
     label: {
         color: 'grey',
@@ -103,8 +100,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -25, // To adjust the position of the value text
         color: 'grey',
-        left: 0,
-        right: 0,
+
         textAlign: 'center',
     },
     noDataText: {
