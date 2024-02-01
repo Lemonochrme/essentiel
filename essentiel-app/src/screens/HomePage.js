@@ -21,7 +21,7 @@ const HomePage = ({ navigation }) => {
 
   const renderScene = BottomNavigation.SceneMap({
     workout: () => <WorkoutScreen navigation={navigation} />, // Pass navigation prop to WorkoutScreen
-    progression: ProgressionScreen,
+    progression: () => <ProgressionScreen navigation={navigation} />, // Pass navigation prop to ProgressionScreen
   });
 
   return (

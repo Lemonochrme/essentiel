@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Vibration } from 'react-native';
-import { Card, Text, Title, Button, Portal, Modal } from 'react-native-paper';
+import { View, StyleSheet, FlatList, Vibration, Image } from 'react-native';
+import { Card, Text, Title, Button, Portal, Modal, FAB } from 'react-native-paper';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProgressionScreen = () => {
+const ProgressionScreen = ({ navigation }) => {
   const [workoutData, setWorkoutData] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [noData, setNoData] = useState(true);
+
+  const handleAddWorkoutPress = () => {
+    // Navigate to the Workout Type screen when the FAB is pressed
+    navigation.navigate('AddWorkout');
+    Vibration.vibrate(70);
+  };
 
   const loadWorkoutData = async () => {
     try {
@@ -84,7 +91,10 @@ const ProgressionScreen = () => {
   return (
     <View style={styles.container}>
       {noData ? (
-        <Text style={styles.noDataText}>No workout data available.</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Image source={require('../../assets/illustration-bored-woman.png')} style={{ width: 300, height: 300 }} />
+          <Text style={styles.noDataText}>No workout data available.</Text>
+        </View>
       ) : (
         <FlatList
           data={workoutData}
@@ -108,6 +118,14 @@ const ProgressionScreen = () => {
           </View>
         </Modal>
       </Portal>
+
+      <FAB
+        icon={({ color, size }) => (
+          <FontAwesome5Icon name="plus" color={'black'} size={size} />
+        )}
+        style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
+        onPress={handleAddWorkoutPress}
+      />
     </View>
   );
 };
@@ -122,6 +140,7 @@ const styles = StyleSheet.create({
   noDataText: {
     color: 'white',
     fontSize: 18,
+    paddingTop: 16,
   },
   flatListContainer: {
     flexGrow: 1,
