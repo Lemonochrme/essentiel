@@ -16,7 +16,7 @@ const CustomButton = ({ title, onPress, disabled }) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 16,
     paddingVertical: 16,
     paddingHorizontal: 20,
     alignItems: 'center',
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   disabledText: {
     color: 'lightgrey',

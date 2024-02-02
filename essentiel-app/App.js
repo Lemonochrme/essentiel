@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
 import AppOptionsScreen from './src/screens/AppOptionsScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
+import GetStartedScreen from './src/screens/GetStartedScreen';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
-
 
 // Status bar color white
 StatusBar.setBarStyle('light-content', true);
@@ -42,6 +42,17 @@ const App = () => {
               animationEnabled: true,
             }}
         >
+
+        <Stack.Screen
+          name="GetStarted"
+          component={GetStartedScreen}
+          options={({ route, navigation }) => ({
+            cardStyleInterpolator: forFade,
+            headerShown: false,
+          })}
+        />
+
+
         <Stack.Screen
           name="Home"
           component={HomePage}
