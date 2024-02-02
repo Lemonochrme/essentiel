@@ -26,7 +26,6 @@ const CustomTheme = {
 
 const forFade = ({ current, closing }) => ({
   cardStyle: {
-    opacity: current.progress,
   },
 });
 
