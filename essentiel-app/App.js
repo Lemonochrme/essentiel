@@ -24,6 +24,7 @@ const CustomTheme = {
   },
 };
 
+// Custom transition animation
 const forFade = ({ current, closing }) => ({
   cardStyle: {
   },
