@@ -27,14 +27,11 @@ const CustomTheme = {
 const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
+      <View style={{ flex: 1, backgroundColor: '#161616' }}>
       <NavigationContainer>
         <Stack.Navigator
             initialRouteName="Home"
             headerShown={false}
-            screenOptions={{
-              animationEnabled: false,
-            }}
-            presentation="modal" // To avoid white flickering while switching screens
         >
         <Stack.Screen
           name="Home"
@@ -105,6 +102,7 @@ const App = () => {
 
         </Stack.Navigator>
       </NavigationContainer>
+      </View>
     </PaperProvider>
   );
 };

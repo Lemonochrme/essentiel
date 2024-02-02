@@ -47,7 +47,8 @@ const HomePage = ({ navigation }) => {
         }}
         barStyle={{ backgroundColor: '#282828' }}
         activeColor='white'
-        activeIndicatorStyle={{ backgroundColor: 'grey' }}
+        inactiveColor='grey'
+        activeIndicatorStyle={{ backgroundColor: 'transparent' }}
       />
     </>
   );
