@@ -24,6 +24,12 @@ const CustomTheme = {
   },
 };
 
+const forFade = ({ current, closing }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
+
 const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
@@ -32,11 +38,15 @@ const App = () => {
         <Stack.Navigator
             initialRouteName="Home"
             headerShown={false}
+            screenOptions={{
+              animationEnabled: true,
+            }}
         >
         <Stack.Screen
           name="Home"
           component={HomePage}
           options={({ route, navigation }) => ({
+            cardStyleInterpolator: forFade,
             headerShown: true,
             title: 'Essentiel',
             headerStyle: {
@@ -62,6 +72,7 @@ const App = () => {
             name="AppOptions"
             component={AppOptionsScreen}
             options={({ route, navigation }) => ({
+              cardStyleInterpolator: forFade,
               headerShown: true,
               title: 'Settings',
               headerTintColor: 'white',
@@ -80,6 +91,7 @@ const App = () => {
             name="AddWorkout"
             component={AddWorkoutScreen}
             options={({ route, navigation }) => ({
+              cardStyleInterpolator: forFade,
               headerShown: true,
               title: 'Add Workout',
               headerTintColor: 'white',
