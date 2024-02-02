@@ -6,13 +6,13 @@ import AchievementCard from './AchievementCard';
 
 const ProfileScreen = () => {
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={{ alignItems: 'center' }}>
         <FontAwesome5Icon name="user-circle" size={100} color="white" />
         <Text style={styles.label}>John Doe</Text>
       </View>
 
-      <ScrollView>
         <Text style={styles.label}>My statistics</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={styles.statContainer}>
@@ -40,8 +40,22 @@ const ProfileScreen = () => {
         currentProgress={3}
         totalProgress={6}
         />
-      </ScrollView>
+
+        <AchievementCard
+        title="Achievement Title"
+        subtitle="Achievement Subtitle"
+        currentProgress={3}
+        totalProgress={6}
+        />
+
+        <AchievementCard
+        title="Achievement Title"
+        subtitle="Achievement Subtitle"
+        currentProgress={3}
+        totalProgress={6}
+        />
     </View>
+    </ScrollView>
   );
 };
 

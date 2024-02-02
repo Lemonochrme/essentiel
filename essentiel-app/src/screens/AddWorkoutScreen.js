@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Vibration } from 'react-native';
 import { Text, Button, Chip, IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomButton from './CustomButtom';
 
 const workoutTypes = ['Cardio', 'Strength Training', 'Yoga', 'HIIT'];
 const workoutIntensityLevels = [
@@ -219,15 +220,9 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           ))}
         </View>
       </ScrollView>
-
-      <Button
-        mode="contained"
-        onPress={saveWorkout}
-        disabled={isSaveButtonDisabled}
-        style={styles.saveButton}
-      >
-        Save Workout
-      </Button>
+      <View style={{ padding: 16 }}>
+        <CustomButton title="Save Workout" onPress={saveWorkout} disabled={isSaveButtonDisabled} />
+      </View>
     </View>
   );
 };
