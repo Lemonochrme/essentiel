@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native'; // Remove ToastAndroid import
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
 import SettingsMenu from './SettingsMenu';
 
 const AppOptionsScreen = () => {
