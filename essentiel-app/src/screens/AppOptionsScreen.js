@@ -52,27 +52,27 @@ const AppOptionsScreen = ({ navigation }) => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Card style={{ backgroundColor: '#161616', borderColor: '#282828', borderWidth: 1 }}>
-          <Card.Content>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <FontAwesome5Icon name="user-circle" size={50} color="white" style={{ marginRight: 16 }} />
-                <View style={{ top: -3 }}>
-                  <Title style={{ color: 'white' }}>Profile</Title>
-                  <Text style={{ color: 'white' }}>Edit Profile</Text>
+        <Pressable onPress={onPressEditProfile}>
+          <Card style={{ backgroundColor: '#161616', borderColor: '#282828', borderWidth: 1 }}>
+            <Card.Content>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <FontAwesome5Icon name="user-circle" size={50} color="white" style={{ marginRight: 16 }} />
+                  <View style={{ top: -3 }}>
+                    <Title style={{ color: 'white' }}>Profile</Title>
+                    <Text style={{ color: 'white' }}>Edit Profile</Text>
+                  </View>
                 </View>
+                <FontAwesome5Icon name="chevron-right" size={24} color="white" />
               </View>
-              <FontAwesome5Icon name="chevron-right" size={24} color="white" />
-            </View>
-          </Card.Content>
-        </Card>
+            </Card.Content>
+          </Card>
+        </Pressable>
 
         <View style={{ paddingTop: 16 }}>
           <SettingsMenu />
         </View>
-
-        <Button onPress={onPressEditProfile}>Edit profile</Button>
-
+        
         <Button
           mode="outlined"
           labelStyle={{ color: 'red' }}
