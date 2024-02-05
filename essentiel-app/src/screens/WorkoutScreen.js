@@ -5,13 +5,54 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WorkoutBarChart from './WorkoutBarChart';
 import FiveDaysCalendar from './SimpleCalendar';
+import WeekdaysChecker from './WeekdaysChecker';
 
 
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
-  const [workoutDays, setWorkoutDays] = useState([]);
-  const [chartData, setChartData] = useState([]);
-  const [totalTimeByDay, setTotalTimeByDay] = useState([0, 0, 0, 0, 0, 0, 0]); // Initialize with zeros for each day of the week (Sun - Sat)
+  const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
+
+  const calculateTotalWorkoutTimeByDay = async () => {
+    const storedData = await AsyncStorage.getItem('workoutData');
+    const workoutData = JSON.parse(storedData || '[]');
+    
+    // Helper function to convert duration string to minutes
+    const durationToMinutes = (duration) => parseInt(duration.split(' ')[0], 10);
+    
+    // Helper function to find the start of the current week (Monday)
+    const getStartOfWeek = (date) => {
+      const day = date.getDay(); // Get the current day of the week (0 for Sunday, 6 for Saturday)
+      const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust to previous Monday
+      return new Date(date.setDate(diff));
+    };
+  
+    // Determine the start and end of the current week
+    const now = new Date();
+    const startOfWeek = getStartOfWeek(new Date(now));
+    startOfWeek.setHours(0, 0, 0, 0); // Set to start of the day
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to end of the week
+    endOfWeek.setHours(23, 59, 59, 999); // Set to end of the day
+    
+    let weeklyTotal = Array(7).fill(0);
+    
+    workoutData.forEach((workout) => {
+      const workoutDate = new Date(workout.date);
+      if (workoutDate >= startOfWeek && workoutDate <= endOfWeek) {
+        const workoutDuration = durationToMinutes(workout.duration);
+        const dayOfWeek = workoutDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+        
+        // Adjust dayOfWeek if your week starts on Monday
+        const adjustedDayOfWeek = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // Adjust so Monday = 0, ..., Sunday = 6
+        
+        weeklyTotal[adjustedDayOfWeek] += workoutDuration;
+      }
+    });
+    
+    setTotalWorkoutTimeByDay(weeklyTotal);
+    console.log(weeklyTotal);
+  };
+  
 
   const getMessage = (percentage) => {
     if (percentage >= 100) {
@@ -26,80 +67,14 @@ const WorkoutScreen = ({ navigation }) => {
   };
 
   const handleAddWorkoutPress = () => {
-    // Navigate to the Workout Type screen when the FAB is pressed
     navigation.navigate('AddWorkout');
     Vibration.vibrate(70);
   };
 
-  const calculateWorkoutDays = async () => {
-    try {
-      const storedData = await AsyncStorage.getItem('workoutData');
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const today = new Date();
-        const currentWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // Start of current week (Monday)
-        const currentWeekEnd = new Date(currentWeekStart);
-        currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // End of current week (Sunday)
-        const workoutDates = parsedData
-          .filter((workout) => {
-            const workoutDate = new Date(workout.date);
-            return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
-          })
-          .map((workout) => new Date(workout.date).getDay());
-        setWorkoutDays(workoutDates);
-
-        // Calculate total time by day for the current week
-        const updatedTotalTimeByDay = [...totalTimeByDay]; // Create a copy of the current state
-        parsedData.forEach((workout) => {
-          const workoutDate = new Date(workout.date);
-          if (workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd) {
-            const dayIndex = workoutDate.getDay();
-            updatedTotalTimeByDay[dayIndex] += parseInt(workout.duration.split(' ')[0]);
-          }
-        });
-        setTotalTimeByDay(updatedTotalTimeByDay); // Update the state with the new values
-
-        // Set the chart data
-        setChartData(updatedTotalTimeByDay);
-      }
-    } catch (error) {
-      console.error('Error calculating workout days:', error);
-    }
-  };
-
   useEffect(() => {
-    // Function to calculate the total exercise time for the current week (from Monday to Sunday)
-    const calculateTotalWeekExerciseTime = async () => {
-      try {
-        const storedData = await AsyncStorage.getItem('workoutData');
-        if (storedData) {
-          const parsedData = JSON.parse(storedData);
-          const today = new Date();
-          const currentWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // Start of current week (Monday)
-          const currentWeekEnd = new Date(currentWeekStart);
-          currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // End of current week (Sunday)
-          const totalExerciseTime = parsedData
-            .filter((workout) => {
-              const workoutDate = new Date(workout.date);
-              return workoutDate >= currentWeekStart && workoutDate <= currentWeekEnd;
-            })
-            .reduce((total, workout) => total + parseInt(workout.duration.split(' ')[0]), 0);
-          setTotalWeekExerciseTime(totalExerciseTime);
-        }
-      } catch (error) {
-        console.error('Error calculating total week exercise time:', error);
-      }
-    };
-
-    // Initial calculation
-    calculateTotalWeekExerciseTime();
-    calculateWorkoutDays();
-
-    // Periodically fetch new data every second (adjust the interval as needed)
     const intervalId = setInterval(() => {
-      calculateTotalWeekExerciseTime();
-      calculateWorkoutDays();
-    }, 4000);
+      calculateTotalWorkoutTimeByDay();
+    }, 1000);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
@@ -107,30 +82,6 @@ const WorkoutScreen = ({ navigation }) => {
 
   const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
   const message = getMessage(percentage);
-
-  const renderWeekdays = () => {
-    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const today = new Date().getDay(); // Get the current day (0 for Sunday, 1 for Monday, etc.)
-    const adjustedToday = today === 0 ? 6 : today - 1; // Adjust the index to match the array
-  
-    return weekdays.map((day, index) => {
-      const workoutIndex = (index + 1) % 7; // Adjust the workoutDays index
-      return (
-        <View key={day} style={{ alignItems: 'center' }}>
-          <FontAwesome5Icon
-            name={workoutDays.includes(workoutIndex) ? 'check-square' : 'square'} // Check if the adjusted workoutDays index is in workoutDays
-            color={index === adjustedToday ? 'white' : workoutDays.includes(workoutIndex) ? 'white' : 'white'}
-            size={26}
-            solid={workoutDays.includes(workoutIndex)} // Add solid prop to fill the check-square icon
-          />
-          <Text style={{ color: 'white', fontSize: 18 }}>{day}</Text>
-        </View>
-      );
-    });
-  };
-  
-  
-  
 
   return (
     <View style={styles.container}>
@@ -161,10 +112,10 @@ const WorkoutScreen = ({ navigation }) => {
       </Card>
 
       <Text style={styles.label}>Overview</Text>
-      <View style={styles.weekdaysContainer}>{renderWeekdays()}</View>
+      <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView>
         <Text style={styles.label}>Workout Time</Text>
-        <WorkoutBarChart data={totalTimeByDay} />
+        <WorkoutBarChart data={totalWorkoutTimeByDay} />
       </ScrollView>
 
       <FAB
@@ -173,6 +124,7 @@ const WorkoutScreen = ({ navigation }) => {
         )}
         style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
         onPress={handleAddWorkoutPress}
+        animated={false}
       />
     </View>
   );
