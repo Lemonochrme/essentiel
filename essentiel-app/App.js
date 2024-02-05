@@ -5,6 +5,7 @@ import HomePage from './src/screens/HomePage';
 import AppOptionsScreen from './src/screens/AppOptionsScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
+import EditProfileScreen from './src/screens/EditProfile';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 
@@ -86,6 +87,25 @@ const App = () => {
               cardStyleInterpolator: forFade,
               headerShown: true,
               title: 'Settings',
+              headerTintColor: 'white',
+              headerShadowVisible: false,
+              headerStyle: {
+                backgroundColor: '#282828',
+              },
+              headerTitleStyle: {
+                fontWeight: '600',
+                color: 'white',
+              },
+            })}
+          />
+
+          <Stack.Screen
+            name="EditProfile"
+            component={EditProfileScreen}
+            options={({ route, navigation }) => ({
+              cardStyleInterpolator: forFade,
+              headerShown: true,
+              title: 'Edit Profile',
               headerTintColor: 'white',
               headerShadowVisible: false,
               headerStyle: {

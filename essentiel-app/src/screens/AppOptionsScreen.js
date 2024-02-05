@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native'; // Remove ToastAndroid import
+import { View, StyleSheet, Pressable } from 'react-native'; // Remove ToastAndroid import
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SettingsMenu from './SettingsMenu';
 
-const AppOptionsScreen = () => {
+const AppOptionsScreen = ({ navigation }) => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+  const onPressEditProfile = () => {
+    // Navigate to the EditProfile screen
+    navigation.navigate('EditProfile');
+  };
 
   const handleExportCSV = async () => {
     try {
@@ -65,6 +70,8 @@ const AppOptionsScreen = () => {
         <View style={{ paddingTop: 16 }}>
           <SettingsMenu />
         </View>
+
+        <Button onPress={onPressEditProfile}>Edit profile</Button>
 
         <Button
           mode="outlined"

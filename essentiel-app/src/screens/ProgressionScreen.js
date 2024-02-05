@@ -81,7 +81,13 @@ const ProgressionScreen = ({ navigation }) => {
             <Text style={styles.text}>Date: {new Date(item.date).toLocaleString()}</Text>
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
-            <Icon name="pen" size={24} color="white" onPress={handleDeleteConfirmation} style={{ position: 'absolute', top: 10, right: 10 }} />
+            <FontAwesome5Icon
+              name={'pen'} // Display check-square if workout day, else square
+              onPress={handleDeleteConfirmation}
+              color={'white'}
+              size={18}
+              style={{ position: 'absolute', top: 10, right: 10 }}
+            />
           </Card.Actions>
         </View>
       </Card>
