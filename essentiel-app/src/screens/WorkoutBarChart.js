@@ -43,7 +43,7 @@ const WorkoutBarChart = ({ data }) => {
                                 ]}
                             />
                             {selectedBarIndex === index && (
-                                <Text style={styles.value}>{value} min</Text>
+                                <Text style={styles.value}>{value}</Text>
                             )}
                             <Text style={styles.label}>
                                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white', // Change the color of the selected bar
     },
     label: {
-        color: 'grey',
+        color: 'white',
     },
     value: {
         fontWeight: 'bold',

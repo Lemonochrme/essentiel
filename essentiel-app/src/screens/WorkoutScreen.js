@@ -63,7 +63,7 @@ const WorkoutScreen = ({ navigation }) => {
     } else if (percentage === 0) {
       return "Let's get started by adding a workout!";
     } else {
-      return 'Keep up the good work!';
+      return `You've completed ${percentage}% of your weekly goal.`;
     }
   };
 

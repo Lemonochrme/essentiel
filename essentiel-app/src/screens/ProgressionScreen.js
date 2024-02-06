@@ -98,7 +98,6 @@ const ProgressionScreen = ({ navigation }) => {
     <View style={styles.container}>
       {noData ? (
         <View style={{ alignItems: 'center' }}>
-          <Image source={require('../../assets/illustration-bored-woman.png')} style={{ width: 300, height: 300 }} />
           <Text style={styles.noDataText}>No workout data available.</Text>
         </View>
       ) : (
@@ -131,6 +130,7 @@ const ProgressionScreen = ({ navigation }) => {
         )}
         style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
         onPress={handleAddWorkoutPress}
+        animated={false}
       />
     </View>
   );
