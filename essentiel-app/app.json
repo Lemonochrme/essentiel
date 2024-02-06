@@ -3,16 +3,20 @@
     "name": "Essentiel",
     "slug": "essentiel-app",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "extra": {
       "eas": {
         "projectId": "260f54d9-71fe-4716-8035-9431e2f57fba"
       }
     },
     "android": {
-      "package": "com.lemonochrome.essentielapp"
+      "package": "com.lemonochrome.essentielapp",
+      "icon": "./assets/icon.png"
+    },
+    "ios": {
+      "bundleIdentifier": "com.lemonochrome.essentielapp",
+      "icon": "./assets/icon.png",
+      "iconSize": 120
     }
   }
 }
