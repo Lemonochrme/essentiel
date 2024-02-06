@@ -5,7 +5,7 @@ import HomePage from './src/screens/HomePage';
 import AppOptionsScreen from './src/screens/AppOptionsScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
-import EditProfileScreen from './src/screens/EditProfile';
+import EditProfileScreen from './src/screens/Settings/EditProfile';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 

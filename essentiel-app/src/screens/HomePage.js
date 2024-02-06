@@ -11,8 +11,8 @@ import ProfileScreen from './ProfileScreen';
 const HomePage = ({ navigation }) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'workout', title: 'Workout', icon: 'dumbbell' },
-    { key: 'progression', title: 'Progression', icon: 'stats-chart' },
+    { key: 'workout', title: 'Home', icon: 'dumbbell' },
+    { key: 'progression', title: 'Stats', icon: 'stats-chart' },
     { key: 'profile', title: 'Profile', icon: 'user' }, // Add Profile route
   ]);
 
@@ -36,11 +36,11 @@ const HomePage = ({ navigation }) => {
         renderIcon={({ route, color }) => {
           switch (route.key) {
             case 'workout':
-              return <FontAwesome5 name="dumbbell" size={24} color={color} />;
+              return <FontAwesome5 name="home" size={24} color={color} />;
             case 'progression':
               return <Ionicons name="stats-chart" size={24} color={color} />;
             case 'profile':
-              return <Ionicons name="person" size={24} color={color} />; // Add Profile icon
+              return <Ionicons name="person" size={24} color={color} />;
             default:
               return null;
           }
@@ -48,7 +48,7 @@ const HomePage = ({ navigation }) => {
         barStyle={{ backgroundColor: '#282828' }}
         activeColor='white'
         inactiveColor='grey'
-        activeIndicatorStyle={{ backgroundColor: 'transparent' }}
+        activeIndicatorStyle={{ backgroundColor: 'transparent', opacity: 0}}
       />
     </>
   );

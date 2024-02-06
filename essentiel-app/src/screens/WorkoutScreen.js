@@ -51,7 +51,6 @@ const WorkoutScreen = ({ navigation }) => {
     
     setTotalWorkoutTimeByDay(weeklyTotal);
     setTotalWeekExerciseTime(weeklyTotal.reduce((acc, cur) => acc + cur, 0));
-    console.log(weeklyTotal);
   };
   
 

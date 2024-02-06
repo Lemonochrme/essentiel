@@ -146,10 +146,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     setSelectedSpecifics([]);
     setIntensityDescription('');
 
-    // Wait for 1 second before navigating back to the Home screen to let the time for saving the data
-    setTimeout(() => {
-      navigation.navigate('Home');
-    }, 200);
+    navigation.navigate('Home');
   };
 
   return (
