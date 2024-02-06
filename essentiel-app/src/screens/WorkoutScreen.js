@@ -113,7 +113,7 @@ const WorkoutScreen = ({ navigation }) => {
       </Card>
 
       <Text style={styles.label}>Overview</Text>
-      <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
+        <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView>
         <Text style={styles.label}>Workout Time</Text>
         <WorkoutBarChart data={totalWorkoutTimeByDay} />
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 16,
+    paddingVertical: 16,
   },
   weekdaysContainer: {
     flexDirection: 'row',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native'; // Remove ToastAndroid import
+import { View, StyleSheet, Pressable, Vibration } from 'react-native'; // Remove ToastAndroid import
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,7 @@ const AppOptionsScreen = ({ navigation }) => {
   const onPressEditProfile = () => {
     // Navigate to the EditProfile screen
     navigation.navigate('EditProfile');
+    Vibration.vibrate(70);
   };
 
   const handleExportCSV = async () => {

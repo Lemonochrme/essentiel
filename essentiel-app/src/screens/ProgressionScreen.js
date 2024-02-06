@@ -73,7 +73,7 @@ const ProgressionScreen = ({ navigation }) => {
     return (
       <Card style={styles.card}>
         <View style={{ flexDirection: 'row', position: 'relative' }}>
-          <Card.Content style={{ flex: 1 }}>
+          <Card.Content style={{ flex: 1, paddingBottom: 8 }}>
             <Title style={styles.title}>{item.type}</Title>
             <Text style={styles.text}>Intensity: {item.intensity}</Text>
             <Text style={styles.text}>Duration: {item.duration}</Text>
@@ -82,7 +82,7 @@ const ProgressionScreen = ({ navigation }) => {
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
             <FontAwesome5Icon
-              name={'pen'} // Display check-square if workout day, else square
+              name={'pen'}
               onPress={handleDeleteConfirmation}
               color={'white'}
               size={18}
