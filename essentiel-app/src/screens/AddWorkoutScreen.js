@@ -153,7 +153,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
 
-        <Text style={styles.label}>Select Workout Type</Text>
+        <Text style={styles.label}>Workout Type</Text>
         <View style={styles.chipContainer}>
           {workoutTypes.map((type) => (
             <Chip
@@ -169,7 +169,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
 
         {selectedType && workoutTypeOptions[selectedType] && (
           <>
-            <Text style={styles.label}>Select Specifics</Text>
+            <Text style={styles.label}>Specifics</Text>
             <View style={styles.chipContainer}>
               {workoutTypeOptions[selectedType].map((specific) => (
                 <Chip
@@ -185,7 +185,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           </>
         )}      
 
-        <Text style={styles.label}>Select Intensity</Text>
+        <Text style={styles.label}>Intensity</Text>
         <View style={styles.chipContainer}>
           {workoutIntensityLevels.map((intensity) => (
             <Chip
@@ -203,7 +203,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           <Text style={styles.intensityDescription}>{intensityDescription}</Text>
         )}
 
-        <Text style={styles.label}>Select Duration</Text>
+        <Text style={styles.label}>Duration</Text>
         <View style={styles.chipContainer}>
           {workoutDurations.map((duration) => (
             <Chip

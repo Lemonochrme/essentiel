@@ -90,7 +90,11 @@ const WorkoutScreen = ({ navigation }) => {
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
-              <FontAwesome5Icon name="fire-alt" size={50} color="white" />
+              <FontAwesome5Icon
+                name="fire-alt"
+                size={50}
+                color={totalWeekExerciseTime === 0 ? 'grey' : 'white'}
+              />
             </View>
             <View style={{ flex: 4 }}>
               {totalWeekExerciseTime === 0 ? (
@@ -98,7 +102,7 @@ const WorkoutScreen = ({ navigation }) => {
               ) : (
                 <Title style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>You're on fire!</Title>
               )}
-              <Text style={{ fontSize: 22, color: 'white' }}>
+              <Text style={{ fontSize: 18, color: 'white' }}>
                 {totalWeekExerciseTime === 0 ? 'Start by adding a workout' : message}
               </Text>
             </View>
