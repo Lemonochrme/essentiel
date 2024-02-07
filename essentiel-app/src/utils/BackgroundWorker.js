@@ -7,7 +7,7 @@ const BackgroundWorker = () => {
     const intervalId = setInterval(async () => {
       console.log('Running background tasks...');
       CalculateStatistics();
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, []);

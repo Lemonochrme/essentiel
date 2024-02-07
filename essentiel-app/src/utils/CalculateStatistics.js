@@ -41,8 +41,6 @@ const CalculateStatistics = async () => {
       averageDurationThisWeek
       // Add more statistics here as needed
     }));
-
-    console.log('Statistics calculated and stored successfully.');
   } catch (error) {
     console.error('Error calculating statistics:', error);
   }

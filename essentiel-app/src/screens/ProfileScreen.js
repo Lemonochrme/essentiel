@@ -5,7 +5,22 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AchievementCard from './AchievementCard';
 
 const ProfileScreen = () => {
+  const [statistics, setStatistics] = React.useState(null);
 
+  React.useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const storedStatistics = await AsyncStorage.getItem('statistics');
+        if (storedStatistics) {
+          setStatistics(JSON.parse(storedStatistics));
+        }
+      } catch (error) {
+        console.log('Error retrieving statistics:', error);
+      }
+    };
+
+    fetchStatistics();
+  }, []);    
 
   return (
     <ScrollView>
@@ -19,18 +34,18 @@ const ProfileScreen = () => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="chart-line" size={42} color="white" />
-            <Text style={styles.statLabel}>142</Text>
+            <Text style={styles.statLabel}>{statistics ? statistics.totalWorkouts : ''}</Text>
             <Text style={styles.subLabel}>Workouts completed</Text>
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="fire-alt" size={42} color="white" />
             <Text style={styles.statLabel}>44 days</Text>
-            <Text style={styles.subLabel}>Workouts completed</Text>
+            <Text style={styles.subLabel}>Maximum Streak</Text>
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="clock" size={42} color="white" />
             <Text style={styles.statLabel}>218 min</Text>
-            <Text style={styles.subLabel}>Workouts completed</Text>
+            <Text style={styles.subLabel}>In average per week</Text>
           </View>
         </View>
 
@@ -87,7 +102,7 @@ const styles = {
     color: 'white',
   },
   subLabel: {
-    fontSize: 14,
+    fontSize: 18,
     color: 'white',
     textAlign: 'center',
   },
