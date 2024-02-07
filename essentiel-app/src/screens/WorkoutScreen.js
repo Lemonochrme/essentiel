@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, StyleSheet, Text, ScrollView, Vibration } from 'react-native';
 import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';

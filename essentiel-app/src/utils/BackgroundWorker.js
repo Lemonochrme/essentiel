@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CalculateStatistics from './CalculateStatistics';
 
 const BackgroundWorker = () => {
   useEffect(() => {
@@ -8,8 +7,6 @@ const BackgroundWorker = () => {
       try {
         const data = await AsyncStorage.getItem('workoutData');
         if (data) {
-          CalculateStatistics(JSON.parse(data));
-          console.log('BackgroundWorker: Calculating and storing workout statistics')
         }
       } catch (error) {
         console.error('Error fetching workout data:', error);
