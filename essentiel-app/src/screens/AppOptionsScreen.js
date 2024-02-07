@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable, Vibration } from 'react-native'; // Remove ToastAndroid import
+import { View, StyleSheet, Pressable, Vibration, TouchableOpacity } from 'react-native';
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -53,7 +53,7 @@ const AppOptionsScreen = ({ navigation }) => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Pressable onPress={onPressEditProfile}>
+        <TouchableOpacity onPress={onPressEditProfile}>
           <Card style={{ backgroundColor: '#161616', borderColor: '#282828', borderWidth: 1 }}>
             <Card.Content>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -68,7 +68,7 @@ const AppOptionsScreen = ({ navigation }) => {
               </View>
             </Card.Content>
           </Card>
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={{ paddingTop: 16 }}>
           <SettingsMenu />

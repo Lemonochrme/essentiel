@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomButton from '../CustomButtom';
 
-const EditProfileScreen = () => {
+const EditProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [trainingTimeGoal, setTrainingTimeGoal] = useState('');
 
@@ -37,11 +38,14 @@ const EditProfileScreen = () => {
     } catch (error) {
       console.error('Error saving profile data:', error);
     }
+
+    // Navigate back to the previous screen
+    navigation.goBack();
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Name:</Text>
+      <Text style={styles.label}>Name</Text>
       <TextInput
         style={styles.input}
         value={name}
@@ -50,7 +54,7 @@ const EditProfileScreen = () => {
         placeholderTextColor="white"
       />
 
-      <Text style={styles.label}>Training Time per Week Goal (hours):</Text>
+      <Text style={styles.label}>Training Time per Week Goal (minutes)</Text>
       <TextInput
         style={styles.input}
         value={trainingTimeGoal}
@@ -60,7 +64,9 @@ const EditProfileScreen = () => {
         keyboardType="numeric"
       />
 
-      <Button title="Save" onPress={saveProfileData} />
+      <View style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
+        <CustomButton title="Save" onPress={saveProfileData} />
+      </View>
     </View>
   );
 };
