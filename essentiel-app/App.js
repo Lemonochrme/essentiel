@@ -14,7 +14,6 @@ import BackgroundWorker from './src/utils/BackgroundWorker';
 StatusBar.setBarStyle('light-content', true);
 
 const Stack = createStackNavigator();
-export const AppContext = React.createContext();
 
 const openAppOptions = ({ navigation }) => {
   navigation.navigate('AppOptions');
@@ -27,10 +26,7 @@ const forFade = ({ current, closing }) => ({
 });
 
 const App = () => {
-  const [sharedData, setSharedData] = useState("Hello from App.js!");
-
   return (
-    <AppContext.Provider value={{ sharedData, setSharedData }}>
     <PaperProvider theme={MD3DarkTheme}>
       <View style={{ flex: 1, backgroundColor: '#161616' }}>
       <BackgroundWorker />
@@ -138,7 +134,6 @@ const App = () => {
       </NavigationContainer>
       </View>
     </PaperProvider>
-    </AppContext.Provider>
   );
 };
 

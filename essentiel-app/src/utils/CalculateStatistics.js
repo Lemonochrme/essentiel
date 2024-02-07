@@ -1,55 +1,51 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CalculateStatistics = async (workoutData) => {
-  let totalWorkouts = 0;
-  let totalDuration = 0;
-  let weeklyAverageDuration = 0;
+const CalculateStatistics = async () => {
+  try {
+    // Retrieve workout data from AsyncStorage
+    const workoutDataJSON = await AsyncStorage.getItem('workoutData');
+    if (!workoutDataJSON) {
+      // Handle case where there is no workout data
+      console.log('No workout data found.');
+      return;
+    }
 
-  if (workoutData && workoutData.length > 0) {
-    totalWorkouts = workoutData.length;
+    const workoutData = JSON.parse(workoutDataJSON);
 
-    workoutData.forEach((workout) => {
-      totalDuration += parseDuration(workout.duration);
+    if (workoutData.length === 0) {
+      // Handle case where there are no workouts recorded
+      console.log('No workouts recorded.');
+      return;
+    }
+
+    // Calculate total number of workouts completed
+    const totalWorkouts = workoutData.length;
+
+    // Calculate dynamic week average workout duration
+    const today = new Date();
+    const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const workoutsThisWeek = workoutData.filter(
+      workout => new Date(workout.date) >= oneWeekAgo
+    );
+
+    let totalDurationThisWeek = 0;
+    workoutsThisWeek.forEach(workout => {
+      totalDurationThisWeek += parseInt(workout.duration);
     });
 
-    weeklyAverageDuration = calculateWeeklyAverageDuration(workoutData);
-  }
+    const averageDurationThisWeek = totalDurationThisWeek / workoutsThisWeek.length;
 
-  const statistics = {
-    totalWorkouts,
-    totalDuration,
-    weeklyAverageDuration
-  };
+    // Store calculated statistics back in AsyncStorage
+    await AsyncStorage.setItem('statistics', JSON.stringify({
+      totalWorkouts,
+      averageDurationThisWeek
+      // Add more statistics here as needed
+    }));
 
-  try {
-    await AsyncStorage.setItem('workoutStatistics', JSON.stringify(statistics));
-    console.log('Workout statistics stored:', statistics);
+    console.log('Statistics calculated and stored successfully.');
   } catch (error) {
-    console.error('Error storing workout statistics:', error);
+    console.error('Error calculating statistics:', error);
   }
 };
 
-const parseDuration = (durationString) => {
-  const [hours = 0, minutes = 0] = durationString.split(' ')[0].split('h').map(Number);
-  return hours * 60 + minutes;
-};
-
-const calculateWeeklyAverageDuration = (workoutData) => {
-  const today = new Date();
-  const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-  const workoutsWithinWeek = workoutData.filter((workout) => new Date(workout.date) >= sevenDaysAgo);
-
-  if (workoutsWithinWeek.length === 0) {
-    return 0;
-  }
-
-  let totalDuration = 0;
-  workoutsWithinWeek.forEach((workout) => {
-    totalDuration += parseDuration(workout.duration);
-  });
-
-  return totalDuration / workoutsWithinWeek.length;
-};
-
-export default calculateStatisticsAndStoreAsync;
+export default CalculateStatistics;

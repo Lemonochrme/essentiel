@@ -3,19 +3,16 @@ import { BottomNavigation } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Vibration } from 'react-native';
-import { AppContext } from './../../App'
 import WorkoutScreen from './WorkoutScreen'; 
 import ProgressionScreen from './../screens/ProgressionScreen'; 
 import ProfileScreen from './ProfileScreen';
 
 const HomePage = ({ navigation }) => {
-  const { sharedData } = useContext(AppContext);
-  console.log(sharedData);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'workout', title: 'Home', icon: 'dumbbell' },
     { key: 'progression', title: 'Stats', icon: 'stats-chart' },
-    { key: 'profile', title: 'Profile', icon: 'user' }, // Add Profile route
+    { key: 'profile', title: 'Profile', icon: 'user' },
   ]);
 
   const handleIndexChange = (index) => {
