@@ -40,11 +40,6 @@ const ProfileScreen = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{ alignItems: 'center' }}>
-          <FontAwesome5Icon name="user-circle" size={100} color="white" />
-          <Text style={styles.label}>{profile ? profile.name : ''}</Text>
-        </View>
-
         <Text style={styles.label}>My statistics</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={styles.statContainer}>
@@ -64,6 +59,8 @@ const ProfileScreen = () => {
           </View>
         </View>
 
+
+        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }}></View>
         <Text style={styles.label}>Achievements</Text>
 
         <AchievementCard

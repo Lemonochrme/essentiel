@@ -5,7 +5,6 @@ import CalculateStatistics from './CalculateStatistics';
 const BackgroundWorker = () => {
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      console.log('Running background tasks...');
       CalculateStatistics();
     }, 5000);
 

@@ -8,7 +8,6 @@ const EditProfileScreen = ({ navigation }) => {
   const [trainingTimeGoal, setTrainingTimeGoal] = useState('');
 
   useEffect(() => {
-    // Load saved profile data from AsyncStorage on component mount
     loadProfileData();
   }, []);
 

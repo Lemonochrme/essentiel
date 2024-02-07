@@ -2,11 +2,11 @@ import React, { createContext, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
-import AppOptionsScreen from './src/screens/AppOptionsScreen';
+import ParametersScreen from './src/screens/ParametersScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
 import EditProfileScreen from './src/screens/Settings/EditProfile';
-import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
+import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTheme } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
 
@@ -15,8 +15,8 @@ StatusBar.setBarStyle('light-content', true);
 
 const Stack = createStackNavigator();
 
-const openAppOptions = ({ navigation }) => {
-  navigation.navigate('AppOptions');
+const openParameters = ({ navigation }) => {
+  navigation.navigate('Parameters');
 };
 
 // Custom transition animation
@@ -25,9 +25,16 @@ const forFade = ({ current, closing }) => ({
   },
 });
 
+const EssentielTheme = {
+  ...DefaultTheme,
+  colors: {
+    onSurfaceVariant: "#ffff",
+  },
+};
+
 const App = () => {
   return (
-    <PaperProvider theme={MD3DarkTheme}>
+    <PaperProvider theme={EssentielTheme}>
       <View style={{ flex: 1, backgroundColor: '#161616' }}>
       <BackgroundWorker />
       <NavigationContainer>
@@ -65,14 +72,14 @@ const App = () => {
               <IconButton
                 icon="dots-vertical"
                 color="white"
-                onPress={() => openAppOptions({ navigation })}
+                onPress={() => openParameters({ navigation })}
               />
             ),
           })}
         />
         <Stack.Screen
-          name="AppOptions"
-          component={AppOptionsScreen}
+          name="Parameters"
+          component={ParametersScreen}
           options={({ route, navigation }) => ({
             cardStyleInterpolator: forFade,
             headerShown: true,
