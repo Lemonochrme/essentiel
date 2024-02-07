@@ -167,6 +167,8 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           ))}
         </View>
 
+        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
+
         {selectedType && workoutTypeOptions[selectedType] && (
           <>
             <Text style={styles.label}>Specifics</Text>
@@ -198,10 +200,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
             </Chip>
           ))}
         </View>
-
-        {intensityDescription !== '' && (
-          <Text style={styles.intensityDescription}>{intensityDescription}</Text>
-        )}
 
         <Text style={styles.label}>Duration</Text>
         <View style={styles.chipContainer}>

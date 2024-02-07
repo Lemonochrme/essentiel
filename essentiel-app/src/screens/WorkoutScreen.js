@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, StyleSheet, Text, ScrollView, Vibration, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Vibration, ActivityIndicator, Image } from 'react-native';
 import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -96,10 +96,9 @@ const WorkoutScreen = ({ navigation }) => {
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
-              <FontAwesome5Icon
-                name="fire-alt"
-                size={50}
-                color={totalWeekExerciseTime === 0 ? 'grey' : 'white'}
+              <Image
+                source={totalWeekExerciseTime === 0 ? require('./../../assets/icon-streak-grey.png') : require('./../../assets/icon-streak.png')}
+                style={{ width: 40, height: 74, left: 6 }}
               />
             </View>
             <View style={{ flex: 4 }}>

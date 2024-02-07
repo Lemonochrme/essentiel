@@ -60,7 +60,7 @@ const ProfileScreen = () => {
         </View>
 
 
-        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }}></View>
+        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
         <Text style={styles.label}>Achievements</Text>
 
         <AchievementCard
