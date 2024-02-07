@@ -6,20 +6,25 @@ import AchievementCard from './AchievementCard';
 
 const ProfileScreen = () => {
   const [statistics, setStatistics] = React.useState(null);
+  const [profile, setProfile] = React.useState(null);
 
   React.useEffect(() => {
-    const fetchStatistics = async () => {
+    const fetchData = async () => {
       try {
-        const storedStatistics = await AsyncStorage.getItem('statistics');
+        const storedStatistics = await AsyncStorage.getItem('statisticsData');
+        const storedProfile = await AsyncStorage.getItem('profileData');
         if (storedStatistics) {
           setStatistics(JSON.parse(storedStatistics));
+        }
+        if (storedProfile) {
+          setProfile(JSON.parse(storedProfile));
         }
       } catch (error) {
         console.log('Error retrieving statistics:', error);
       }
     };
 
-    fetchStatistics();
+    fetchData();
   }, []);    
 
   return (
@@ -27,7 +32,7 @@ const ProfileScreen = () => {
     <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
           <FontAwesome5Icon name="user-circle" size={100} color="white" />
-          <Text style={styles.label}>John Doe</Text>
+          <Text style={styles.label}>{profile ? profile.name : ''}</Text>
         </View>
 
         <Text style={styles.label}>My statistics</Text>
@@ -103,7 +108,7 @@ const styles = {
   },
   subLabel: {
     fontSize: 18,
-    color: 'white',
+    color: 'grey',
     textAlign: 'center',
   },
 };

@@ -36,11 +36,13 @@ const CalculateStatistics = async () => {
     const averageDurationThisWeek = totalDurationThisWeek / workoutsThisWeek.length;
 
     // Store calculated statistics back in AsyncStorage
-    await AsyncStorage.setItem('statistics', JSON.stringify({
+    await AsyncStorage.setItem('statisticsData', JSON.stringify({
       totalWorkouts,
       averageDurationThisWeek
       // Add more statistics here as needed
     }));
+
+    console.log('Statistics calculated and stored.');
   } catch (error) {
     console.error('Error calculating statistics:', error);
   }
