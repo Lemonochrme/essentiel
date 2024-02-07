@@ -125,6 +125,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   };
 
   const saveWorkout = () => {
+    setIsLoading(true);
     Vibration.vibrate(70);
     // Create a new workout object
     const newWorkout = {
@@ -167,8 +168,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           ))}
         </View>
 
-        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
-
         {selectedType && workoutTypeOptions[selectedType] && (
           <>
             <Text style={styles.label}>Specifics</Text>
@@ -187,6 +186,8 @@ const AddWorkoutScreen = ({ navigation, route }) => {
           </>
         )}      
 
+        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
+
         <Text style={styles.label}>Intensity</Text>
         <View style={styles.chipContainer}>
           {workoutIntensityLevels.map((intensity) => (
@@ -200,6 +201,8 @@ const AddWorkoutScreen = ({ navigation, route }) => {
             </Chip>
           ))}
         </View>
+
+        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
 
         <Text style={styles.label}>Duration</Text>
         <View style={styles.chipContainer}>
@@ -241,7 +244,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 16,
   },
   intensityDescription: {
     fontSize: 16,
@@ -253,9 +255,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: 8,
   },
+  loaderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   chip: {
     margin: 4,
-    backgroundColor: '#282828',
+    backgroundColor: 'white',
   },
   saveButton: {
     margin: 16,
