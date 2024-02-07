@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AchievementCard from './AchievementCard';
@@ -7,6 +7,7 @@ import AchievementCard from './AchievementCard';
 const ProfileScreen = () => {
   const [statistics, setStatistics] = React.useState(null);
   const [profile, setProfile] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -19,17 +20,26 @@ const ProfileScreen = () => {
         if (storedProfile) {
           setProfile(JSON.parse(storedProfile));
         }
+        setIsLoading(false);
       } catch (error) {
-        console.log('Error retrieving statistics:', error);
+        console.log('Error retrieving data:', error);
       }
     };
 
     fetchData();
   }, []);    
 
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loaderContainer]}>
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
-    <View style={styles.container}>
+      <View style={styles.container}>
         <View style={{ alignItems: 'center' }}>
           <FontAwesome5Icon name="user-circle" size={100} color="white" />
           <Text style={styles.label}>{profile ? profile.name : ''}</Text>
@@ -44,12 +54,12 @@ const ProfileScreen = () => {
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="fire-alt" size={42} color="white" />
-            <Text style={styles.statLabel}>44 days</Text>
+            <Text style={styles.statLabel}>0 days</Text>
             <Text style={styles.subLabel}>Maximum Streak</Text>
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="clock" size={42} color="white" />
-            <Text style={styles.statLabel}>218 min</Text>
+            <Text style={styles.statLabel}>{statistics ? statistics.averageDurationThisWeek : ''} min</Text>
             <Text style={styles.subLabel}>In average per week</Text>
           </View>
         </View>
@@ -57,26 +67,26 @@ const ProfileScreen = () => {
         <Text style={styles.label}>Achievements</Text>
 
         <AchievementCard
-        title="Achievement Title"
-        subtitle="Achievement Subtitle"
-        currentProgress={3}
-        totalProgress={6}
+          title="Achievement Title"
+          subtitle="Achievement Subtitle"
+          currentProgress={3}
+          totalProgress={6}
         />
 
         <AchievementCard
-        title="Achievement Title"
-        subtitle="Achievement Subtitle"
-        currentProgress={3}
-        totalProgress={6}
+          title="Achievement Title"
+          subtitle="Achievement Subtitle"
+          currentProgress={3}
+          totalProgress={6}
         />
 
         <AchievementCard
-        title="Achievement Title"
-        subtitle="Achievement Subtitle"
-        currentProgress={3}
-        totalProgress={6}
+          title="Achievement Title"
+          subtitle="Achievement Subtitle"
+          currentProgress={3}
+          totalProgress={6}
         />
-    </View>
+      </View>
     </ScrollView>
   );
 };
@@ -110,5 +120,9 @@ const styles = {
     fontSize: 18,
     color: 'grey',
     textAlign: 'center',
+  },
+  loaderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };

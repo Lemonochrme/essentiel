@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, StyleSheet, Text, ScrollView, Vibration } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Vibration, ActivityIndicator } from 'react-native';
 import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,8 +11,10 @@ import WeekdaysChecker from './WeekdaysChecker';
 const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
+  const [isLoading, setIsLoading] = useState(true);
 
   const calculateTotalWorkoutTimeByDay = async () => {
+    setIsLoading(true);
     const storedData = await AsyncStorage.getItem('workoutData');
     const workoutData = JSON.parse(storedData || '[]');
     
@@ -51,6 +53,7 @@ const WorkoutScreen = ({ navigation }) => {
     
     setTotalWorkoutTimeByDay(weeklyTotal);
     setTotalWeekExerciseTime(weeklyTotal.reduce((acc, cur) => acc + cur, 0));
+    setIsLoading(false);
   };
   
 
@@ -72,16 +75,19 @@ const WorkoutScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      calculateTotalWorkoutTimeByDay();
-    }, 1000);
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    calculateTotalWorkoutTimeByDay();
   }, []);
 
   const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
   const message = getMessage(percentage);
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loaderContainer]}>
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -140,6 +146,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     backgroundColor: '#161616',
+  },
+  loaderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   label: {
     fontSize: 20,

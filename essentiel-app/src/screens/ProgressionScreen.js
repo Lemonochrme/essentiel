@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Vibration, Image } from 'react-native';
+import { View, StyleSheet, FlatList, Vibration, Image, ActivityIndicator } from 'react-native';
 import { Card, Text, Title, Button, Portal, Modal, FAB } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,7 @@ const ProgressionScreen = ({ navigation }) => {
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [noData, setNoData] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleAddWorkoutPress = () => {
     // Navigate to the Workout Type screen when the FAB is pressed
@@ -19,6 +20,7 @@ const ProgressionScreen = ({ navigation }) => {
 
   const loadWorkoutData = async () => {
     try {
+      setIsLoading(true);
       const storedData = await AsyncStorage.getItem('workoutData');
       if (storedData) {
         const parsedData = JSON.parse(storedData).reverse();
@@ -28,6 +30,7 @@ const ProgressionScreen = ({ navigation }) => {
         setWorkoutData([]);
         setNoData(true);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error('Error loading workout data:', error);
     }
@@ -35,12 +38,6 @@ const ProgressionScreen = ({ navigation }) => {
 
   useEffect(() => {
     loadWorkoutData();
-
-    const refreshInterval = setInterval(() => {
-      loadWorkoutData();
-    }, 1000);
-
-    return () => clearInterval(refreshInterval);
   }, []);
 
   const showDeleteConfirmation = (workout) => {
@@ -69,7 +66,7 @@ const ProgressionScreen = ({ navigation }) => {
       showDeleteConfirmation(item);
       Vibration.vibrate(30);
     };
-  
+
     return (
       <Card style={styles.card}>
         <View style={{ flexDirection: 'row', position: 'relative' }}>
@@ -93,6 +90,14 @@ const ProgressionScreen = ({ navigation }) => {
       </Card>
     );
   };
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loaderContainer]}>
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }  
 
   return (
     <View style={styles.container}>
@@ -160,6 +165,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#161616',
     borderColor: '#282828',
     borderWidth: 1,
+  },
+  loaderContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cardActions: {
     justifyContent: 'flex-end',
