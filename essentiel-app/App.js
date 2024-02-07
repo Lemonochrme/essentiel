@@ -9,6 +9,8 @@ import EditProfileScreen from './src/screens/Settings/EditProfile';
 import { Provider as PaperProvider, MD3DarkTheme, ProgressBar, IconButton } from 'react-native-paper';
 import { View, StatusBar } from 'react-native';
 
+import BackgroundWorker from './src/utils/BackgroundWorker';
+
 // Status bar color white
 StatusBar.setBarStyle('light-content', true);
 
@@ -35,6 +37,7 @@ const App = () => {
   return (
     <PaperProvider theme={MD3DarkTheme}>
       <View style={{ flex: 1, backgroundColor: '#161616' }}>
+      <BackgroundWorker />
       <NavigationContainer>
         <Stack.Navigator
             initialRouteName="Home"
