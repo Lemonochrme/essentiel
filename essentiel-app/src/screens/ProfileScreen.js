@@ -16,7 +16,6 @@ const ProfileScreen = () => {
         const storedProfile = await AsyncStorage.getItem('profileData');
         if (storedStatistics) {
           setStatistics(JSON.parse(storedStatistics));
-          console.log('Stored statistics:', JSON.parse(storedStatistics));
         }
         if (storedProfile) {
           setProfile(JSON.parse(storedProfile));
