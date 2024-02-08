@@ -12,6 +12,7 @@ const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
   const [isLoading, setIsLoading] = useState(true);
+  const [statistics, setStatistics] = React.useState(null);
 
   const calculateTotalWorkoutTimeByDay = async () => {
     setIsLoading(true);
@@ -76,6 +77,18 @@ const WorkoutScreen = ({ navigation }) => {
 
   useEffect(() => {
     calculateTotalWorkoutTimeByDay();
+    const fetchData = async () => {
+      try {
+        const storedStatistics = await AsyncStorage.getItem('statisticsData');
+        if (storedStatistics) {
+          setStatistics(JSON.parse(storedStatistics));
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
@@ -96,10 +109,13 @@ const WorkoutScreen = ({ navigation }) => {
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
+            <View style={{ position: 'relative' }}>
               <Image
                 source={totalWeekExerciseTime === 0 ? require('./../../assets/icon-streak-grey.png') : require('./../../assets/icon-streak.png')}
-                style={{ width: 40, height: 74, left: 6 }}
+                style={{ width: 40, height: 74 }}
               />
+              <Text style={{ position: 'absolute', top: 42, left: 16, color: 'white', fontWeight: 'bold', fontSize: 16 }}>{statistics ? statistics.currentStreak : ''}</Text>
+            </View>
             </View>
             <View style={{ flex: 4 }}>
               {totalWeekExerciseTime === 0 ? (
