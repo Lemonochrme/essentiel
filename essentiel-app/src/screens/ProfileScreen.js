@@ -64,15 +64,15 @@ const ProfileScreen = () => {
         <Text style={styles.label}>Achievements</Text>
 
         <AchievementCard
-          title="Achievement Title"
-          subtitle="Achievement Subtitle"
+          title="Workout Master"
+          subtitle="Work out for 500 minutes!"
           currentProgress={3}
           totalProgress={6}
         />
 
         <AchievementCard
-          title="Achievement Title"
-          subtitle="Achievement Subtitle"
+          title="Weekender"
+          subtitle="Complete two workouts on the weekend!"
           currentProgress={3}
           totalProgress={6}
         />
