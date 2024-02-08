@@ -16,6 +16,7 @@ const ProfileScreen = () => {
         const storedProfile = await AsyncStorage.getItem('profileData');
         if (storedStatistics) {
           setStatistics(JSON.parse(storedStatistics));
+          console.log('Stored statistics:', JSON.parse(storedStatistics));
         }
         if (storedProfile) {
           setProfile(JSON.parse(storedProfile));
@@ -93,6 +94,7 @@ export default ProfileScreen;
 const styles = {
   container: {
     flex: 1,
+    height: '100%',
     paddingHorizontal: 16,
     paddingTop: 16,
     backgroundColor: '#161616',

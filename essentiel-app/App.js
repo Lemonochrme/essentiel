@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
@@ -10,8 +10,10 @@ import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTh
 import { View, StatusBar } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
 
+
 // Status bar color white
 StatusBar.setBarStyle('light-content', true);
+StatusBar.setBackgroundColor('#282828');
 
 const Stack = createStackNavigator();
 

@@ -6,7 +6,7 @@ const BackgroundWorker = () => {
   useEffect(() => {
     const intervalId = setInterval(async () => {
       CalculateStatistics();
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);

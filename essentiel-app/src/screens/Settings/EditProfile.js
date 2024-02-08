@@ -38,8 +38,7 @@ const EditProfileScreen = ({ navigation }) => {
       console.error('Error saving profile data:', error);
     }
 
-    // Navigate back to the previous screen
-    navigation.goBack();
+    navigation.navigate('Home');
   };
 
   return (
@@ -82,11 +81,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    backgroundColor: 'white',
+    backgroundColor: '#282828',
     padding: 10,
     borderRadius: 5,
     marginBottom: 16,
-    color: 'black',
+    color: 'white',
   },
 });
 

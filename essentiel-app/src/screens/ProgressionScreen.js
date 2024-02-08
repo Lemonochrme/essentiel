@@ -135,7 +135,6 @@ const ProgressionScreen = ({ navigation }) => {
         )}
         style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
         onPress={handleAddWorkoutPress}
-        animated={false}
       />
     </View>
   );

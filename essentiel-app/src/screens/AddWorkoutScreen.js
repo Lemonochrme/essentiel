@@ -125,7 +125,6 @@ const AddWorkoutScreen = ({ navigation, route }) => {
   };
 
   const saveWorkout = () => {
-    setIsLoading(true);
     Vibration.vibrate(70);
     // Create a new workout object
     const newWorkout = {

@@ -33,7 +33,7 @@ const CalculateStatistics = async () => {
       totalDurationThisWeek += parseInt(workout.duration);
     });
 
-    const averageDurationThisWeek = totalDurationThisWeek / workoutsThisWeek.length;
+    const averageDurationThisWeek = 3;
 
     // Store calculated statistics back in AsyncStorage
     await AsyncStorage.setItem('statisticsData', JSON.stringify({
