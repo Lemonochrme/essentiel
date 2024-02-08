@@ -15,6 +15,7 @@ import BackgroundWorker from './src/utils/BackgroundWorker';
 StatusBar.setBarStyle('light-content', true);
 StatusBar.setBackgroundColor('#282828');
 
+
 const Stack = createStackNavigator();
 
 const openParameters = ({ navigation }) => {

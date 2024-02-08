@@ -50,13 +50,13 @@ const ProfileScreen = () => {
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="fire-alt" size={42} color="white" />
-            <Text style={styles.statLabel}>0 days</Text>
-            <Text style={styles.subLabel}>Maximum Streak</Text>
+            <Text style={styles.statLabel}>{statistics ? statistics.longestStreak : '0'}</Text>
+            <Text style={styles.subLabel}>Longest Streak</Text>
           </View>
           <View style={styles.statContainer}>
             <FontAwesome5Icon name="clock" size={42} color="white" />
-            <Text style={styles.statLabel}>{statistics ? statistics.averageDurationThisWeek : ''} min</Text>
-            <Text style={styles.subLabel}>In average per week</Text>
+            <Text style={styles.statLabel}>{statistics ? statistics.averageDuration : ''} min</Text>
+            <Text style={styles.subLabel}>In average</Text>
           </View>
         </View>
 

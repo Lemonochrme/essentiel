@@ -21,24 +21,48 @@ const CalculateStatistics = async () => {
     // Calculate total number of workouts completed
     const totalWorkouts = workoutData.length;
 
-    // Calculate dynamic week average workout duration
-    const today = new Date();
-    const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const workoutsThisWeek = workoutData.filter(
-      workout => new Date(workout.date) >= oneWeekAgo
-    );
+    // Calculate total duration of all workouts
+    const totalDuration = workoutData.reduce((acc, workout) => {
+      // Extract duration from the workout and convert it to minutes
+      const durationInMinutes = parseInt(workout.duration);
+      return acc + durationInMinutes;
+    }, 0);
 
-    let totalDurationThisWeek = 0;
-    workoutsThisWeek.forEach(workout => {
-      totalDurationThisWeek += parseInt(workout.duration);
+    // Calculate average duration
+    const averageDuration = parseInt(totalDuration / totalWorkouts);
+
+    // Calculate current streak and longest streak
+    let currentStreak = 0;
+    let longestStreak = 0;
+    let currentDate = new Date().toISOString().split('T')[0]; // Get today's date
+    let lastWorkoutDate;
+
+    workoutData.forEach((workout) => {
+      const workoutDate = workout.date.split('T')[0];
+      if (workoutDate === currentDate) {
+        currentStreak++;
+      } else {
+        if (!lastWorkoutDate || lastWorkoutDate !== currentDate) {
+          currentStreak = 1;
+        } else {
+          currentStreak++;
+        }
+      }
+
+      if (currentStreak > longestStreak) {
+        longestStreak = currentStreak;
+      }
+
+      lastWorkoutDate = workoutDate;
+      currentDate = new Date(new Date(currentDate).getTime() - 86400000).toISOString().split('T')[0]; // Decrement current date by 1 day
     });
-
-    const averageDurationThisWeek = 3;
 
     // Store calculated statistics back in AsyncStorage
     await AsyncStorage.setItem('statisticsData', JSON.stringify({
       totalWorkouts,
-      averageDurationThisWeek
+      averageDuration,
+      currentStreak,
+      longestStreak
       // Add more statistics here as needed
     }));
   } catch (error) {
