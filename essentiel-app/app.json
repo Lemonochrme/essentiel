@@ -15,8 +15,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.lemonochrome.essentielapp",
-      "icon": "./assets/icon.png",
-      "iconSize": 120
+      "icon": "./assets/icon.png"
     }
   }
 }
