@@ -151,7 +151,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} overScrollMode="never">
 
         <Text style={styles.label}>Workout Type</Text>
         <View style={styles.chipContainer}>

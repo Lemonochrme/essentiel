@@ -38,7 +38,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView overScrollMode="never">
       <View style={styles.container}>
         <Text style={styles.label}>My statistics</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

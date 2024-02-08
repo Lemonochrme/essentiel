@@ -112,6 +112,7 @@ const ProgressionScreen = ({ navigation }) => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.flatListContainer}
           style={styles.flatList}
+          overScrollMode="never"
         />
       )}
 

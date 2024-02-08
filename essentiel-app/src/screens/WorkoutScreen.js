@@ -108,7 +108,7 @@ const WorkoutScreen = ({ navigation }) => {
       <Card style={{ backgroundColor: '#282828', marginTop: 16 }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center', left: 8 }}>
             <View style={{ position: 'relative' }}>
               <Image
                 source={totalWeekExerciseTime === 0 ? require('./../../assets/icon-streak-grey.png') : require('./../../assets/icon-streak.png')}
@@ -138,7 +138,7 @@ const WorkoutScreen = ({ navigation }) => {
 
       <Text style={styles.label}>Overview</Text>
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
-      <ScrollView>
+      <ScrollView overScrollMode="never">
         <Text style={styles.label}>Workout Time</Text>
         <WorkoutBarChart data={totalWorkoutTimeByDay} />
       </ScrollView>
