@@ -68,7 +68,7 @@ const ProfileScreen = () => {
             title="Workout Master"
             subtitle="Work out for 500 minutes!"
             currentProgress={statistics.totalDuration}
-            totalProgress={30}
+            totalProgress={500}
           />      
       </ScrollView>
     </View>
