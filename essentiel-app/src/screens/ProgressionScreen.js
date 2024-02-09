@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Vibration, Image, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, FlatList, Vibration, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Card, Text, Title, Button, Portal, Modal, FAB } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -78,13 +78,13 @@ const ProgressionScreen = ({ navigation }) => {
             <Text style={styles.text}>Date: {new Date(item.date).toLocaleString()}</Text>
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
-            <FontAwesome5Icon
-              name={'pen'}
-              onPress={handleDeleteConfirmation}
-              color={'white'}
-              size={18}
-              style={{ position: 'absolute', top: 10, right: 10 }}
-            />
+            <TouchableOpacity onPress={handleDeleteConfirmation} style={{ position: 'absolute', top: 10, right: 10 }}>
+              <FontAwesome5Icon
+                name={'pen'}
+                color={'white'}
+                size={18}
+              />
+            </TouchableOpacity>
           </Card.Actions>
         </View>
       </Card>
