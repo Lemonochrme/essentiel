@@ -19,7 +19,7 @@ const workoutIntensityLevels = [
     description: 'High intensity workouts are intense and may require more energy and effort.',
   },
 ];
-const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '60 minutes', '90 minutes', '120 minutes'];
+const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '40 minutes', '60 minutes', '90 minutes', '120 minutes'];
 
 // Configuration object for additional options per workout type
 const workoutTypeOptions = {
@@ -47,6 +47,7 @@ const workoutTypeOptions = {
   ],
   'Yoga': ['Hatha Yoga', 'Vinyasa Yoga', 'Power Yoga'],
   'HIIT': ['Tabata', 'Circuit', 'Interval'],
+  'Active Rest': ['Walking', 'Stretching', 'Foam Rolling', 'Meditation'],
 };
 
 const STORAGE_KEY = 'workoutData';
@@ -160,7 +161,14 @@ const AddWorkoutScreen = ({ navigation, route }) => {
               key={type}
               selected={selectedType === type}
               onPress={() => handleTypeSelection(type)}
-              style={styles.chip}
+              style={{
+                backgroundColor: selectedType === type ? '#FFFFFF' : '#282828',
+                borderColor: '#282828',
+                margin: 4,
+              }}
+              textStyle={{
+                color: selectedType === type ? '#282828' : '#FFFFFF'
+              }}
             >
               {type}
             </Chip>
@@ -176,7 +184,15 @@ const AddWorkoutScreen = ({ navigation, route }) => {
                   key={specific}
                   selected={selectedSpecifics.includes(specific)}
                   onPress={() => handleSpecificsSelection(specific)}
-                  style={styles.chip}
+                  style={{
+                      backgroundColor: selectedSpecifics.includes(specific) ? '#FFFFFF' : '#282828',
+                      borderColor: '#282828',
+                      borderWidth: 1,
+                      margin: 4,
+                  }}
+                  textStyle={{
+                    color: selectedSpecifics.includes(specific) ? '#282828' : '#FFFFFF',
+                  }}
                 >
                   {specific}
                 </Chip>
@@ -194,7 +210,14 @@ const AddWorkoutScreen = ({ navigation, route }) => {
               key={intensity.level}
               selected={selectedIntensity === intensity.level}
               onPress={() => handleIntensitySelection(intensity.level)}
-              style={styles.chip}
+              style={{
+                backgroundColor: selectedIntensity === intensity.level ? '#FFFFFF' : '#282828',
+                borderColor: '#282828',
+                margin: 4,
+              }}
+              textStyle={{
+                color: selectedIntensity === intensity.level ? '#282828' : '#FFFFFF'
+              }}
             >
               {intensity.level}
             </Chip>
@@ -210,7 +233,14 @@ const AddWorkoutScreen = ({ navigation, route }) => {
               key={duration}
               selected={selectedDuration === duration}
               onPress={() => handleDurationSelection(duration)}
-              style={styles.chip}
+              style={{
+                backgroundColor: selectedDuration === duration ? '#FFFFFF' : '#282828',
+                borderColor: '#282828',
+                margin: 4,
+              }}
+              textStyle={{
+                color: selectedDuration === duration ? '#282828' : '#FFFFFF'
+              }}
             >
               {duration}
             </Chip>
