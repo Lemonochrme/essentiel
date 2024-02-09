@@ -38,53 +38,40 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView overScrollMode="never">
-      <View style={styles.container}>
-        <Text style={styles.label}>My statistics</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={styles.statContainer}>
-            <FontAwesome5Icon name="chart-line" size={42} color="white" />
-            <Text style={styles.statLabel}>{statistics ? statistics.totalWorkouts : ''}</Text>
-            <Text style={styles.subLabel}>Workouts completed</Text>
+    <View style={styles.container}>
+      <ScrollView overScrollMode="never">
+        
+          <Text style={styles.label}>My statistics</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={styles.statContainer}>
+              <FontAwesome5Icon name="chart-line" size={42} color="white" />
+              <Text style={styles.statLabel}>{statistics ? statistics.totalWorkouts : ''}</Text>
+              <Text style={styles.subLabel}>Workouts completed</Text>
+            </View>
+            <View style={styles.statContainer}>
+              <FontAwesome5Icon name="fire-alt" size={42} color="white" />
+              <Text style={styles.statLabel}>{statistics ? statistics.longestStreak : '0'}</Text>
+              <Text style={styles.subLabel}>Longest Streak</Text>
+            </View>
+            <View style={styles.statContainer}>
+              <FontAwesome5Icon name="clock" size={42} color="white" />
+              <Text style={styles.statLabel}>{statistics ? statistics.averageDuration : ''} min</Text>
+              <Text style={styles.subLabel}>In average</Text>
+            </View>
           </View>
-          <View style={styles.statContainer}>
-            <FontAwesome5Icon name="fire-alt" size={42} color="white" />
-            <Text style={styles.statLabel}>{statistics ? statistics.longestStreak : '0'}</Text>
-            <Text style={styles.subLabel}>Longest Streak</Text>
-          </View>
-          <View style={styles.statContainer}>
-            <FontAwesome5Icon name="clock" size={42} color="white" />
-            <Text style={styles.statLabel}>{statistics ? statistics.averageDuration : ''} min</Text>
-            <Text style={styles.subLabel}>In average</Text>
-          </View>
-        </View>
 
 
-        <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
-        <Text style={styles.label}>Achievements</Text>
+          <View style={{ height: 2, width: '100%', backgroundColor: '#282828', borderRadius: 10, marginVertical: 16 }} />
+          <Text style={styles.label}>Achievements</Text>
 
-        <AchievementCard
-          title="Workout Master"
-          subtitle="Work out for 500 minutes!"
-          currentProgress={3}
-          totalProgress={6}
-        />
-
-        <AchievementCard
-          title="Weekender"
-          subtitle="Complete two workouts on the weekend!"
-          currentProgress={3}
-          totalProgress={6}
-        />
-
-        <AchievementCard
-          title="Achievement Title"
-          subtitle="Achievement Subtitle"
-          currentProgress={3}
-          totalProgress={6}
-        />
-      </View>
-    </ScrollView>
+          <AchievementCard
+            title="Workout Master"
+            subtitle="Work out for 500 minutes!"
+            currentProgress={statistics.totalDuration}
+            totalProgress={30}
+          />      
+      </ScrollView>
+    </View>
   );
 };
 

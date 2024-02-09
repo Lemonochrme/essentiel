@@ -22,7 +22,7 @@ const CalculateStatistics = async () => {
     const totalWorkouts = workoutData.length;
 
     // Calculate total duration of all workouts
-    const totalDuration = workoutData.reduce((acc, workout) => {
+    let totalDuration = workoutData.reduce((acc, workout) => {
       // Extract duration from the workout and convert it to minutes
       const durationInMinutes = parseInt(workout.duration);
       return acc + durationInMinutes;
@@ -30,6 +30,8 @@ const CalculateStatistics = async () => {
 
     // Calculate average duration
     const averageDuration = parseInt(totalDuration / totalWorkouts);
+
+    totalDuration = parseInt(totalDuration);
 
     // Calculate current streak and longest streak
     let currentStreak = 0;
@@ -62,8 +64,8 @@ const CalculateStatistics = async () => {
       totalWorkouts,
       averageDuration,
       currentStreak,
-      longestStreak
-      // Add more statistics here as needed
+      longestStreak,
+      totalDuration
     }));
   } catch (error) {
     console.error('Error calculating statistics:', error);

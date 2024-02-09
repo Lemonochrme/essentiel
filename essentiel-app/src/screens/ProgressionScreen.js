@@ -125,14 +125,14 @@ const ProgressionScreen = ({ navigation }) => {
           <Text style={styles.modalText}>Are you sure you want to delete this workout?</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
             <Button onPress={hideDeleteConfirmation}>Cancel</Button>
-            <Button onPress={deleteWorkout}>Confirm Delete</Button>
+            <Button onPress={deleteWorkout} textColor="red">Confirm Delete</Button>
           </View>
         </Modal>
       </Portal>
 
       <FAB
         icon={({ color, size }) => (
-          <FontAwesome5Icon name="plus" color={'black'} size={size} />
+          <FontAwesome5Icon name="plus" color={'#282828'} size={size} />
         )}
         style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
         onPress={handleAddWorkoutPress}
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 18,
     marginBottom: 16,
+    color: 'white',
   },
 });
 

@@ -12,7 +12,8 @@ const WorkoutScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
   const [isLoading, setIsLoading] = useState(true);
-  const [statistics, setStatistics] = React.useState(null);
+  const [statistics, setStatistics] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   const calculateTotalWorkoutTimeByDay = async () => {
     setIsLoading(true);
@@ -54,7 +55,6 @@ const WorkoutScreen = ({ navigation }) => {
     
     setTotalWorkoutTimeByDay(weeklyTotal);
     setTotalWeekExerciseTime(weeklyTotal.reduce((acc, cur) => acc + cur, 0));
-    setIsLoading(false);
   };
   
 
@@ -83,15 +83,22 @@ const WorkoutScreen = ({ navigation }) => {
         if (storedStatistics) {
           setStatistics(JSON.parse(storedStatistics));
         }
+
+        const storedProfile = await AsyncStorage.getItem('profileData');
+        if (storedProfile) {
+          setProfile(JSON.parse(storedProfile));
+        }
       } catch (error) {
         console.log('Error retrieving data:', error);
       }
+      setIsLoading(false);
     };
 
     fetchData();
   }, []);
 
-  const percentage = Math.min((totalWeekExerciseTime / 150) * 100, 100).toFixed(0); // 150 minutes for now
+  const goal = profile ? profile.trainingTimeGoal : 0;
+  const percentage = profile ? Math.min((totalWeekExerciseTime / goal) * 100, 100).toFixed(0) : 0;
   const message = getMessage(percentage);
 
   if (isLoading) {
@@ -129,7 +136,7 @@ const WorkoutScreen = ({ navigation }) => {
             </View>
           </View>
           <ProgressBar
-            progress={Math.min(totalWeekExerciseTime / 150, 1)} // 150 minutes for now
+            progress={Math.min(totalWeekExerciseTime / goal, 1)}
             color={'white'}
             style={{ borderRadius: 10, height: 10, marginTop: 16, backgroundColor: '#161616'}}
           />

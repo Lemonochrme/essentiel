@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const AchievementCard = ({ title, subtitle, currentProgress, totalProgress }) => {
   const completionText = `${currentProgress}/${totalProgress}`;
+  const isCompleted = currentProgress === totalProgress;
 
   return (
     <View style={styles.cardContainer}>
@@ -11,12 +13,17 @@ const AchievementCard = ({ title, subtitle, currentProgress, totalProgress }) =>
       <View style={styles.progressBarContainer}>
         <View style={styles.progressBarLabelContainer}>
           <Text style={styles.progressLabel}>Progress</Text>
-          <Text style={styles.progressText}>{completionText}</Text>
+          {isCompleted ? (
+            <FontAwesome5Icon name="check" style={styles.checkIcon} />
+          ) : (
+            <Text style={styles.progressText}>{completionText}</Text>
+          )}
         </View>
         <View style={styles.progressBar}>
           <View
             style={[
               styles.progressFiller,
+              isCompleted && { backgroundColor: 'lightgreen' },
               { width: `${(currentProgress / totalProgress) * 100}%` },
             ]}
           />
@@ -68,8 +75,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFiller: {
-    backgroundColor: 'white',
+    backgroundColor: 'white', // Default color
     height: '100%',
+  },
+  checkIcon: {
+    color: 'lightgreen',
+    fontSize: 20,
+    marginRight: 5,
   },
 });
 
