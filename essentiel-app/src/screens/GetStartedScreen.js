@@ -10,7 +10,6 @@ const GetStartedScreen = () => {
         <Text style={styles.subtitle}>Track your workouts and reach your goals</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Image source={require('../../assets/illustration-bored-woman.png')} style={styles.image} />
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton title="Get Started" onPress={() => {}} />
