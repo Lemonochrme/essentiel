@@ -60,13 +60,11 @@ const WorkoutScreen = ({ navigation }) => {
 
   const getMessage = (percentage) => {
     if (percentage >= 100) {
-      return "You've reached your weekly exercise goal!";
-    } else if (percentage >= 90) {
-      return 'Almost there. Keep going!';
+      return `You've reached your weekly exercise goal! Great job ${profile.name}!`;
     } else if (percentage === 0) {
-      return "Let's get started by adding a workout!";
+      return "No workout this week. Let's get started by adding a workout!";
     } else {
-      return `You've completed ${percentage}% of your weekly goal.`;
+      return `You've completed ${percentage}% of your weekly goal. You're doing great!`;
     }
   };
 
@@ -115,25 +113,13 @@ const WorkoutScreen = ({ navigation }) => {
       <Card style={{ backgroundColor: '#282828', marginTop: 16 }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center', left: 8 }}>
-            <View style={{ position: 'relative' }}>
-              <Image
-                source={totalWeekExerciseTime === 0 ? require('./../../assets/icon-streak-grey.png') : require('./../../assets/icon-streak.png')}
-                style={{ width: 40, height: 74 }}
-              />
-              <Text style={{ position: 'absolute', top: 42, left: 16, color: 'white', fontWeight: 'bold', fontSize: 16 }}>{statistics ? statistics.currentStreak : ''}</Text>
-            </View>
-            </View>
             <View style={{ flex: 4 }}>
-              {totalWeekExerciseTime === 0 ? (
-                <Title style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>No exercise this week</Title>
-              ) : (
-                <Title style={{ color: 'white', fontWeight: '600', fontSize: 24 }}>You're on fire!</Title>
-              )}
               <Text style={{ fontSize: 18, color: 'white' }}>
-                {totalWeekExerciseTime === 0 ? 'Start by adding a workout' : message}
+                {totalWeekExerciseTime === 0 ? "No workout this week. Let's get started by adding a workout!" : message}
               </Text>
             </View>
+            <View style={{ width: 2, height: '100%', backgroundColor: '#454545', marginHorizontal: 16 }} />
+            <FontAwesome5Icon name="fire-alt" size={42} color={totalWeekExerciseTime === 0 ? 'grey' : 'white'} />
           </View>
           <ProgressBar
             progress={Math.min(totalWeekExerciseTime / goal, 1)}

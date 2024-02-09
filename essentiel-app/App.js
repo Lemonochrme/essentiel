@@ -18,6 +18,7 @@ StatusBar.setBackgroundColor('#282828');
 
 const Stack = createStackNavigator();
 
+
 const openParameters = ({ navigation }) => {
   navigation.navigate('Parameters');
 };
@@ -32,6 +33,8 @@ const EssentielTheme = {
   ...DefaultTheme,
   colors: {
     onSurfaceVariant: "#ffff",
+    primary: '#ffff',
+    background: '#282828', 
   },
 };
 
