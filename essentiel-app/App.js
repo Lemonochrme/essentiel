@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './src/screens/HomePage';
 import ParametersScreen from './src/screens/ParametersScreen';
@@ -7,7 +7,7 @@ import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
 import EditProfileScreen from './src/screens/Settings/EditProfile';
 import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTheme } from 'react-native-paper';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, Animated } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
 
 
@@ -29,8 +29,9 @@ const forFade = ({ current, closing }) => ({
   },
 });
 
+
 const EssentielTheme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
     onSurfaceVariant: "#ffff",
     primary: '#ffff',
@@ -43,7 +44,7 @@ const App = () => {
     <PaperProvider theme={EssentielTheme}>
       <View style={{ flex: 1, backgroundColor: '#161616' }}>
       <BackgroundWorker />
-      <NavigationContainer>
+      <NavigationContainer theme={EssentielTheme}>
         <Stack.Navigator
             initialRouteName="Home"
             headerShown={false}
