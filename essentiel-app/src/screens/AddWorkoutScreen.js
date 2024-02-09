@@ -147,7 +147,7 @@ const AddWorkoutScreen = ({ navigation, route }) => {
     setSelectedSpecifics([]);
     setIntensityDescription('');
 
-    navigation.navigate('Home');
+    navigation.navigate('Congratulation');
   };
 
   return (

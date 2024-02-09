@@ -38,7 +38,7 @@ const WorkoutBarChart = ({ data }) => {
                             <View
                                 style={[
                                     styles.bar,
-                                    { height: `${(value / maxValue) * 70}%` },
+                                    { height: `${(value / maxValue) * 76}%` },
                                     selectedBarIndex === index ? styles.selectedBar : null,
                                 ]}
                             />
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#161616',
         borderColor: '#282828',
         borderWidth: 1,
+        borderRadius: 24,
     },
     titleContainer: {
         marginLeft: 10, // Adjust the margin as needed
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-end',
-        height: 120,
+        height: 150,
     },
     barContainer: {
         alignItems: 'center',

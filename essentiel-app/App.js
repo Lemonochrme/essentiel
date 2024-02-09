@@ -6,6 +6,7 @@ import ParametersScreen from './src/screens/ParametersScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
 import EditProfileScreen from './src/screens/Settings/EditProfile';
+import CongratulationScreen from './src/screens/CongratulationScreen';
 import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTheme } from 'react-native-paper';
 import { View, StatusBar, Animated } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
@@ -144,6 +145,18 @@ const App = () => {
             ),
           })}
         />
+        <Stack.Screen
+          name="Congratulation"
+          component={CongratulationScreen}
+          options={({ route, navigation }) => ({
+            cardStyleInterpolator: forFade,
+            headerShown: false,
+          })}
+        />
+
+
+
+
         </Stack.Navigator>
       </NavigationContainer>
       </View>
