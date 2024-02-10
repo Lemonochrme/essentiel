@@ -7,6 +7,7 @@ import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
 import GetStartedScreen from './src/screens/GetStartedScreen';
 import EditProfileScreen from './src/screens/Settings/EditProfile';
 import CongratulationScreen from './src/screens/CongratulationScreen';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTheme } from 'react-native-paper';
 import { View, StatusBar, Animated } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
@@ -47,7 +48,7 @@ const App = () => {
       <BackgroundWorker />
       <NavigationContainer theme={EssentielTheme}>
         <Stack.Navigator
-            initialRouteName="Home"
+            initialRouteName="Onboarding"
             headerShown={false}
             screenOptions={{
               animationEnabled: true,
@@ -153,7 +154,14 @@ const App = () => {
             headerShown: false,
           })}
         />
-
+        <Stack.Screen
+          name="Onboarding"
+          component={OnboardingScreen}
+          options={({ route, navigation }) => ({
+            cardStyleInterpolator: forFade,
+            headerShown: false,
+          })}
+        />
 
         </Stack.Navigator>
       </NavigationContainer>

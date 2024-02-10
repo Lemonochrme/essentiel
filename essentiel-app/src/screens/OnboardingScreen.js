@@ -1,0 +1,143 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Keyboard, TouchableOpacity, Image } from 'react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import LottieView from 'lottie-react-native';
+import CustomButton from './CustomButtom';
+
+const OnboardingScreen = ({ navigation }) => {
+    const [name, setName] = useState('');
+    const [isValid, setIsValid] = useState(false);
+    const [selectedGender, setSelectedGender] = useState(null);
+    const [showWelcomeText, setShowWelcomeText] = useState(false);
+
+    const handleNameChange = (text) => {
+        setName(text);
+        setIsValid(text.trim().length > 0);
+    };
+
+    const handleGenderSelection = (gender) => {
+        setSelectedGender(gender);
+    };
+
+    const handleContinue = () => {
+        Keyboard.dismiss();
+        setShowWelcomeText(true);
+        setTimeout(() => {
+            setShowWelcomeText(false);
+            navigation.navigate('Home');
+        }, 1000); // 1 second delay
+    };
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.contentContainer}>
+                <View>
+                    <Image source={require('../../assets/logo.png')} style={{ width: 1768 / 8, height: 408 / 8, alignSelf: 'center', marginTop: 16 }} />
+                    <View style={{ height: 2, width: '100%', backgroundColor: '#161616', borderRadius: 10, marginVertical: 16 }} />
+                    <Text style={styles.label}>What's your name ?</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={name}
+                        onChangeText={handleNameChange}
+                        placeholder="Enter your name"
+                        placeholderTextColor="white"
+                    />
+                    <Text style={styles.label}>What's your gender ?</Text>
+                    <View style={styles.genderContainer}>
+                        <TouchableOpacity
+                            style={[styles.genderCard, selectedGender === 'male' && styles.selectedCard]}
+                            onPress={() => handleGenderSelection('male')}
+                        >
+                            <FontAwesome5Icon name="mars" size={50} color="white" />
+                            <Text style={styles.text}>Male</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.genderCard, selectedGender === 'female' && styles.selectedCard]}
+                            onPress={() => handleGenderSelection('female')}
+                        >
+                            <FontAwesome5Icon name="venus" size={50} color="white" />
+                            <Text style={styles.text}>Female</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+            <CustomButton
+                title="Continue"
+                onPress={handleContinue}
+                disabled={!isValid || !selectedGender}
+            />
+            {showWelcomeText && (
+                <View style={styles.overlay}>
+                    <Text style={styles.welcomeText}>Let's get started!</Text>
+                    <LottieView
+                        source={require('../../assets/confetti.json')}
+                        autoPlay
+                        loop={true}
+                        style={StyleSheet.absoluteFill}
+                    />
+                </View>
+            )}
+        </View>
+    );
+}
+
+export default OnboardingScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#161616',
+        padding: 16,
+        justifyContent: 'space-between',
+    },
+    contentContainer: {
+        flex: 1,
+        marginTop: 20,
+    },
+    label: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        paddingVertical: 16,
+    },
+    text: {
+        color: 'white',
+        fontSize: 20,     
+    },
+    input: {
+        backgroundColor: '#282828',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 16,
+        color: 'white',
+    },
+    genderContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+    },
+    genderCard: {
+        width: '48%',
+        backgroundColor: '#161616',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderColor: '#282828',
+        height: 200,
+    },
+    selectedCard: {
+        borderColor: 'white',
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: '#161616',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    welcomeText: {
+        fontSize: 24,
+        color: 'white',
+    },
+});

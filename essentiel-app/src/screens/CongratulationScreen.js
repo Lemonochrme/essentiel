@@ -6,7 +6,6 @@ import CustomButton from './CustomButtom';
 const CongratulationScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            {/* LottieView with absolute positioning */}
             <LottieView
                 source={require('../../assets/confetti.json')}
                 autoPlay
