@@ -14,7 +14,6 @@ const CalculateStatistics = async () => {
 
     if (workoutData.length === 0) {
       // Handle case where there are no workouts recorded
-      console.log('No workouts recorded.');
       return;
     }
 
