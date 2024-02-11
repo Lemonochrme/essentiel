@@ -6,6 +6,7 @@ import CustomButton from '../CustomButtom';
 const EditProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [trainingTimeGoal, setTrainingTimeGoal] = useState('');
+  const [gender, setGender] = useState('');
 
   useEffect(() => {
     loadProfileData();
@@ -18,6 +19,7 @@ const EditProfileScreen = ({ navigation }) => {
       if (savedData) {
         const parsedData = JSON.parse(savedData);
         setName(parsedData.name || '');
+        setGender(parsedData.gender || '');
         setTrainingTimeGoal(parsedData.trainingTimeGoal || '');
       }
     } catch (error) {
@@ -25,46 +27,9 @@ const EditProfileScreen = ({ navigation }) => {
     }
   };
 
-  const saveProfileData = async () => {
-    try {
-      // Save the updated profile data to AsyncStorage
-      const profileData = {
-        name,
-        trainingTimeGoal,
-      };
-      await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
-      console.log('Profile data saved:', profileData);
-    } catch (error) {
-      console.error('Error saving profile data:', error);
-    }
-
-    navigation.navigate('Home');
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Name</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={(text) => setName(text)}
-        placeholder="Enter your name"
-        placeholderTextColor="white"
-      />
-
-      <Text style={styles.label}>Training Time per Week Goal (minutes)</Text>
-      <TextInput
-        style={styles.input}
-        value={trainingTimeGoal}
-        onChangeText={(text) => setTrainingTimeGoal(text)}
-        placeholder="Enter your goal"
-        placeholderTextColor="white"
-        keyboardType="numeric"
-      />
-
-      <View style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
-        <CustomButton title="Save" onPress={saveProfileData} />
-      </View>
+      <Text style={styles.label}>In dev</Text>
     </View>
   );
 };
@@ -79,13 +44,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     marginBottom: 8,
-  },
-  input: {
-    backgroundColor: '#282828',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 16,
-    color: 'white',
   },
 });
 

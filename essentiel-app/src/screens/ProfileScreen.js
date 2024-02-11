@@ -19,6 +19,7 @@ const ProfileScreen = () => {
         }
         if (storedProfile) {
           setProfile(JSON.parse(storedProfile));
+          console.log(storedProfile);
         }
         setIsLoading(false);
       } catch (error) {

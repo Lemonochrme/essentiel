@@ -1,15 +1,15 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomePage from './src/screens/HomePage';
 import ParametersScreen from './src/screens/ParametersScreen';
 import AddWorkoutScreen from './src/screens/AddWorkoutScreen';
-import GetStartedScreen from './src/screens/GetStartedScreen';
 import EditProfileScreen from './src/screens/Settings/EditProfile';
 import CongratulationScreen from './src/screens/CongratulationScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import { Provider as PaperProvider, ProgressBar, IconButton, useTheme, DefaultTheme } from 'react-native-paper';
-import { View, StatusBar, Animated } from 'react-native';
+import { View, StatusBar, ActivityIndicator, Image } from 'react-native';
 import BackgroundWorker from './src/utils/BackgroundWorker';
 
 
@@ -42,26 +42,42 @@ const EssentielTheme = {
 };
 
 const App = () => {
+  const [onboardingCompleted, setOnboardingCompleted] = useState(null);
+
+  useEffect(() => {
+    checkOnboardingStatus();
+  }, []);
+
+  const checkOnboardingStatus = async () => {
+    try {
+      const onboardingStatus = await AsyncStorage.getItem('onboardingCompleted');
+      setOnboardingCompleted(onboardingStatus === 'true');
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+    }
+  };
+
+  if (onboardingCompleted === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#161616' }}>
+        <Image source={require('./assets/logo.png')} style={{ width: 1768 / 8, height: 408 / 8, alignSelf: 'center', marginVertical: 16 }} />
+        <ActivityIndicator size="large" color="#ffff" />
+      </View>
+    );
+  }
+
   return (
     <PaperProvider theme={EssentielTheme}>
       <View style={{ flex: 1, backgroundColor: '#161616' }}>
       <BackgroundWorker />
       <NavigationContainer theme={EssentielTheme}>
         <Stack.Navigator
-            initialRouteName="Onboarding"
+            initialRouteName={onboardingCompleted ? "Home" : "Onboarding"}
             headerShown={false}
             screenOptions={{
               animationEnabled: true,
             }}
         >
-        <Stack.Screen
-          name="GetStarted"
-          component={GetStartedScreen}
-          options={({ route, navigation }) => ({
-            cardStyleInterpolator: forFade,
-            headerShown: false,
-          })}
-        />
         <Stack.Screen
           name="Home"
           component={HomePage}

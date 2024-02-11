@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Keyboard, TouchableOpacity, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
 import CustomButton from './CustomButtom';
@@ -13,7 +14,7 @@ const OnboardingScreen = ({ navigation }) => {
     const [selectedValue, setSelectedValue] = useState(0);
 
     const handleValueChange = (value) => {
-      setSelectedValue(value);
+        setSelectedValue(value);
     };
 
     const handleNameChange = (text) => {
@@ -22,16 +23,33 @@ const OnboardingScreen = ({ navigation }) => {
     };
 
     const handleGenderSelection = (gender) => {
+        Keyboard.dismiss();
         setSelectedGender(gender);
     };
 
-    const handleContinue = () => {
+    const handleContinue = async () => {
         Keyboard.dismiss();
         setShowWelcomeText(true);
-        setTimeout(() => {
-            setShowWelcomeText(false);
-            navigation.navigate('Home');
-        }, 1000); // 1 second delay
+        
+        const profileData = {
+            name,
+            gender: selectedGender,
+            trainingTimeGoal: selectedValue,
+        };
+
+        try {
+            await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
+            // Set onboarding completed flag to true
+            await AsyncStorage.setItem('onboardingCompleted', 'true');
+
+            setTimeout(() => {
+                setShowWelcomeText(false);
+                navigation.navigate('Home');
+            }, 1000); // 1 second delay
+        } catch (error) {
+            console.error('Error saving profile data:', error);
+            // Handle error saving data
+        }
     };
 
     return (
@@ -39,7 +57,7 @@ const OnboardingScreen = ({ navigation }) => {
             <View style={styles.contentContainer}>
                 <View>
                     <Image source={require('../../assets/logo.png')} style={{ width: 1768 / 8, height: 408 / 8, alignSelf: 'center', marginTop: 16 }} />
-                    <View style={{ height: 2, width: '100%', backgroundColor: '#161616', borderRadius: 10, marginVertical: 16 }} />
+                    <View style={{ height: 2, width: '100%', backgroundColor: '#161616', borderRadius: 10 }} />
                     <Text style={styles.label}>What's your name ?</Text>
                     <TextInput
                         style={styles.input}
@@ -76,7 +94,8 @@ const OnboardingScreen = ({ navigation }) => {
             />
             {showWelcomeText && (
                 <View style={styles.overlay}>
-                    <Text style={styles.welcomeText}>Let's get started!</Text>
+                    <Image source={require('../../assets/illustration-get-started.png')} style={{ width: 1003/3, height: 825/3, marginTop: 16 }} />
+                    <Text style={styles.welcomeText}>Welcome {name}!</Text>
                     <LottieView
                         source={require('../../assets/confetti.json')}
                         autoPlay
@@ -145,7 +164,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     welcomeText: {
-        fontSize: 24,
+        fontSize: 30,
+        fontWeight: 'bold',
         color: 'white',
     },
 });
