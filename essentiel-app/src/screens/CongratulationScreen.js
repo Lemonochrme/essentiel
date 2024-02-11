@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Vibration } from 'react-native';
 import LottieView from 'lottie-react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from './CustomButtom';
@@ -10,9 +10,9 @@ const CongratulationScreen = ({ navigation }) => {
             <LottieView
                 source={require('../../assets/confetti-alt.json')}
                 autoPlay
-                speed={1}
+                speed={2}
                 loop={false}
-                style={StyleSheet.absoluteFill}
+                style={{ position: 'absolute', width: 350, height: 350, alignSelf: 'center', top: 180 }}
             />
             <Image
                 source={require('../../assets/illustration-get-started.png')}
