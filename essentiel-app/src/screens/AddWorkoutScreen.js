@@ -19,7 +19,7 @@ const workoutIntensityLevels = [
     description: 'High intensity workouts are intense and may require more energy and effort.',
   },
 ];
-const workoutDurations = ['15 minutes', '30 minutes', '45 minutes', '40 minutes', '60 minutes', '90 minutes', '120 minutes'];
+const workoutDurations = ['15 minutes', '30 minutes', '40 minutes', '45 minutes', '60 minutes', '90 minutes', '120 minutes'];
 
 // Configuration object for additional options per workout type
 const workoutTypeOptions = {

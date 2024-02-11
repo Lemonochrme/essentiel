@@ -1,22 +1,28 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from './CustomButtom';
 
 const CongratulationScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <LottieView
-                source={require('../../assets/confetti.json')}
+                source={require('../../assets/confetti-alt.json')}
                 autoPlay
+                speed={1}
                 loop={false}
                 style={StyleSheet.absoluteFill}
             />
-            <Text style={{ color: '#FFFFFF', textAlign: 'center', fontSize: 40, fontWeight: 'bold', marginTop: 200 }}>242 points</Text>
             <Image
-                source={require('../../assets/illustration-victory-male.png')}
-                style={{ width: 666 / 3, height: 954 / 3, alignSelf: 'center' }}
+                source={require('../../assets/illustration-get-started.png')}
+                style={{ width: 1003 / 3, height: 825 / 3, alignSelf: 'center', top: 64 }}
             />
+            <View>
+                <FontAwesome5Icon name="check" size={64} color="white" style={{ alignSelf: 'center' }} />
+                <Text style={{ color: '#FFFFFF', textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>You successfully added a new workout !</Text>
+                <Text style={{ color: 'grey', textAlign: 'center', fontSize: 24 }}>Every step counts</Text>
+            </View>
             <CustomButton title="Got it !" onPress={() => navigation.navigate('Home')} />
         </View>
     );
@@ -30,5 +36,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#161616',
         justifyContent: 'space-between',
         padding: 16,
+        paddingTop: 64,
     },
 });
