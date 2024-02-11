@@ -84,14 +84,16 @@ const OnboardingScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.label}>And your weekly goal ?</Text>
-                    <NumberPicker minValue={100} maxValue={300} step={10} onValueChange={handleValueChange} />
+                    <NumberPicker minValue={100} maxValue={400} step={10} onValueChange={handleValueChange} />
+                    <Text style={{ color: "grey", fontSize: 16, paddingVertical: 32 }}>The WHO recommends dedicating at least 150 to 300 minutes per week to moderate-intensity activity.</Text>
+                    <CustomButton
+                        title="Continue"
+                        onPress={handleContinue}
+                        disabled={!isValid || !selectedGender}
+                    />
                 </View>
             </View>
-            <CustomButton
-                title="Continue"
-                onPress={handleContinue}
-                disabled={!isValid || !selectedGender}
-            />
+
             {showWelcomeText && (
                 <View style={styles.overlay}>
                     <Image source={require('../../assets/illustration-get-started.png')} style={{ width: 1003/3, height: 825/3, marginTop: 16 }} />

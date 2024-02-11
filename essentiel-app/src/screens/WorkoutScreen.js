@@ -133,6 +133,7 @@ const WorkoutScreen = ({ navigation }) => {
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView overScrollMode="never">
         <Text style={styles.label}>Workout Time</Text>
+        {totalWeekExerciseTime !== 0 && <Text style={{ color: 'grey', fontSize: 16 }}>You exercised {totalWeekExerciseTime} minutes this week.</Text>}
         <WorkoutBarChart data={totalWorkoutTimeByDay} />
       </ScrollView>
 
