@@ -3,12 +3,18 @@ import { View, Text, StyleSheet, TextInput, Keyboard, TouchableOpacity, Image } 
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
 import CustomButton from './CustomButtom';
+import NumberPicker from '../components/NumberPicker';
 
 const OnboardingScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [selectedGender, setSelectedGender] = useState(null);
     const [showWelcomeText, setShowWelcomeText] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(0);
+
+    const handleValueChange = (value) => {
+      setSelectedValue(value);
+    };
 
     const handleNameChange = (text) => {
         setName(text);
@@ -59,6 +65,8 @@ const OnboardingScreen = ({ navigation }) => {
                             <Text style={styles.text}>Female</Text>
                         </TouchableOpacity>
                     </View>
+                    <Text style={styles.label}>And your weekly goal ?</Text>
+                    <NumberPicker minValue={100} maxValue={300} step={10} onValueChange={handleValueChange} />
                 </View>
             </View>
             <CustomButton
