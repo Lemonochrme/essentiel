@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, Vibration } from 'react-native';
 import LottieView from 'lottie-react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import CustomButton from './CustomButtom';
+import CustomButton from '../components/CustomButtom';
 
 const CongratulationScreen = ({ navigation }) => {
     return (

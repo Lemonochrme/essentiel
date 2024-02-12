@@ -4,12 +4,12 @@ import { Card, FAB, ProgressBar, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LottieView from 'lottie-react-native';
-import WorkoutBarChart from './WorkoutBarChart';
-import FiveDaysCalendar from './SimpleCalendar';
-import WeekdaysChecker from './WeekdaysChecker';
+import WorkoutBarChart from '../components/WorkoutBarChart';
+import FiveDaysCalendar from '../components/SimpleCalendar';
+import WeekdaysChecker from '../components/WeekdaysChecker';
 
 
-const WorkoutScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
   const [isLoading, setIsLoading] = useState(true);
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WorkoutScreen;
+export default HomeScreen;

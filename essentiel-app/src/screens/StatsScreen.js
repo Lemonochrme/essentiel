@@ -5,7 +5,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProgressionScreen = ({ navigation }) => {
+const StatsScreen = ({ navigation }) => {
   const [workoutData, setWorkoutData] = useState([]);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -192,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProgressionScreen;
+export default StatsScreen;

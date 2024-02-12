@@ -3,8 +3,8 @@ import { BottomNavigation } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Vibration } from 'react-native';
-import WorkoutScreen from './WorkoutScreen'; 
-import ProgressionScreen from './../screens/ProgressionScreen'; 
+import HomeScreen from './HomeScreen'; 
+import StatsScreen from './StatsScreen'; 
 import ProfileScreen from './ProfileScreen';
 
 const HomePage = ({ navigation }) => {
@@ -21,8 +21,8 @@ const HomePage = ({ navigation }) => {
   };
 
   const renderScene = BottomNavigation.SceneMap({
-    workout: () => <WorkoutScreen navigation={navigation} />,
-    progression: () => <ProgressionScreen navigation={navigation} />,
+    workout: () => <HomeScreen navigation={navigation} />,
+    progression: () => <StatsScreen navigation={navigation} />,
     profile: () => <ProfileScreen />, // Add ProfileScreen
   });
 

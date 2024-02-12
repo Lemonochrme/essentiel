@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomButton from '../CustomButtom';
+import CustomButton from '../../components/CustomButtom';
 
 const EditProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('');

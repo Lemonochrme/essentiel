@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable, Vibration, TouchableOpacity } from 'react-
 import { Button, Dialog, Portal, Text, Provider, Card, Title } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SettingsMenu from './SettingsMenu';
+import SettingsMenu from '../components/SettingsMenu';
 
 const ParametersScreen = ({ navigation }) => {
   const onPressEditProfile = () => {

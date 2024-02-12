@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Keyboard, TouchableOpacity, Image } 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
-import CustomButton from './CustomButtom';
+import CustomButton from '../components/CustomButtom';
 import NumberPicker from '../components/NumberPicker';
 
 const OnboardingScreen = ({ navigation }) => {
