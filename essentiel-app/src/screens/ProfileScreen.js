@@ -45,7 +45,7 @@ const ProfileScreen = () => {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View style={styles.statContainer}>
               <FontAwesome5Icon name="chart-line" size={42} color="white" />
-              <Text style={styles.statLabel}>{statistics ? statistics.totalWorkouts : ''}</Text>
+              <Text style={styles.statLabel}>{statistics ? statistics.totalWorkouts : '0'}</Text>
               <Text style={styles.subLabel}>Workouts completed</Text>
             </View>
             <View style={styles.statContainer}>
@@ -55,7 +55,7 @@ const ProfileScreen = () => {
             </View>
             <View style={styles.statContainer}>
               <FontAwesome5Icon name="clock" size={42} color="white" />
-              <Text style={styles.statLabel}>{statistics ? statistics.averageDuration : ''} min</Text>
+              <Text style={styles.statLabel}>{statistics ? statistics.averageDuration : '0'} min</Text>
               <Text style={styles.subLabel}>In average</Text>
             </View>
           </View>
@@ -67,7 +67,7 @@ const ProfileScreen = () => {
           <AchievementCard
             title="Workout Master"
             subtitle="Work out for 500 minutes!"
-            currentProgress={statistics.totalDuration}
+            currentProgress={statistics ? statistics.totalDuration : '0'}
             totalProgress={500}
           />      
       </ScrollView>

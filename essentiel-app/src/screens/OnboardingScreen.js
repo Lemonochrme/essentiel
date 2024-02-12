@@ -45,7 +45,7 @@ const OnboardingScreen = ({ navigation }) => {
             setTimeout(() => {
                 setShowWelcomeText(false);
                 navigation.navigate('Home');
-            }, 1000); // 1 second delay
+            }, 1500); // 1 second delay
         } catch (error) {
             console.error('Error saving profile data:', error);
             // Handle error saving data

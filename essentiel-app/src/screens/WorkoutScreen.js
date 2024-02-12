@@ -129,8 +129,6 @@ const WorkoutScreen = ({ navigation }) => {
           />
         </Card.Content>
       </Card>
-
-      {totalWeekExerciseTime !== 0 && <Text style={{ color: 'grey', fontSize: 16 }}>You exercised {totalWeekExerciseTime} minutes this week.</Text>}
       <Text style={styles.label}>Overview</Text>
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView overScrollMode="never">

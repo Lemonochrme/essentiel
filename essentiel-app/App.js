@@ -20,7 +20,6 @@ StatusBar.setBackgroundColor('#282828');
 
 const Stack = createStackNavigator();
 
-
 const openParameters = ({ navigation }) => {
   navigation.navigate('Parameters');
 };

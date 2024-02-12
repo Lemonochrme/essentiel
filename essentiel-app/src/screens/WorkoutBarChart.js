@@ -21,7 +21,7 @@ const WorkoutBarChart = ({ data }) => {
     return (
         <Card style={styles.card}>
             {isNoData ? (
-                <Text style={styles.noDataText}>No Data Available</Text>
+                <Text style={styles.noDataText}>Nothing to see here</Text>
             ) : (
                 <View style={styles.container}>
                     {data.map((value, index) => (
@@ -59,7 +59,6 @@ const WorkoutBarChart = ({ data }) => {
 const styles = StyleSheet.create({
     card: {
         padding: 10,
-        marginTop: 16,
         backgroundColor: '#161616',
         borderColor: '#282828',
         borderWidth: 1,
