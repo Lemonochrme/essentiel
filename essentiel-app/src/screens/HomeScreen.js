@@ -135,7 +135,7 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.label}>Track your progress this week</Text>
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 16 }}>
-        <View style={{ position: 'absolute', top: -25, right: 60, margin: 16 }}>
+        <View style={{ position: 'absolute', top: -15, right: 60, margin: 16 }}>
           <Text style={{ color: 'lightgreen', fontSize: 16, fontWeight: 'bold' }}>+20%</Text>
         </View>
         <Text style={{ color: 'white', fontSize: 30, fontWeight: 'bold'}}>{convertMinutesToHoursMinutes(totalWeekExerciseTime)}</Text>
@@ -143,7 +143,6 @@ const HomeScreen = ({ navigation }) => {
       </View>
       
       <ScrollView overScrollMode="never">
-        <Text style={styles.label}>Workout Time</Text>
         <WorkoutBarChart data={[30, 45, 25, 50, 40, 35, 20]} />
       </ScrollView>
 

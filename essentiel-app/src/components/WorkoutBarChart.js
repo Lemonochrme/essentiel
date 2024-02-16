@@ -4,6 +4,8 @@ import { Card } from 'react-native-paper';
 
 const WorkoutBarChart = ({ data }) => {
     const maxValue = Math.max(...data); // Find the maximum value in the data array
+    const range = Math.ceil(maxValue / 3); // Determine the range of y-axis values
+    const yAxisValues = Array.from({ length: 4 }, (_, i) => i * range).reverse(); // Generate y-axis values
 
     // Check if all data values are zero
     const isNoData = data.every((value) => value === 0);
@@ -14,6 +16,13 @@ const WorkoutBarChart = ({ data }) => {
                 <Text style={styles.noDataText}>Nothing to see here</Text>
             ) : (
                 <View style={styles.container}>
+                    <View style={styles.yAxisContainer}>
+                        {yAxisValues.map((value, index) => (
+                            <Text key={index} style={styles.yAxisLabel}>
+                                {value}
+                            </Text>
+                        ))}
+                    </View>
                     {data.map((value, index) => (
                         <View
                             key={index}
@@ -68,6 +77,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         color: 'lightgrey',
+    },
+    yAxisContainer: {
+        justifyContent: 'space-between',
+        height: 150,
+        paddingBottom: 20,
+        paddingTop: 8,
+    },
+    yAxisLabel: {
+        color: 'white',
     },
 });
 
