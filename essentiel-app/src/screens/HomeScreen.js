@@ -12,12 +12,11 @@ import WeekdaysChecker from '../components/WeekdaysChecker';
 const HomeScreen = ({ navigation }) => {
   const [totalWeekExerciseTime, setTotalWeekExerciseTime] = useState(0);
   const [totalWorkoutTimeByDay, setTotalWorkoutTimeByDay] = useState(Array(7).fill(0));
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [statistics, setStatistics] = useState(null);
   const [profile, setProfile] = useState(null);
 
   const calculateTotalWorkoutTimeByDay = async () => {
-    setIsLoading(true);
     const storedData = await AsyncStorage.getItem('workoutData');
     const workoutData = JSON.parse(storedData || '[]');
     
@@ -74,6 +73,13 @@ const HomeScreen = ({ navigation }) => {
     Vibration.vibrate(70);
   };
 
+  const convertMinutesToHoursMinutes = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}h ${remainingMinutes}min`;
+  };
+  
+
   useEffect(() => {
     calculateTotalWorkoutTimeByDay();
     const fetchData = async () => {
@@ -90,7 +96,6 @@ const HomeScreen = ({ navigation }) => {
       } catch (error) {
         console.log('Error retrieving data:', error);
       }
-      setIsLoading(false);
     };
 
     fetchData();
@@ -110,22 +115,18 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      
-      <Title style={{ color: 'white', fontSize: 26, fontWeight: 'bold' }}>Hi, {profile.name}! Welcome back.</Title> 
-
+      <Title style={{ color: 'white', fontSize: 26, fontWeight: 'bold' }}>Hi! Welcome back.</Title> 
       <Card style={{ backgroundColor: '#282828', marginTop: 16 }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 4 }}>
-              <Text style={{ fontSize: 18, color: 'white' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold' }}>
                 {totalWeekExerciseTime === 0 ? "No workout this week. Let's get started by adding a workout!" : message}
               </Text>
             </View>
-            <View style={{ width: 2, height: '100%', backgroundColor: '#454545', marginHorizontal: 16 }} />
-            <FontAwesome5Icon name="fire-alt" size={42} color={totalWeekExerciseTime === 0 ? 'grey' : 'white'} />
           </View>
           <ProgressBar
-            progress={Math.min(totalWeekExerciseTime / goal, 1)}
+            progress={totalWeekExerciseTime !== 0 ? Math.min(totalWeekExerciseTime / goal, 1) : 0}
             color={'white'}
             style={{ borderRadius: 10, height: 10, marginTop: 16, backgroundColor: '#161616'}}
           />
@@ -133,6 +134,14 @@ const HomeScreen = ({ navigation }) => {
       </Card>
       <Text style={styles.label}>Track your progress this week</Text>
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 16 }}>
+        <View style={{ position: 'absolute', top: -25, right: 60, margin: 16 }}>
+          <Text style={{ color: 'lightgreen', fontSize: 16, fontWeight: 'bold' }}>+20%</Text>
+        </View>
+        <Text style={{ color: 'white', fontSize: 30, fontWeight: 'bold'}}>{convertMinutesToHoursMinutes(totalWeekExerciseTime)}</Text>
+        <Text style={{ color: '#505050', fontSize: 20, fontWeight: 'bold' }}>Of exercice this week</Text>
+      </View>
+      
       <ScrollView overScrollMode="never">
         <Text style={styles.label}>Workout Time</Text>
         <WorkoutBarChart data={[30, 45, 25, 50, 40, 35, 20]} />

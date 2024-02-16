@@ -85,7 +85,7 @@ const OnboardingScreen = ({ navigation }) => {
                     </View>
                     <Text style={styles.label}>And your weekly goal ?</Text>
                     <NumberPicker minValue={100} maxValue={400} step={10} onValueChange={handleValueChange} />
-                    <Text style={{ color: "grey", fontSize: 16, paddingVertical: 32 }}>The WHO recommends dedicating at least 150 to 300 minutes per week to moderate-intensity activity.</Text>
+                    <Text style={{ color: "#878787", fontSize: 16, paddingVertical: 32, fontWeight: 'bold' }}>The WHO recommends dedicating at least 150 to 300 minutes per week to moderate-intensity activity.</Text>
                     <CustomButton
                         title="Continue"
                         onPress={handleContinue}
