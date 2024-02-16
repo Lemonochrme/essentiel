@@ -143,7 +143,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       
       <ScrollView overScrollMode="never">
-        <WorkoutBarChart data={[30, 45, 25, 50, 40, 35, 20]} />
+        <WorkoutBarChart data={totalWorkoutTimeByDay} />
       </ScrollView>
 
       <FAB

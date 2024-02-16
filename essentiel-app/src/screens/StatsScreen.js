@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Vibration, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, FlatList, Vibration, Image, ActivityIndicator, TouchableOpacity, Pressable } from 'react-native';
 import { Card, Text, Title, Button, Portal, Modal, FAB } from 'react-native-paper';
+import WorkoutBarChart from '../components/WorkoutBarChart';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const StatsScreen = ({ navigation }) => {
   const [workoutData, setWorkoutData] = useState([]);
@@ -11,6 +11,7 @@ const StatsScreen = ({ navigation }) => {
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [noData, setNoData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleAddWorkoutPress = () => {
     // Navigate to the Workout Type screen when the FAB is pressed
@@ -97,15 +98,25 @@ const StatsScreen = ({ navigation }) => {
         <ActivityIndicator size="large" color="#ffffff" />
       </View>
     );
-  }  
+  }
 
   return (
     <View style={styles.container}>
-      {noData ? (
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.noDataText}>No workout data available.</Text>
-        </View>
-      ) : (
+      <Text style={styles.title}>Statistics</Text>
+      <WorkoutBarChart data={[10, 40, 20, 40, 20, 50, 20]} />
+      <Pressable
+        onPress={() => setDrawerOpen(!drawerOpen)}
+        style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10 }}
+      >
+        <Text style={styles.title}>Workouts</Text>
+        <FontAwesome5Icon
+          name={drawerOpen ? 'chevron-up' : 'chevron-down'}
+          color={'white'}
+          size={24}
+          style={{ marginLeft: 10 }}
+        />
+      </Pressable>
+      {drawerOpen && (
         <FlatList
           data={workoutData}
           renderItem={renderWorkoutItem}
@@ -145,8 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#161616',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
   noDataText: {
     color: 'white',
@@ -158,7 +168,6 @@ const styles = StyleSheet.create({
   },
   flatList: {
     width: '100%',
-    padding: 16,
   },
   card: {
     marginBottom: 20,
@@ -175,6 +184,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   text: {
     color: 'grey',
