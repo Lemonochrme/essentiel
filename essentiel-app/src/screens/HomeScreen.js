@@ -110,7 +110,9 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FiveDaysCalendar />
+      
+      <Title style={{ color: 'white', fontSize: 26, fontWeight: 'bold' }}>Hi, {profile.name}! Welcome back.</Title> 
+
       <Card style={{ backgroundColor: '#282828', marginTop: 16 }}>
         <Card.Content>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -129,7 +131,7 @@ const HomeScreen = ({ navigation }) => {
           />
         </Card.Content>
       </Card>
-      <Text style={styles.label}>Overview</Text>
+      <Text style={styles.label}>Track your progress this week</Text>
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView overScrollMode="never">
         <Text style={styles.label}>Workout Time</Text>

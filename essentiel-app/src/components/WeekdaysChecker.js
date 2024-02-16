@@ -16,11 +16,11 @@ const CustomWeekdays = ({ workoutDays }) => {
           <View key={day} style={{ alignItems: 'center' }}>
             <FontAwesome5Icon
               name={isChecked ? 'check-square' : 'square'} // Display check-square if workout day, else square
-              color={'white'}
+              color={isChecked ? '#ffff' : '#505050'}
               size={26}
               solid={isChecked} // Use solid icon if it's a workout day
             />
-            <Text style={{ fontSize: 18, color: 'white' }}>{day}</Text>
+            <Text style={{ fontSize: 18, color: '#505050', fontWeight: 'bold' }}>{day}</Text>
           </View>
         );
       })}
