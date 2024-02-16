@@ -133,14 +133,15 @@ const HomeScreen = ({ navigation }) => {
         <WeekdaysChecker workoutDays={totalWorkoutTimeByDay} />
       <ScrollView overScrollMode="never">
         <Text style={styles.label}>Workout Time</Text>
-        <WorkoutBarChart data={totalWorkoutTimeByDay} />
+        <WorkoutBarChart data={[30, 45, 25, 50, 40, 35, 20]} />
       </ScrollView>
 
       <FAB
         icon={({ color, size }) => (
           <FontAwesome5Icon name="plus" color={'black'} size={size} />
         )}
-        style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white' }}
+        label="Add Workout"
+        style={{ position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'white', width: 150 }}
         onPress={handleAddWorkoutPress}
       />
     </View>
