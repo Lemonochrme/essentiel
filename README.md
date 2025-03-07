@@ -37,3 +37,7 @@ Explore the codebase to understand the app structure and make customizations acc
 
 
 🚀 Happy Workout Journaling! 🏋️‍♀️
+
+```
+npm install @react-navigation/native @react-navigation/material-bottom-tabs react-native-paper react-native-vector-icons --legacy-peer-deps
+```
