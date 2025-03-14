@@ -9,35 +9,54 @@ Clone the Repository:
 
 Navigate to the Project Directory:
 
-`cd essentiel-app`
-
-Install Dependencies:
-`npm install`
-
-### How to Get Started
-
-Start Debug Mode:
-`npx expo start --tunnel`
-
-Scan QR Code:
-Open the Expo Go app on your mobile device.
-Scan the QR code generated in your terminal to launch the app.
+`cd essentiel`
 
 
-### How to Build the APK
-Make sure all the necessay dependencies are installed (particularly eas)
+## Flutter Installation on Arch Linux
 
-Build APK:
-`eas build -p android --profile preview`
+Prerequisites
+- Ensure you have `git` and `base-devel` installed:
+  ```sh
+  sudo pacman -S git base-devel
+  ```
 
-### Additional Notes
+### Install Flutter
+1. Install Flutter using `pacman`:
+   ```sh
+   sudo pacman -S flutter
+   ```
+   Alternatively, install the latest version from AUR:
+   ```sh
+   yay -S flutter
+   ```
 
-Make sure you have Node.js and npm installed on your system.
-Explore the codebase to understand the app structure and make customizations according to your needs.
+2. Add Flutter to `PATH` (if needed):
+   ```sh
+   export PATH="$PATH:/opt/flutter/bin"
+   ```
 
-
-🚀 Happy Workout Journaling! 🏋️‍♀️
-
+## Verify Installation
+Run:
+```sh
+flutter doctor
 ```
-npm install @react-navigation/native @react-navigation/material-bottom-tabs react-native-paper react-native-vector-icons --legacy-peer-deps
-```
+Follow the suggested fixes.
+
+### Install Android SDK 
+1. Install `android-tools` and `android-sdk`:
+   ```sh
+   sudo pacman -S android-tools android-sdk
+   ```
+
+2. Install `android-sdk-platform-tools`, `android-sdk-cmdline-tools`, and `android-sdk-build-tools`:
+   ```sh
+   sudo pacman -S android-sdk-platform-tools android-sdk-cmdline-tools android-sdk-build-tools
+   ```
+
+3. Accept Android licenses:
+   ```sh
+   flutter doctor --android-licenses
+   ```
+
+### Troubleshooting
+Run `flutter doctor` and follow any recommendations.
