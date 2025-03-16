@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
             ),
 
             const WorkoutBarChart(
-              data: [12, 18, 10, 25, 30, 15, 5], // Example workout data
+              data: [12, 18, 10, 25, 100, 20, 20],
             ),
           ],
         ),

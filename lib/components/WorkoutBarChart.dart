@@ -43,10 +43,12 @@ class WorkoutBarChart extends StatelessWidget {
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.end, // Ensures bars are bottom-aligned
                       children: List.generate(data.length, (index) {
                         double heightPercentage =
                             maxValue > 0 ? (data[index] / maxValue) * 76 : 0;
                         return Column(
+                          mainAxisAlignment: MainAxisAlignment.end, // Aligns contents to the bottom
                           children: [
                             Container(
                               width: 10,
