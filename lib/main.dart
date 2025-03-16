@@ -7,11 +7,13 @@ void main() {
 }
 
 class SportJournalApp extends StatelessWidget {
+  const SportJournalApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sport Journal',
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.darkTheme,
       home: MainNavigation(),
     );
   }

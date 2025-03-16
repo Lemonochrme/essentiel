@@ -6,6 +6,8 @@ import 'stats_screen.dart';
 import 'settings_screen.dart';
 
 class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+
   @override
   _MainNavigationState createState() => _MainNavigationState();
 }
@@ -13,7 +15,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  static List<Widget> _screens = [
+  static final List<Widget> _screens = [
     HomeScreen(),
     JournalScreen(),
     AddWorkoutScreen(),
@@ -32,17 +34,21 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Journal'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Ajouter'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Paramètres'),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: _onItemTapped,
-      ),
+  selectedItemColor: Colors.white,
+  unselectedItemColor: Colors.grey,
+  items: const [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+    BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Journal'),
+    BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Ajouter'),
+    BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
+    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Paramètres'),
+  ],
+  currentIndex: _selectedIndex,
+  type: BottomNavigationBarType.fixed,
+  backgroundColor: Colors.grey[850],
+  onTap: _onItemTapped,
+),
+
     );
   }
 }
