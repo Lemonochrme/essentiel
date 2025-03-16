@@ -34,21 +34,20 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-  selectedItemColor: Colors.white,
-  unselectedItemColor: Colors.grey,
-  items: const [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
-    BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Journal'),
-    BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Ajouter'),
-    BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Paramètres'),
-  ],
-  currentIndex: _selectedIndex,
-  type: BottomNavigationBarType.fixed,
-  backgroundColor: Colors.grey[850],
-  onTap: _onItemTapped,
-),
-
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Journal'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: 'Ajouter'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Paramètres'),
+        ],
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.grey[850],
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
