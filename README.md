@@ -1,3 +1,5 @@
+> React Native version is deprecated, the development goes on the flutter branch.
+
 # 🏋️‍♂️ Essentiel — Simple workout journal
 
 Welcome to my Workout Journaling app! This React-Native application helps you keep track of your workouts effectively. Whether you're hitting the gym, doing yoga, or going for a run, this app has got you covered!
