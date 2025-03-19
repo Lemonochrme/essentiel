@@ -29,55 +29,46 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start, // Justify everything to the top
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, ),),
-
-            const SizedBox(height: 20), // Space between text and progress bar
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-              'Hi, Robin ! Welcome back.',
-              style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 10), 
-
+            _buildWelcomeText(),
+            const SizedBox(height: 10),
             WeeklyGoalProgress(progress: dummyProgress), // NEW Progress bar component
-
-            const SizedBox(height: 20), 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-              'Track your progress this week',
-              style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 10), 
-
+            const SizedBox(height: 20),
+            _buildProgressText(),
+            const SizedBox(height: 10),
             CustomWeekdays(
               workoutDays: [true, false, true, false, true, true, false], // Example workout days
             ),
-
             const SizedBox(height: 20), // Space between tracker and chart
-
             ExerciseSummary(
               hours: 1,
               minutes: 20,
               percentageChange: 20,
             ),
-
             const WorkoutBarChart(
               data: [12, 18, 10, 25, 100, 20, 20],
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.white,
-        child: const Icon(Icons.add, color: Colors.black),
+    );
+  }
+
+  Widget _buildWelcomeText() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'Hi, Robin ! Welcome back.',
+        style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildProgressText() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'Track your progress this week',
+        style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
