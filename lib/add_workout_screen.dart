@@ -16,11 +16,22 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
   Timer? timer;
   List<WorkoutExercise> selectedExercises = [];
 
+  @override
+  void dispose() {
+    stopwatch.stop();
+    timer?.cancel();
+    super.dispose();
+  }
+
   void startWorkout() {
     setState(() {
       workoutStarted = true;
       stopwatch.start();
-      timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
+      timer = Timer.periodic(const Duration(seconds: 1), (_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
     });
   }
 
@@ -35,10 +46,12 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
   }
 
   void finishWorkout() {
-    // Ici on pourrait sauvegarder avec Hive
     stopwatch.stop();
     timer?.cancel();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Workout saved!")));
+    // TODO: Save to Hive here
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Workout saved!")),
+    );
     setState(() {
       workoutStarted = false;
       selectedExercises.clear();
@@ -48,7 +61,9 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
 
   void addSet(int index) {
     setState(() {
-      selectedExercises[index].sets.add(WorkoutSet(weight: 0, repetitions: 0));
+      selectedExercises[index].sets.add(
+        WorkoutSet(weight: 0, repetitions: 0),
+      );
     });
   }
 
@@ -168,7 +183,9 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
                           ),
                         );
                         if (result != null && result is String) {
-                          addExercise(WorkoutExercise(name: result, sets: [WorkoutSet(weight: 0, repetitions: 0)]));
+                          addExercise(
+                            WorkoutExercise(name: result, sets: [WorkoutSet(weight: 0, repetitions: 0)]),
+                          );
                         }
                       },
                     ),

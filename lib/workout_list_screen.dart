@@ -15,28 +15,17 @@ class WorkoutListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final exercises = [...dummyExercises]..sort();
-    String? selected;
-
     return Scaffold(
       appBar: AppBar(title: const Text("Select Exercise")),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: exercises.length,
-              itemBuilder: (context, index) {
-                final exercise = exercises[index];
-                return ListTile(
-                  title: Text(exercise),
-                  onTap: () {
-                    selected = exercise;
-                    Navigator.pop(context, selected);
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: exercises.length,
+        itemBuilder: (context, index) {
+          final exercise = exercises[index];
+          return ListTile(
+            title: Text(exercise),
+            onTap: () => Navigator.pop(context, exercise),
+          );
+        },
       ),
     );
   }
