@@ -4,7 +4,6 @@ import '../models/workout.dart';
 import 'workout_list_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 class AddWorkoutScreen extends StatefulWidget {
   const AddWorkoutScreen({super.key});
 
@@ -13,6 +12,8 @@ class AddWorkoutScreen extends StatefulWidget {
 }
 
 class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
+  Map<WorkoutSet, TextEditingController> weightControllers = {};
+  Map<WorkoutSet, TextEditingController> repsControllers = {};
   bool workoutStarted = false;
   Stopwatch stopwatch = Stopwatch();
   Timer? timer;
@@ -60,9 +61,9 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
     final box = Hive.box<Workout>('workouts');
     await box.add(workout);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Workout saved locally!")),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Workout saved locally!")));
 
     setState(() {
       workoutStarted = false;
@@ -73,19 +74,33 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
 
   void addSet(int index) {
     setState(() {
-      selectedExercises[index].sets.add(
-        WorkoutSet(weight: 0, repetitions: 0),
-      );
+      selectedExercises[index].sets.add(WorkoutSet(weight: 0, repetitions: 0));
     });
   }
 
   Widget buildElapsedTime() {
-    return Text(formatDuration(stopwatch.elapsed), style: const TextStyle(fontSize: 16));
+    return Text(
+      formatDuration(stopwatch.elapsed),
+      style: const TextStyle(fontSize: 16),
+    );
   }
 
   Widget buildSetRow(int idx, WorkoutSet set) {
-    final weightController = TextEditingController(text: set.weight > 0 ? set.weight.toString() : '');
-    final repsController = TextEditingController(text: set.repetitions > 0 ? set.repetitions.toString() : '');
+    weightControllers.putIfAbsent(
+      set,
+      () => TextEditingController(
+        text: set.weight > 0 ? set.weight.toString() : '',
+      ),
+    );
+    repsControllers.putIfAbsent(
+      set,
+      () => TextEditingController(
+        text: set.repetitions > 0 ? set.repetitions.toString() : '',
+      ),
+    );
+
+    final weightController = weightControllers[set]!;
+    final repsController = repsControllers[set]!;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -143,82 +158,95 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
         title: const Text("Essentiel"),
         actions: [
           if (selectedExercises.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: finishWorkout,
-            )
+            IconButton(icon: const Icon(Icons.check), onPressed: finishWorkout),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: workoutStarted
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Text("Workout of the day", style: TextStyle(fontSize: 20)),
-                      const Spacer(),
-                      buildElapsedTime(),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: selectedExercises.length,
-                      itemBuilder: (context, i) {
-                        final exercise = selectedExercises[i];
-                        return Card(
-                          elevation: 3,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(exercise.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 8),
-                                ...exercise.sets.asMap().entries.map((entry) => buildSetRow(entry.key, entry.value)),
-                                TextButton.icon(
-                                  onPressed: () => addSet(i),
-                                  icon: const Icon(Icons.add),
-                                  label: const Text("Add Set"),
-                                ),
-                              ],
+        child:
+            workoutStarted
+                ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          "Workout of the day",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        const Spacer(),
+                        buildElapsedTime(),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: selectedExercises.length,
+                        itemBuilder: (context, i) {
+                          final exercise = selectedExercises[i];
+                          return Card(
+                            elevation: 3,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    exercise.name,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  ...exercise.sets.asMap().entries.map(
+                                    (entry) =>
+                                        buildSetRow(entry.key, entry.value),
+                                  ),
+                                  TextButton.icon(
+                                    onPressed: () => addSet(i),
+                                    icon: const Icon(Icons.add),
+                                    label: const Text("Add Set"),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.add),
-                      label: const Text("Add Exercise"),
-                      onPressed: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WorkoutListScreen(),
-                          ),
-                        );
-                        if (result != null && result is String) {
-                          addExercise(
-                            WorkoutExercise(name: result, sets: [WorkoutSet(weight: 0, repetitions: 0)]),
                           );
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  )
-                ],
-              )
-            : Center(
-                child: ElevatedButton(
-                  onPressed: startWorkout,
-                  child: const Text("Start Workout"),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.add),
+                        label: const Text("Add Exercise"),
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WorkoutListScreen(),
+                            ),
+                          );
+                          if (result != null && result is String) {
+                            addExercise(
+                              WorkoutExercise(
+                                name: result,
+                                sets: [WorkoutSet(weight: 0, repetitions: 0)],
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                )
+                : Center(
+                  child: ElevatedButton(
+                    onPressed: startWorkout,
+                    child: const Text("Start Workout"),
+                  ),
                 ),
-              ),
       ),
     );
   }
