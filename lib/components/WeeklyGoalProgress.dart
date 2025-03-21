@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class WeeklyGoalProgress extends StatelessWidget {
   final double progress; // Progress percentage (0.0 to 1.0)
 
-  const WeeklyGoalProgress({required this.progress, Key? key}) : super(key: key);
+  const WeeklyGoalProgress({required this.progress, super.key});
 
   @override
   Widget build(BuildContext context) {

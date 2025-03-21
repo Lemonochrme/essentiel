@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomWeekdays extends StatelessWidget {
   final List<bool> workoutDays; // List of booleans indicating workout days
 
-  CustomWeekdays({required this.workoutDays, Key? key}) : super(key: key);
+  const CustomWeekdays({required this.workoutDays, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class WorkoutBarChart extends StatelessWidget {
   final List<int> data;
 
-  const WorkoutBarChart({Key? key, required this.data}) : super(key: key);
+  const WorkoutBarChart({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,8 @@ class ExerciseSummary extends StatelessWidget {
     required this.hours,
     required this.minutes,
     required this.percentageChange,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
