@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/workout.dart';
 import 'workout_list_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 
 class AddWorkoutScreen extends StatefulWidget {
   const AddWorkoutScreen({super.key});
@@ -45,13 +47,23 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
     });
   }
 
-  void finishWorkout() {
+  void finishWorkout() async {
     stopwatch.stop();
     timer?.cancel();
-    // TODO: Save to Hive here
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Workout saved!")),
+
+    final workout = Workout(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      date: DateTime.now(),
+      exercises: selectedExercises,
     );
+
+    final box = Hive.box<Workout>('workouts');
+    await box.add(workout);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Workout saved locally!")),
+    );
+
     setState(() {
       workoutStarted = false;
       selectedExercises.clear();
@@ -65,6 +77,63 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
         WorkoutSet(weight: 0, repetitions: 0),
       );
     });
+  }
+
+  Widget buildElapsedTime() {
+    return Text(formatDuration(stopwatch.elapsed), style: const TextStyle(fontSize: 16));
+  }
+
+  Widget buildSetRow(int idx, WorkoutSet set) {
+    final weightController = TextEditingController(text: set.weight > 0 ? set.weight.toString() : '');
+    final repsController = TextEditingController(text: set.repetitions > 0 ? set.repetitions.toString() : '');
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: set.isCompleted ? Colors.green[100] : null,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Set ${idx + 1}"),
+          ),
+          Expanded(
+            child: TextField(
+              controller: weightController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(hintText: "Weight (kg)"),
+              onChanged: (val) {
+                set.weight = double.tryParse(val) ?? 0;
+              },
+            ),
+          ),
+          Expanded(
+            child: TextField(
+              controller: repsController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(hintText: "Reps"),
+              onChanged: (val) {
+                set.repetitions = int.tryParse(val) ?? 0;
+              },
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              set.isCompleted ? Icons.check_box : Icons.check_box_outline_blank,
+              color: set.isCompleted ? Colors.green : null,
+            ),
+            onPressed: () {
+              setState(() {
+                set.isCompleted = !set.isCompleted;
+              });
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -90,7 +159,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
                     children: [
                       const Text("Workout of the day", style: TextStyle(fontSize: 20)),
                       const Spacer(),
-                      Text(formatDuration(stopwatch.elapsed), style: const TextStyle(fontSize: 16)),
+                      buildElapsedTime(),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -109,55 +178,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
                               children: [
                                 Text(exercise.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                 const SizedBox(height: 8),
-                                ...exercise.sets.asMap().entries.map((entry) {
-                                  int idx = entry.key;
-                                  WorkoutSet set = entry.value;
-                                  return Container(
-                                    margin: const EdgeInsets.symmetric(vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: set.isCompleted ? Colors.green[100] : null,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: Colors.grey),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text("Set ${idx + 1}"),
-                                        ),
-                                        Expanded(
-                                          child: TextField(
-                                            keyboardType: TextInputType.number,
-                                            decoration: const InputDecoration(hintText: "Weight (kg)"),
-                                            onChanged: (val) {
-                                              set.weight = double.tryParse(val) ?? 0;
-                                            },
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: TextField(
-                                            keyboardType: TextInputType.number,
-                                            decoration: const InputDecoration(hintText: "Reps"),
-                                            onChanged: (val) {
-                                              set.repetitions = int.tryParse(val) ?? 0;
-                                            },
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(
-                                            set.isCompleted ? Icons.check_box : Icons.check_box_outline_blank,
-                                            color: set.isCompleted ? Colors.green : null,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              set.isCompleted = !set.isCompleted;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
+                                ...exercise.sets.asMap().entries.map((entry) => buildSetRow(entry.key, entry.value)),
                                 TextButton.icon(
                                   onPressed: () => addSet(i),
                                   icon: const Icon(Icons.add),

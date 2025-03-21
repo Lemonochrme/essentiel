@@ -1,22 +1,46 @@
-class Workout {
-  final String id;
-  final DateTime date;
-  final List<WorkoutExercise> exercises;
+import 'package:hive/hive.dart';
+
+part 'workout.g.dart';
+
+@HiveType(typeId: 0)
+class Workout extends HiveObject {
+  @HiveField(0)
+  String id;
+
+  @HiveField(1)
+  DateTime date;
+
+  @HiveField(2)
+  List<WorkoutExercise> exercises;
 
   Workout({required this.id, required this.date, required this.exercises});
 }
 
-class WorkoutExercise {
-  final String name;
-  final List<WorkoutSet> sets;
+@HiveType(typeId: 1)
+class WorkoutExercise extends HiveObject {
+  @HiveField(0)
+  String name;
+
+  @HiveField(1)
+  List<WorkoutSet> sets;
 
   WorkoutExercise({required this.name, required this.sets});
 }
 
-class WorkoutSet {
+@HiveType(typeId: 2)
+class WorkoutSet extends HiveObject {
+  @HiveField(0)
   double weight;
+
+  @HiveField(1)
   int repetitions;
+
+  @HiveField(2)
   bool isCompleted;
 
-  WorkoutSet({required this.weight, required this.repetitions, this.isCompleted = false});
+  WorkoutSet({
+    required this.weight,
+    required this.repetitions,
+    this.isCompleted = false,
+  });
 }
