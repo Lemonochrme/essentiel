@@ -6,8 +6,15 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class JournalScreen extends StatelessWidget {
+class JournalScreen extends StatefulWidget {
   const JournalScreen({super.key});
+
+  @override
+  State<JournalScreen> createState() => _JournalScreenState();
+}
+
+class _JournalScreenState extends State<JournalScreen> {
+  final Set<int> selectedIndexes = {};
 
   Future<void> exportToJson(BuildContext context) async {
     final box = Hive.box<Workout>('workouts');
@@ -42,16 +49,16 @@ class JournalScreen extends StatelessWidget {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirmer la suppression'),
-        content: const Text('Es-tu sûr de vouloir supprimer tous les entraînements ? Cette action est irréversible.'),
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete all workouts? This action is irreversible. Think twice, lift once!'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annuler'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Supprimer', style: TextStyle(color: Colors.red)),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -62,10 +69,21 @@ class JournalScreen extends StatelessWidget {
       await box.clear();
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tous les entraînements ont été supprimés.')),
+            const SnackBar(content: Text('All workouts have been deleted. Time to start fresh!')),
         );
       }
     }
+  }
+
+  Future<void> deleteSelected() async {
+    final box = Hive.box<Workout>('workouts');
+    final keys = box.keys.toList();
+    for (final index in selectedIndexes) {
+      await box.delete(keys[index]);
+    }
+    setState(() {
+      selectedIndexes.clear();
+    });
   }
 
   @override
@@ -83,32 +101,58 @@ class JournalScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if (value == 'export') {
-                exportToJson(context);
-              } else if (value == 'clear') {
-                confirmDeleteAll(context);
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'export',
-                child: Text('Export to JSON'),
-              ),
-              const PopupMenuItem(
-                value: 'clear',
-                child: Text('Delete all workouts'),
-              ),
-            ],
-          )
+          if (selectedIndexes.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                    builder: (context) => AlertDialog(
+                    title: const Text('Delete selected items?'),
+                    content: Text('You are about to delete ${selectedIndexes.length} workout(s). Proceed?'),
+                    actions: [
+                      TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                      TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete')),
+                    ],
+                    ),
+                  );
+                  if (confirm == true) {
+                    await deleteSelected();
+                    if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Selected workouts deleted. Time to make new gains!')),
+                    );
+                  }
+                }
+              },
+            )
+          else
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                if (value == 'export') {
+                  exportToJson(context);
+                } else if (value == 'clear') {
+                  confirmDeleteAll(context);
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'export',
+                  child: Text('Exporter to JSON (for the nerds)'),
+                ),
+                const PopupMenuItem(
+                  value: 'clear',
+                  child: Text('Delete all workouts (no regrets)'),
+                ),
+              ],
+            )
         ],
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<Workout>('workouts').listenable(),
         builder: (context, Box<Workout> box, _) {
           if (box.isEmpty) {
-            return const Center(child: Text('No workouts yet :( Start by adding one!'));
+            return const Center(child: Text('No workouts yet. Time to hit the gym!'));
           }
 
           return ListView.builder(
@@ -117,34 +161,59 @@ class JournalScreen extends StatelessWidget {
               final workout = box.getAt(index);
               if (workout == null) return const SizedBox.shrink();
 
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        DateFormat('dd MMM yyyy, HH:mm').format(workout.date),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      ...workout.exercises.map((ex) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                ex.name,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                              ),
-                              ...ex.sets.map(
-                                (s) => Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                                  child: Text("- ${s.weight} kg x ${s.repetitions} reps"),
+              final isSelected = selectedIndexes.contains(index);
+
+              return GestureDetector(
+                onLongPress: () {
+                  setState(() {
+                    if (isSelected) {
+                      selectedIndexes.remove(index);
+                    } else {
+                      selectedIndexes.add(index);
+                    }
+                  });
+                },
+                onTap: () {
+                  if (selectedIndexes.isNotEmpty) {
+                    setState(() {
+                      if (isSelected) {
+                        selectedIndexes.remove(index);
+                      } else {
+                        selectedIndexes.add(index);
+                      }
+                    });
+                  }
+                },
+                child: Card(
+                  color: isSelected ? Colors.red[50] : null,
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          DateFormat('dd MMM yyyy, HH:mm').format(workout.date),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        ...workout.exercises.map((ex) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  ex.name,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                 ),
-                              )
-                            ],
-                          )),
-                    ],
+                                ...ex.sets.map(
+                                  (s) => Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                    child: Text("- ${s.weight} kg x ${s.repetitions} reps"),
+                                  ),
+                                )
+                              ],
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               );
