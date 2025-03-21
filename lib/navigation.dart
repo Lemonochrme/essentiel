@@ -34,8 +34,8 @@ class _MainNavigationState extends State<MainNavigation> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Color(0xFFA7A7A7),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Journal'),
@@ -45,7 +45,7 @@ class _MainNavigationState extends State<MainNavigation> {
         ],
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey[850],
+        backgroundColor: Color(0xFFD7D7D7),
         onTap: _onItemTapped,
       ),
     );
