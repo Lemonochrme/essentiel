@@ -54,7 +54,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
     final workout = Workout(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       date: DateTime.now(),
-      exercises: selectedExercises,
+      exercises: List.from(selectedExercises), // on passe une copie de la liste
     );
 
     final box = Hive.box<Workout>('workouts');
