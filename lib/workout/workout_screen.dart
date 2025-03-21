@@ -42,16 +42,18 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/icons/essentiel-logo.png',
-              height: 20,
-            ),
-            const SizedBox(width: 4), // Add some space between the logo and the text
-            const Text('Essentiel'),
-          ],
+      title: const Text('Workout'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            // Add your cancel workout logic here
+          },
+          child: const Text(
+            'Cancel Workout',
+            style: TextStyle(color: Color.fromARGB(255, 235, 57, 57)),
+          ),
         ),
+      ],
       ),
       body: Center(
         child: Column(

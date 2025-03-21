@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              'assets/icons/essentiel-logo.png',
+              'assets/icons/light-essentiel-logo.png',
               height: 20,
             ),
             const SizedBox(width: 4), // Add some space between the logo and the text

@@ -5,9 +5,9 @@ class AppTheme {
     primarySwatch: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.grey,
+      backgroundColor: const Color.fromARGB(255, 204, 204, 204),
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
