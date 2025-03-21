@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'navigation.dart';
 import 'theme.dart';
+import 'workout/workout_screen.dart';
 
 void main() {
-  runApp(SportJournalApp());
+  runApp(const SportJournalApp());
 }
 
 class SportJournalApp extends StatelessWidget {
@@ -12,9 +13,12 @@ class SportJournalApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sport Journal',
-      theme: AppTheme.darkTheme,
+      title: 'Essentiel Sport Journal',
+      theme: AppTheme.lightTheme,
       home: MainNavigation(),
+      routes: {
+        '/workout': (context) => const WorkoutScreen(),
+      },
     );
   }
 }

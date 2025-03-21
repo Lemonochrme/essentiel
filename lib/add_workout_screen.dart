@@ -18,7 +18,22 @@ class AddWorkoutScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(child: Text('Formulaire d’ajout d’un entraînement')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/workout');
+              },
+              child: const Text('Start Workout'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+
