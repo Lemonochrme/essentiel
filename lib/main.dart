@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'navigation.dart';
 import 'theme.dart';
-import 'workout/workout_screen.dart';
 
 void main() {
   runApp(const SportJournalApp());
@@ -17,7 +16,6 @@ class SportJournalApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       home: MainNavigation(),
       routes: {
-        '/workout': (context) => const WorkoutScreen(),
       },
     );
   }
