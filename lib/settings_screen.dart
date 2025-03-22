@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user_profile.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -9,113 +11,104 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final TextEditingController _controller = TextEditingController();
-  late Box<String> _journalBox;
-  bool _isHiveInitialized = false;
+  UserProfile? profile;
 
   @override
   void initState() {
     super.initState();
-    _initHive();
+    final box = Hive.box<UserProfile>('profile');
+    profile = box.get('current');
   }
 
-  Future<void> _initHive() async {
-    await Hive.initFlutter();
-    _journalBox = await Hive.openBox<String>('journal');
-    setState(() {
-      _isHiveInitialized = true;
-    });
+  Future<void> resetOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('onboarding_complete');
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Onboarding reset. Restart the app to see it again.')),
+      );
+    }
   }
 
-  void _addEntry(String text) {
-    if (text.trim().isEmpty) return;
-    _journalBox.add(text.trim());
-    _controller.clear();
-    setState(() {});
+  Future<void> clearAllData() async {
+    final workouts = Hive.box('workouts');
+    final profile = Hive.box('profile');
+    await workouts.clear();
+    await profile.clear();
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('All data has been deleted. Poof!')),
+      );
+    }
   }
 
-  void _deleteEntry(int index) {
-    _journalBox.deleteAt(index);
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    Hive.close();
-    super.dispose();
+  void goToEditProfile() {
+    // You can create an EditProfileScreen and call it here
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Profile editing not implemented yet. Stay tuned!')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_isHiveInitialized) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    final entries = _journalBox.values.toList().reversed.toList();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/icons/light-essentiel-logo.png',
-              height: 20,
+      appBar: AppBar(title: const Text('Settings')),
+      body: ListView(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('User Profile', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          ),
+          if (profile != null) ...[
+            ListTile(
+              title: const Text('First Name'),
+              subtitle: Text(profile!.username),
             ),
-            const SizedBox(width: 4),
-            const Text('Essentiel'),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                labelText: 'Nouvelle entrée',
-                border: OutlineInputBorder(),
-              ),
+            ListTile(
+              title: const Text('Gender'),
+              subtitle: Text(profile!.gender),
             ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () => _addEntry(_controller.text),
-              child: const Text('Enregistrer'),
+            ListTile(
+              title: const Text('Weekly Goal'),
+              subtitle: Text('${profile!.weeklyMinutes} min'),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Historique des entrées :',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                itemCount: entries.length,
-                itemBuilder: (context, index) {
-                  final realIndex = entries.length - 1 - index;
-                  return Dismissible(
-                    key: Key(entries[index]),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: const Icon(Icons.delete, color: Colors.white),
-                    ),
-                    onDismissed: (_) => _deleteEntry(realIndex),
-                    child: ListTile(
-                      leading: const Icon(Icons.note),
-                      title: Text(entries[index]),
-                    ),
-                  );
-                },
-              ),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit My Profile'),
+              onTap: goToEditProfile,
             ),
           ],
-        ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('Application', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.restart_alt),
+            title: const Text('Reset Onboarding'),
+            subtitle: const Text('Useful for debugging or switching profiles.'),
+            onTap: resetOnboarding,
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete_forever, color: Colors.red),
+            title: const Text('Delete All Data'),
+            subtitle: const Text('Erases profile and workouts.'),
+            onTap: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Confirm Deletion'),
+                  content: const Text('Are you sure you want to delete all data?'),
+                  actions: [
+                    TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                    TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Delete')),
+                  ],
+                ),
+              );
+              if (confirm == true) await clearAllData();
+            },
+          ),
+        ],
       ),
     );
   }

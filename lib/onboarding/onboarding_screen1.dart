@@ -22,7 +22,7 @@ class OnboardingScreen1 extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            // Image.asset('assets/images/onboarding_1.png'),
+            // Image.asset('assets/illustrations/onboarding-illustration.png'),
             const SizedBox(height: 24),
             const Text(
               "Unlock Your Potential with Essentiel: Simplify Your Fitness Journey",

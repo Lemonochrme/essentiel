@@ -115,17 +115,17 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
             const SizedBox(height: 16),
             SizedBox(
               height: 50,
-              child: ListView(
+                child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: List.generate(11, (i) {
-                  final value = 130 + i * 10;
+                children: List.generate(18, (i) {
+                  final value = 120 + i * 10;
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: ChoiceChip(
-                      label: Text("$value"),
-                      selected: weeklyMinutes == value,
-                      onSelected: (_) => setState(() => weeklyMinutes = value),
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: ChoiceChip(
+                    label: Text("$value"),
+                    selected: weeklyMinutes == value,
+                    onSelected: (_) => setState(() => weeklyMinutes = value),
+                  ),
                   );
                 }),
               ),
