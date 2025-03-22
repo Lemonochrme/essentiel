@@ -1,10 +1,8 @@
-// models/user_profile.dart
-
 import 'package:hive/hive.dart';
 
 part 'user_profile.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 100)
 class UserProfile extends HiveObject {
   @HiveField(0)
   String username;
