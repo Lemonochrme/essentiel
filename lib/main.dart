@@ -2,15 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'dart:math';
+import 'habit.dart';
 
-void main() {
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(HabitAdapter());
+  await Hive.openBox<Habit>('habits');
   runApp(EssentielApp());
 }
 
 class EssentielApp extends StatelessWidget {
-  const EssentielApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,56 +29,29 @@ class EssentielApp extends StatelessWidget {
   }
 }
 
-class Habit {
-  String title;
-  String description;
-  List<String> days; // ["Mon", "Tue", ...]
-  TimeOfDay? reminder;
-  int streak;
-  int totalDone;
-  IconData icon;
-  bool doneToday;
-
-  Habit({
-    required this.title,
-    required this.description,
-    required this.days,
-    this.reminder,
-    this.streak = 0,
-    this.totalDone = 0,
-    required this.icon,
-    this.doneToday = false,
-  });
-}
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Habit> habits = [];
+  late Box<Habit> habitBox;
 
   @override
   void initState() {
     super.initState();
-    // Sample data
-    habits.add(Habit(
-      title: "Meditate",
-      description: "10 minutes of mindfulness",
-      days: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-      icon: Icons.self_improvement,
-    ));
+    habitBox = Hive.box<Habit>('habits');
   }
 
   void _markDone(int index) {
-    setState(() {
-      if (!habits[index].doneToday) {
-        habits[index].doneToday = true;
-        habits[index].streak++;
-        habits[index].totalDone++;
-      }
-    });
+    final habit = habitBox.getAt(index)!;
+    if (!habit.doneToday) {
+      habit.doneToday = true;
+      habit.streak++;
+      habit.totalDone++;
+      habit.save();
+      setState(() {});
+    }
   }
 
   void _addHabit() async {
@@ -83,9 +60,8 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(builder: (_) => NewHabitPage()),
     );
     if (newHabit != null) {
-      setState(() {
-        habits.add(newHabit);
-      });
+      await habitBox.add(newHabit);
+      setState(() {});
     }
   }
 
@@ -104,7 +80,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => StatisticsPage(habits: habits)),
+                MaterialPageRoute(builder: (_) => StatisticsPage(habits: habitBox.values.toList())),
               );
             },
           ),
@@ -118,8 +94,9 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 12),
-          ...habits.map((habit) {
-            int index = habits.indexOf(habit);
+          ...habitBox.values.toList().asMap().entries.map((entry) {
+            int index = entry.key;
+            Habit habit = entry.value;
             bool showToday = habit.days.contains(_currentDay());
             return showToday ? Card(
               elevation: 3,
@@ -178,8 +155,9 @@ class _NewHabitPageState extends State<NewHabitPage> {
         title: _titleController.text,
         description: _descController.text,
         days: selectedDays,
-        reminder: reminder,
-        icon: selectedIcon,
+        hour: reminder?.hour,
+        minute: reminder?.minute,
+        iconCode: selectedIcon.codePoint,
       ),
     );
   }
